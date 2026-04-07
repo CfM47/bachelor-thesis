@@ -1,60 +1,64 @@
 \chapter{Preliminares}
 \label{chap:preliminares}
 
-% introducir el capitulo
+% Introduccion cohesiva temporal
+
+En este capítulo se presentan los conceptos fundamentales de la teoría de lenguajes formales que serán necesarios a lo largo de este trabajo. Se introducen los elementos básicos como alfabetos y cadenas, las operaciones sobre cadenas y lenguajes, así como los problemas clásicos que se estudian en este ámbito.
 
 \section{Teoría de lenguajes}
 
-% introducir la seccion
+% Introduccion cohesiva temporal
+
+La teoría de lenguajes formales estudia los conjuntos de cadenas construidas a partir de un alfabeto y las operaciones que se pueden realizar sobre ellas. Esta teoría constituye la base matemática de áreas como la computación, la compilación y la lógica formal.
 
 \subsection{Conceptos, operaciones y problemas relacionados con lenguajes}
 
-El concepto más básico de la teoría de lenguajes formales es el de alfabeto.
+El concepto más fundamental en teoría de lenguajes es el de alfabeto, que sirve como conjunto de construcción para las cadenas.
 
 \begin{definition}{(Alfabeto)}
 	Un alfabeto, usualmente denotado como $\alphabet$, es un conjunto finito no vacío de elementos llamados símbolos.
 \end{definition}
 
-A partir de este, se define el concepto de cadena.
+A partir de un alfabeto, se puede definir una \emph{cadena}, que corresponde a una secuencia finita de símbolos de dicho alfabeto.
 
 \begin{definition}{(Cadena)} 
-	Una cadena definida sobre un alfabeto es una sucesión finita de símbolos de ese alfabeto.
+	Una cadena sobre un alfabeto es una sucesión finita de símbolos pertenecientes a ese alfabeto.
 \end{definition}
+
+Existe una cadena especial denominada \emph{cadena vacía}, que no contiene ningún símbolo.
 
 \begin{definition}{(Cadena vacía)} 
-	Una cadena vacía es una cadena que no posee ningún símbolo, esta se denotará por $\eword$.
+	La cadena vacía es aquella que no posee ningún símbolo y se denota por $\eword$.
 \end{definition}
 
-La principal operacion sobre las cadenas es la de concatenacion.
+La operación principal sobre cadenas es la concatenación, que permite unir dos cadenas de manera secuencial.
 
 \begin{definition}{(Concatenación)}
-	Sean $x$ y $y$ dos cadenas. La concatenación de $x$ y $y$ denotada por $xy$ es la cadena formada por todos los símbolos de $x$ seguidos de los de $y$.
+	Sean $x$ y $y$ dos cadenas. La concatenación de $x$ y $y$, denotada por $xy$, es la cadena formada por todos los símbolos de $x$ seguidos de todos los símbolos de $y$.
 \end{definition}
 
-Aplicar la operación de concatenar varias veces se llama copia o potencia y se define de la siguiente manera.
+Si se aplica la concatenación de manera repetida sobre una misma cadena, se obtiene lo que se conoce como \emph{potencia} de la cadena.
 
-\begin{definition}{(Copia)}
-	Dada una cadena $w$ y un entero $n \geq 0$ se define la potencia de $w$ inductivamente como sigue:
+\begin{definition}{(Copia o potencia)}
+	Dada una cadena $w$ y un entero $n \geq 0$, la potencia de $w$ se define inductivamente como:
 	
-	\textbf{Caso Base}: $w^0 = \eword$ para $n=0$ 
+	\textbf{Caso base:} $w^0 = \eword$
 	
-	\textbf{Inducción}: $w^n =xx^{n-1}$ para $n > 0$ 
+	\textbf{Paso inductivo:} $w^n = w w^{\,n-1}$ para $n > 0$.
 \end{definition}
 
-Sobre estos, se define el concepto de lenguaje.
+Con estos conceptos se puede definir formalmente un lenguaje, que no es más que un conjunto de cadenas.
 
 \begin{definition}{(Lenguaje)}
-	Dado un alfabeto $\alphabet$ cualquiera, se le llama lenguaje a cualquier conjunto de cadenas sobre $\alphabet$. 
+	Dado un alfabeto $\alphabet$, un lenguaje sobre $\alphabet$ es cualquier conjunto de cadenas formadas con símbolos de $\alphabet$.
 \end{definition}
 
-Se denota por $\allwords$ al lenguaje de todas las cadenas sobre ese alfabeto y por $\allnewords$ al lenguaje de todas las cadenas excepto la cadena vacia, o sea $\allnewords = \allwords - \{\eword\}$
+Denotaremos por $\allwords$ al lenguaje de todas las cadenas posibles sobre un alfabeto dado, y por $\allnewords$ al lenguaje de todas las cadenas no vacías, es decir, $\allnewords = \allwords - \{\eword\}$.
 
-Por ejemplo el alfabeto $\alphabet={0, 1}$ contiene los símbolos 0 y 1, y $0$, $1$, $10$, $1101$ y $\eword$ son cadenas sobre este. Un ejemplo de lenguaje sobre $\alphabet$ seria el conjunto de las cadenas formadas por 0 o 1 que terminan en 0.
+\paragraph{Ejemplo} Sea el alfabeto $\alphabet = \{0, 1\}$. Algunas cadenas sobre este alfabeto son $0$, $1$, $10$, $1101$ y $\eword$. Un ejemplo de lenguaje sobre $\alphabet$ es el conjunto de todas las cadenas que terminan en 0.
 
-Existen varias operaciones que se pueden definir sobre lenguajes, principalmente, al ser estos conjuntos, se pueden definir las operaciones de unión, intersección, complemento \cite{automataTheory}. Además resulta interesante responder ciertas preguntas sobre los lenguajes, como si una cadena pertenece a un lenguaje, o si un lenguaje es vacío o no.
+Al ser los lenguajes conjuntos de cadenas, es posible definir sobre ellos operaciones clásicas de conjuntos como unión, intersección y complemento \cite{automataTheory}. Además, resulta interesante estudiar ciertas propiedades y problemas asociados a los lenguajes, tales como verificar si una cadena pertenece a un lenguaje o si un lenguaje es vacío.
 
-\begin{definition}(Problema del vacío)
-	El problema del vacío consiste en determinar para un lenguaje dado $L$ si $L=\emptyset$.
+\begin{definition}{(Problema del vacío)}
+	El problema del vacío consiste en determinar, para un lenguaje dado $L$, si $L = \emptyset$.
 \end{definition}
-
-
