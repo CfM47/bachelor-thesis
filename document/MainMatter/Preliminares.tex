@@ -21,15 +21,17 @@ El concepto más fundamental en teoría de lenguajes es el de alfabeto, que sirv
 
 A partir de un alfabeto, se puede definir una \emph{cadena}, que corresponde a una secuencia finita de símbolos de dicho alfabeto.
 
-\begin{definition}{(Cadena)} 
+\begin{definition}{(Cadena)}
 	Una cadena sobre un alfabeto es una sucesión finita de símbolos pertenecientes a ese alfabeto.
 \end{definition}
 
 Existe una cadena especial denominada \emph{cadena vacía}, que no contiene ningún símbolo.
 
-\begin{definition}{(Cadena vacía)} 
+\begin{definition}{(Cadena vacía)}
 	La cadena vacía es aquella que no posee ningún símbolo y se denota por $\eword$.
 \end{definition}
+
+Se denota por $|w|$ a la longitud de una cadena $w$. La cadena vacía $\eword$ tiene longitud cero.
 
 La operación principal sobre cadenas es la concatenación, que permite unir dos cadenas de manera secuencial.
 
@@ -41,9 +43,9 @@ Si se aplica la concatenación de manera repetida sobre una misma cadena, se obt
 
 \begin{definition}{(Copia o potencia)}
 	Dada una cadena $w$ y un entero $n \geq 0$, la potencia de $w$ se define inductivamente como:
-	
+
 	\textbf{Caso base:} $w^0 = \eword$
-	
+
 	\textbf{Paso inductivo:} $w^n = w w^{\,n-1}$ para $n > 0$.
 \end{definition}
 
@@ -62,3 +64,90 @@ Al ser los lenguajes conjuntos de cadenas, es posible definir sobre ellos operac
 \begin{definition}{(Problema del vacío)}
 	El problema del vacío consiste en determinar, para un lenguaje dado $L$, si $L = \emptyset$.
 \end{definition}
+
+\subsection{Gramáticas y Jerarquía de Chomsky}
+\label{sec:grammars}
+
+Existen diferentes formas de representar un lenguaje, entre ellas las grámaticas constituyen un formalismo para representar lenguajes, de forma concisa y clara.
+
+\begin{definition}{(Gramática)}
+	Una gramática es un formalismo definido mediante una 4-tupla:
+	$$
+		G = (N, T, P, S)
+	$$
+
+	donde:
+	\begin{itemize}
+		\item $N$ es un conjunto de simbolos no terminales.
+		\item $T$ es un conjunto de símbolos terminales. Debe cumplirse que $N \cup T = \emptyset$
+		\item $P$ es un conjunto de pares ordenados de la forma:
+		      $$
+			      (\alpha, \beta)
+		      $$
+		      tales que $\alpha \in (N \cup T)^* - T^*$ y $\beta \in (N \cup T)^*$ llamados reglas de producción.
+
+		      Las reglas $(\alpha, \beta)$ se denotan como $\alpha \gprod \beta$
+		\item $S$ es el símbolo inicial de la gramática, $S \in N$
+
+	\end{itemize}
+\end{definition}
+
+Para que la definición anterior sea útil para generar lenguajes es necesario definir el proceso con el que se generan cadenas a partir de una gramática.
+
+\begin{definition}{(Derivación directa)}
+	Sean $x,y \in (N \cup T)^*$ existe una derivacíon de $x$ en $y$ si $x = x_1 \alpha x_2$ y $y = y_1 \beta y_2$ y en $G$ existe la regla $\alpha \gprod \beta$. Esto se denota como $x \gder y$
+\end{definition}
+
+Una derivacíon no es mas que una sustitición de una subcadena, de la cadena izquierda por otra, dando lugar a la cadena de la derecha. Este proceso se puede generalizar a mas de un paso.
+
+\begin{definition}{(Derivación)}
+	Sean $x,y \in (N \cup T)^*$ existe una derivacíon de $x$ en $y$ si existen $y_1, \dots, y_n$ tales que:
+	$$
+		x \gder y_1, \gder \dots \gder y_n = y
+	$$
+
+	lo cual se denota por $x \gderp y$ y por $x \gderz y$ para incluir el caso de cero pasos de derivación.
+\end{definition}
+
+Con esto es posible definir el lenguaje generado por una gramática.
+
+\begin{definition}{(Lenguaje generado)}
+	Sea $G$ una gramatica, el lenguaje generado por $G$ es el siguiente conjunto:
+	$$
+		L(G) = \{x \suchthat x \in T \land S \gderp x\}
+	$$
+\end{definition}
+
+No todas las gramáticas o formalismos para generar lenguajes son iguales. La jerarquía de Chomsky \cite{hunter2020chomsky} clasifica las gramáticas en diferentes tipos según la forma de sus reglas de producción, lo que a su vez determina el tipo de lenguajes que pueden generar. Estas gramaticas se incluyen de forma estricta, es decir, cada tipo de gramática es un subconjunto estricto del tipo anterior:
+
+\begin{itemize}
+	\item Las gramáticas \textbf{tipo-0}, también conocidas como gramáticas irrestrictas, son las más generales. Sus reglas no tienen restricciones (son de la forma $\alpha \gprod \beta$ donde $\alpha \in (N \cup T)^* - T^*$ y $\beta \in (N \cup T)^*$) y generan lenguajes recursivamente enumerables (\textit{RE}).
+
+	\item En las gramáticas de \textbf{tipo-1}, o gramáticas sensibles al contexto \text{CS}, las reglas de producción son de la forma $\alpha A \gamma \gprod \alpha \beta \gamma$, donde $A \in N$, $\alpha, \beta, \gamma \in (N \cup T)^*$, y \(|\beta| \geq 1\). Estas generan los lenguajes dependientes del context.
+
+	\item Las gramáticas de \textbf{tipo-2}, o gramáticas libres de contexto (\textit{CFG}), en la construcción de compiladores. Sus reglas de producción son de la forma $A \gprod \beta$, donde $A \in N$ y $\beta \in (N \cup T)^*$. Estas generan los lenguajes libres de contexto, que son reconocidos por autómatas de pila \cite{automataTheory}.
+
+	\item Finalmente, las gramáticas de \textbf{tipo-3}, o gramáticas regulares, son con reglas de producción de la forma $A \gprod aB$ o $A \gprod a$, donde $A, B \in N$ y $a \in T$. Estas gramáticas generan los lenguajes regulares (\textit{REG}), que son reconocidos por autómatas finitos \cite{automataTheory}.
+\end{itemize}
+
+Un formalismo o gramatica es más poderoso que otro si puede generar un conjunto de lenguajes que el otro no puede, o sea, la familia de lenguajes generados es mas grande.
+
+\begin{definition}{(Familia de lenguajes)}
+	Sea $X \in \{\re, \csen, \cfg, \reg\}$ una clase de gramáticas, la familia de lenguajes generados por $X$ se define como:
+	$$
+		\mathcal{L}(X) = \{L(G) \suchthat G \text{ es una gramática de tipo } X\}
+	$$
+\end{definition}
+
+La jerarquía de Chomsky establece que:
+$$
+	\mathcal{L}(\reg) \subset \mathcal{L}(\cfg) \subset \mathcal{L}(\csen) \subset \mathcal{L}(\re)
+$$
+
+Como ejemplos de la inclusion estricta de estas familias de lenguajes, se pueden mencionar los siguientes:
+
+\begin{itemize}
+	\item El lenguaje $L_1 = \{a^n b^n \suchthat n \geq 0\}$ es un lenguaje libre de contexto que no es regular, por lo que $L_1 \in \mathcal{L}(\cfg) - \mathcal{L}(\reg)$ \cite{automataTheory}.
+
+	\item El lenguaje $L_2 = \{ww \suchthat w \in \{a, b\}^*\}$ es un lenguaje sensible al contexto que no es libre de contexto, por lo que $L_2 \in \mathcal{L}(\csen) - \mathcal{L}(\cfg)$ \cite{automataTheory}.
+\end{itemize}

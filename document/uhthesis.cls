@@ -22,37 +22,38 @@
 \RequirePackage{footmisc}
 \RequirePackage{csquotes}
 \RequirePackage[
-	style=apa,
-	citestyle=authoryear,
+  style=apa,
+  citestyle=authoryear,
   hyperref=true,
-	backref=true
-	]{biblatex}
+  backref=true,
+  style=numeric
+]{biblatex}
 \RequirePackage[linktocpage,breaklinks,colorlinks,%
-                linkcolor=black,anchorcolor=black,citecolor=black,%
-                filecolor=black,menucolor=black,runcolor=black,%
-                urlcolor=black]{hyperref}
-                
+  linkcolor=black,anchorcolor=black,citecolor=black,%
+  filecolor=black,menucolor=black,runcolor=black,%
+  urlcolor=black]{hyperref}
+
 % fancyhdr settings from texlive-doc
 \RequirePackage{fancyhdr}
 \fancypagestyle{plain}{%
-\fancyhf{} % clear all header and footer fields
-\fancyfoot[C]{\bfseries \thepage} % except the center
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0pt}}
+  \fancyhf{} % clear all header and footer fields
+  \fancyfoot[C]{\bfseries \thepage} % except the center
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}}
 
 \fancyhf{}
 \if@twoside
-    \renewcommand{\chaptermark}[1]{\markboth{\small \ \chaptername\ \thechapter. \ #1}{}}
-    \renewcommand{\sectionmark}[1]{\markright{\thesection \ \ #1}}
-    \fancyhead[L]{\slshape \leftmark}
-    \fancyhead[R]{\thepage}
-    \fancyhead[LO]{\slshape \rightmark}
-    \fancyhead[RO,LE]{\textbf{\thepage}}
-    \fancyhead[RE]{\slshape \leftmark}
+  \renewcommand{\chaptermark}[1]{\markboth{\small \ \chaptername\ \thechapter. \ #1}{}}
+  \renewcommand{\sectionmark}[1]{\markright{\thesection \ \ #1}}
+  \fancyhead[L]{\slshape \leftmark}
+  \fancyhead[R]{\thepage}
+  \fancyhead[LO]{\slshape \rightmark}
+  \fancyhead[RO,LE]{\textbf{\thepage}}
+  \fancyhead[RE]{\slshape \leftmark}
 \else
-    \renewcommand{\chaptermark}[1]{\markboth{\small \ \chaptername\ \thechapter. \ #1}{}}
-    \fancyhead[L]{\slshape \leftmark}
-    \fancyhead[R]{\thepage}
+  \renewcommand{\chaptermark}[1]{\markboth{\small \ \chaptername\ \thechapter. \ #1}{}}
+  \fancyhead[L]{\slshape \leftmark}
+  \fancyhead[R]{\thepage}
 \fi
 \renewcommand{\headheight}{28pt}
 
@@ -62,7 +63,7 @@
 \marginparsep 8pt
 \topmargin 0pt
 \headsep .5in
-\textheight 8.1in 
+\textheight 8.1in
 \textwidth 6in
 
 % More liberal float placement from BYUPhys.cls.
@@ -74,57 +75,57 @@
 \renewcommand{\textfraction}{0.07}
 
 % Whole biblatex hyperref to bibliography
-\DeclareCiteCommand{\cite}
-  {\usebibmacro{prenote}}
-  {\usebibmacro{citeindex}%
-   \printtext[bibhyperref]{\usebibmacro{cite}}}
-  {\multicitedelim}
-  {\usebibmacro{postnote}}
+% \DeclareCiteCommand{\cite}
+% {\usebibmacro{prenote}}
+% {\usebibmacro{citeindex}%
+%   \printtext[bibhyperref]{\usebibmacro{cite}}}
+% {\multicitedelim}
+% {\usebibmacro{postnote}}
 
-\DeclareCiteCommand*{\cite}
-  {\usebibmacro{prenote}}
-  {\usebibmacro{citeindex}%
-   \printtext[bibhyperref]{\usebibmacro{citeyear}}}
-  {\multicitedelim}
-  {\usebibmacro{postnote}}
+% \DeclareCiteCommand*{\cite}
+% {\usebibmacro{prenote}}
+% {\usebibmacro{citeindex}%
+%   \printtext[bibhyperref]{\usebibmacro{citeyear}}}
+% {\multicitedelim}
+% {\usebibmacro{postnote}}
 
 \DeclareCiteCommand{\parencite}[\mkbibparens]
-  {\usebibmacro{prenote}}
-  {\usebibmacro{citeindex}%
-    \printtext[bibhyperref]{\usebibmacro{cite}}}
-  {\multicitedelim}
-  {\usebibmacro{postnote}}
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+  \printtext[bibhyperref]{\usebibmacro{cite}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
 
 \DeclareCiteCommand*{\parencite}[\mkbibparens]
-  {\usebibmacro{prenote}}
-  {\usebibmacro{citeindex}%
-    \printtext[bibhyperref]{\usebibmacro{citeyear}}}
-  {\multicitedelim}
-  {\usebibmacro{postnote}}
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+  \printtext[bibhyperref]{\usebibmacro{citeyear}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
 
 \DeclareCiteCommand{\footcite}[\mkbibfootnote]
-  {\usebibmacro{prenote}}
-  {\usebibmacro{citeindex}%
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
   \printtext[bibhyperref]{ \usebibmacro{cite}}}
-  {\multicitedelim}
-  {\usebibmacro{postnote}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
 
 \DeclareCiteCommand{\footcitetext}[\mkbibfootnotetext]
-  {\usebibmacro{prenote}}
-  {\usebibmacro{citeindex}%
-   \printtext[bibhyperref]{\usebibmacro{cite}}}
-  {\multicitedelim}
-  {\usebibmacro{postnote}}
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+  \printtext[bibhyperref]{\usebibmacro{cite}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
 
 \DeclareCiteCommand{\textcite}
-  {\boolfalse{cbx:parens}}
-  {\usebibmacro{citeindex}%
-   \printtext[bibhyperref]{\usebibmacro{textcite}}}
-  {\ifbool{cbx:parens}
-     {\bibcloseparen\global\boolfalse{cbx:parens}}
-     {}%
-   \multicitedelim}
-  {\usebibmacro{textcite:postnote}}
+{\boolfalse{cbx:parens}}
+{\usebibmacro{citeindex}%
+  \printtext[bibhyperref]{\usebibmacro{textcite}}}
+{\ifbool{cbx:parens}
+  {\bibcloseparen\global\boolfalse{cbx:parens}}
+  {}%
+  \multicitedelim}
+{\usebibmacro{textcite:postnote}}
 
 % % Backreferences in the bibliography.
 % \backrefspanish
@@ -160,41 +161,41 @@
 \newcommand{\logo}[1]{\def\@logo{#1}}
 
 \newenvironment{opinion}%
-  {\chapter*{Opinión del tutor}}%
-  {}
+{\chapter*{Opinión del tutor}}%
+{}
 \newenvironment{acknowledgements}%
-  {\chapter*{Agradecimientos}}%
-  {}
+{\chapter*{Agradecimientos}}%
+{}
 \newenvironment{resumen}%
-  {\chapter*{Resumen}}%
-  {}
+{\chapter*{Resumen}}%
+{}
 \newenvironment{abstract}%
-  {\chapter*{Abstract}}%
-  {}
+{\chapter*{Abstract}}%
+{}
 \newenvironment{introduction}%
-  {\cleardoublepage%
-   \phantomsection%
-   \addcontentsline{toc}{chapter}{Introducción}%
-   \chapter*{Introducción}}%
-  {}
+{\cleardoublepage%
+  \phantomsection%
+  \addcontentsline{toc}{chapter}{Introducción}%
+  \chapter*{Introducción}}%
+{}
 \newenvironment{conclusions}%
-  {\cleardoublepage%
-   \phantomsection%
-   \addcontentsline{toc}{chapter}{Conclusiones}%
-   \chapter*{Conclusiones}}%
-  {}
+{\cleardoublepage%
+  \phantomsection%
+  \addcontentsline{toc}{chapter}{Conclusiones}%
+  \chapter*{Conclusiones}}%
+{}
 \newenvironment{recomendations}%
-  {\cleardoublepage%
-   \phantomsection%
-   \addcontentsline{toc}{chapter}{Recomendaciones}%
-    \chapter*{Recomendaciones}}%
-  {}
+{\cleardoublepage%
+  \phantomsection%
+  \addcontentsline{toc}{chapter}{Recomendaciones}%
+  \chapter*{Recomendaciones}}%
+{}
 \newenvironment{dedication}%
-  {\cleardoublepage%
-   \thispagestyle{empty}%
-   \vskip 3.5cm%
-   \begin{flushright}}%
-  {\end{flushright}}
+{\cleardoublepage%
+  \thispagestyle{empty}%
+  \vskip 3.5cm%
+  \begin{flushright}}%
+    {\end{flushright}}
 
 \newtheorem{theorem}{Teorema}[chapter]
 \newtheorem{definition}{Definición}[chapter]
@@ -212,15 +213,15 @@
 \def\maketitle{%
   \thispagestyle{empty}%
   \begin{center}
-    {\large Universidad de La Habana} \\ \@faculty \\ 
+    {\large Universidad de La Habana} \\ \@faculty \\
     \vskip 0.25cm
     \includegraphics[width=1.75cm]{\@logo} \\
     \vfill
     {\LARGE \textbf{\@title}} \\
     \vskip 2cm
-    {\Large Autor: \textbf{\@author}} \\
+      {\Large Autor: \textbf{\@author}} \\
     \vskip 0.5cm
-    {\Large Tutores: \textbf{\@advisor}} \\
+      {\Large Tutores: \textbf{\@advisor}} \\
     \vfill
     {\large Trabajo de Diploma \\presentado en opción al título de \\ \@degree} \\
     \vskip 1cm
