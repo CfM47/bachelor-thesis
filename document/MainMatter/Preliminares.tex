@@ -200,3 +200,41 @@ En \cite{automataTheory} se demuestra que los lenguajes reconocidos por AFDs son
 % TODO: mejorar esta introduccion temporal cuando tenga el capitulo
 Los lenguajes regulares y autómatas finitos deterministas seran importantes a lo largo de este trabajo, ya que nos permitirán modelar el lenguaje las interpretaciones de formulas booleanas verdaderas sin restricciones en las variables luego.
 
+\subsection{Complejidad computacional}
+La teoría de la complejidad computacional se ocupa de clasificar los problemas según la cantidad de recursos computacionales que requieren para ser resueltos.
+
+La notación asintótica se usa para describir el comportamiento de una función $f(n)$, donde $n$ es el tamaño de la entrada. A continuación se define la notación $O$ (grande):
+
+\begin{definition}{(Notación $O$)}
+	Sea $f(n)$ y $g(n)$ dos funciones de $n$. Se dice que $f(n) = O(g(n))$ si existen constantes positivas $c$ y $n_0$ tales que:
+
+	$$
+		f(n) \leq c \cdot g(n) \quad \text{para todo $n \geq n_0$}
+	$$
+\end{definition}
+
+Esta notación se utiliza para describir el límite superior del crecimiento de una función, lo que es útil para analizar la eficiencia de algoritmos y la complejidad de problemas computacionales.
+
+Se dice que un algoritmo requiere una cantidad de tiempo polinomial si su tiempo de ejecución es $O(n^k)$ para alguna constante $k$ y entrada de tamaño $n$. La complejidad de un algoritmo es la complejidad del algoritmo mas eficiente que lo resuelve en el peor caso.
+
+Los problemas de decisión se agrupan en diferentes clases segun los recursos computacionales necesarios para resolverlos. A continuación se definen las clases de complejidad que se utilizarán a lo largo de este trabajo:
+
+\begin{definition}{(Clase P)}
+	La clase de complejidad P es el conjunto de problemas de decisión que pueden ser resueltos por un algoritmo determinista en tiempo polinomial \cite{automataTheory}.
+\end{definition}
+
+\begin{definition}{(Clase NP)}
+	La clase de complejidad NP es el conjunto de problemas de decisión para los cuales una solución propuesta puede ser verificada por un algoritmo determinista en tiempo polinomial \cite{automataTheory}.
+\end{definition}
+
+\begin{definition}({Clase NP-duro})
+	Un problema de decisión es NP-duro si cada problema en NP puede ser reducido a él en tiempo polinomial \cite{automataTheory}.
+\end{definition}
+
+\begin{definition}({Clase NP-completo})
+	Un problema de decisión es NP-completo si pertenece a NP y es NP-duro \cite{automataTheory}.
+\end{definition}
+
+Posiblemente sea el problema abierto más famoso en las ciencias de la computación determinar si P es igual a NP. Es conocido que P es un subconjunto de NP, pero hasta la fecha no se sabe si esta inclusión es estricta o si ambos conjuntos son iguales \cite{automataTheory}. El conjunto de los problemas NP-completos es de particular interés, ya que si se encuentra un algoritmo de tiempo polinomial para resolver cualquier problema NP-completo, entonces se demostraría que P es igual a NP. Por otro lado, si se demuestra que no existe tal algoritmo, entonces se confirmaría que P es diferente de NP.
+
+A continuación se presenta el problema de satisfacibilidad booleana, que es un problema NP-completo y de gran relevancia para este trabajo.
