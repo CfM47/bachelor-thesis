@@ -151,3 +151,52 @@ Como ejemplos de la inclusion estricta de estas familias de lenguajes, se pueden
 
 	\item El lenguaje $L_2 = \{ww \suchthat w \in \{a, b\}^*\}$ es un lenguaje sensible al contexto que no es libre de contexto, por lo que $L_2 \in \mathcal{L}(\csen) - \mathcal{L}(\cfg)$ \cite{automataTheory}.
 \end{itemize}
+
+\subsection{Lenguajes regulares y autómatas}
+\label{sec:automata}
+
+Un autómata es un modelo matemático para describir sistemas que pueden estar en diferentes estados y cambiar de estado en respuesta a entradas. En la teoría de lenguajes formales, los autómatas se utilizan para determinar si una cadena pertenece a un lenguaje específico. Cada grámatica de la jerarquía de Chomsky tiene un tipo de autómata asociado que reconoce exactamente los lenguajes generados por esa gramática. A continuación se introduce el autómata finito determinista, que es el modelo de autómata asociado a los lenguajes regulares.
+
+\begin{definition}{(Autómata finito determinista)}
+	Un autómata finito determinista (AFD) \cite{automataTheory} es una 5-tupla:
+	$$
+		\mathcal{A} = (Q, \alphabet, \delta, q_0, F)
+	$$
+
+	donde:
+	\begin{itemize}
+		\item $Q$ es un conjunto finito de estados.
+		\item $\alphabet$ es un alfabeto de entrada.
+		\item $\delta: Q \times \alphabet \to Q$ una función de transición que define el cambio de estado para cada símbolo de entrada.
+		\item $q_0 \in Q$ es el estado inicial.
+		\item $F \subseteq Q$ es el conjunto de estados de aceptación o finales.
+	\end{itemize}
+\end{definition}
+
+Un AFD procesa una cadena de entrada comenzando en el estado inicial $q_0$ y aplicando la función de transición $\delta$ para cada símbolo de la cadena. Si al finalizar el procesamiento de la cadena el autómata se encuentra en un estado que pertenece a $F$, entonces se dice que el autómata acepta la cadena, lo que implica que la cadena pertenece al lenguaje reconocido por el autómata. Para formalizar esto, se define la función de transición extendida $\hat{\delta}$ que permite procesar cadenas completas.
+
+\begin{definition}{(Función de transición extendida)}
+	La función de transición extendida $\hat{\delta}: Q \times \alphabet^* \to Q$ se define inductivamente como sigue:
+
+	\textbf{Caso base:} Para cualquier estado $q \in Q$, $\hat{\delta}(q, \eword) = q$.
+
+	\textbf{Paso inductivo:} Para cualquier estado $q \in Q$, símbolo $a \in \alphabet$ y cadena $w \in \alphabet^*$, se define:
+	$$
+		\hat{\delta}(q, aw) = \hat{\delta}(\delta(q, a), w)
+	$$
+\end{definition}
+
+Con esta función de transición extendida, se define ellenguaje reconocido por un AFD.
+
+\begin{definition}{(Lenguaje reconocido por un AFD)}
+	El lenguaje reconocido por un AFD $\mathcal{A}$ es el conjunto de todas las cadenas que el autómata acepta, es decir:
+	$$
+		L(\mathcal{A}) = \{w \in \alphabet^* \suchthat \hat{\delta}(q_0, w) \in F\}
+	$$
+\end{definition}
+
+En \cite{automataTheory} se demuestra que los lenguajes reconocidos por AFDs son exactamente los lenguajes regulares, es decir, $L(\mathcal{A}) \in \mathcal{L}(\reg)$ para cualquier AFD $\mathcal{A}$, y para cada lenguaje regular $L$ existe un AFD $\mathcal{A}$ tal que $L = L(\mathcal{A})$.
+
+% TODO: mejorar esta introduccion temporal cuando tenga el capitulo
+Los lenguajes regulares y autómatas finitos deterministas seran importantes a lo largo de este trabajo, ya que nos permitirán modelar el lenguaje las interpretaciones de formulas booleanas verdaderas sin restricciones en las variables luego.
+
