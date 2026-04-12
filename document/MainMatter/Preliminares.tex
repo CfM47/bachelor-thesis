@@ -200,8 +200,10 @@ En \cite{automataTheory} se demuestra que los lenguajes reconocidos por AFDs son
 % TODO: mejorar esta introduccion temporal cuando tenga el capitulo
 Los lenguajes regulares y autómatas finitos deterministas seran importantes a lo largo de este trabajo, ya que nos permitirán modelar el lenguaje las interpretaciones de formulas booleanas verdaderas sin restricciones en las variables luego.
 
-\subsection{Complejidad computacional}
+\section{Complejidad computacional}
 La teoría de la complejidad computacional se ocupa de clasificar los problemas según la cantidad de recursos computacionales que requieren para ser resueltos.
+
+\subsection{Notación asintótica}
 
 La notación asintótica se usa para describir el comportamiento de una función $f(n)$, donde $n$ es el tamaño de la entrada. A continuación se define la notación $O$ (grande):
 
@@ -216,6 +218,8 @@ La notación asintótica se usa para describir el comportamiento de una función
 Esta notación se utiliza para describir el límite superior del crecimiento de una función, lo que es útil para analizar la eficiencia de algoritmos y la complejidad de problemas computacionales.
 
 Se dice que un algoritmo requiere una cantidad de tiempo polinomial si su tiempo de ejecución es $O(n^k)$ para alguna constante $k$ y entrada de tamaño $n$. La complejidad de un algoritmo es la complejidad del algoritmo mas eficiente que lo resuelve en el peor caso.
+
+\subsection{Clases de problemas}
 
 Los problemas de decisión se agrupan en diferentes clases segun los recursos computacionales necesarios para resolverlos. A continuación se definen las clases de complejidad que se utilizarán a lo largo de este trabajo:
 
@@ -238,3 +242,80 @@ Los problemas de decisión se agrupan en diferentes clases segun los recursos co
 Posiblemente sea el problema abierto más famoso en las ciencias de la computación determinar si P es igual a NP. Es conocido que P es un subconjunto de NP, pero hasta la fecha no se sabe si esta inclusión es estricta o si ambos conjuntos son iguales \cite{automataTheory}. El conjunto de los problemas NP-completos es de particular interés, ya que si se encuentra un algoritmo de tiempo polinomial para resolver cualquier problema NP-completo, entonces se demostraría que P es igual a NP. Por otro lado, si se demuestra que no existe tal algoritmo, entonces se confirmaría que P es diferente de NP.
 
 A continuación se presenta el problema de satisfacibilidad booleana, que es un problema NP-completo y de gran relevancia para este trabajo.
+
+
+\section{El problema de la satisfacibilidad booleana}
+
+El problema de la satisfacibilidad booleana (SAT) es un problema de decisión que consiste en determinar si existe una asignación de valores de verdad a las variables de una fórmula booleana que haga que la fórmula sea verdadera \cite{automataTheory}.
+
+\subsection{Definiciones}
+
+A continuación se definen los conceptos necesarios para formalizar el problema de satisfacibilidad booleana.
+
+\begin{definition}{(Variable booleana)}
+	Una variable booleana es una variable que puede tomar solo dos valores: $1$ (verdadero) o $0$ (falso).
+\end{definition}
+
+\begin{definition}{(Literal)}
+	Sea $x$ una variable booleana, un literal o término es una variable o su negación. Es decir, $x$ o $\neg x$ son literales.
+\end{definition}
+
+\begin{definition}{(Cláusula)}
+	Una cláusula $C$ es una disyunción finita de literales, es decir:
+	$$
+		t_1 \lor t_2 \lor \dots \lor t_k
+	$$
+\end{definition}
+
+\begin{definition}{(Fórmula en forma normal conjuntiva)}
+	Una fórmula booleana está en forma normal conjuntiva (CNF) si es una conjunción de cláusulas. Es decir, una fórmula $F$ está en CNF si se puede escribir como:
+	$$
+		F = C_1 \land C_2 \land \dots \land C_m
+	$$
+	donde cada $C_i$ es una cláusula.
+
+\end{definition}
+
+En lo que sigue, se considerarán únicamente fórmulas booleanas en forma normal conjuntiva. Por simplicidad, se las denominará simplemente fórmulas booleanas o fórmulas.
+
+
+\begin{definition}{(Interpretación)}
+	Una interpretación es una asignación de valores de verdad a las variables de una fórmula booleana. Formalmente, sea $F$ una fórmula y sea $X = \{x_1, \ldots, x_n\}$ el conjunto de variables de $F$, una interpretación es una función $v: X \to \{0, 1\}$.
+\end{definition}
+
+\begin{definition}{(Evaluación de una fórmula)}
+	Sea $v: X \to \{0,1\}$ una interpretación. La evaluación de una fórmula booleana bajo $v$ es la función
+	$$
+		(\cdot)_v : \mathcal{F} \to \{0,1\}
+	$$
+
+	donde $\mathcal{F}$ es el conjunto de todas las fórmulas booleanas, y se
+	define como sigue:
+
+	\begin{itemize}
+		\item Si $x$ es una variable, entonces $(x)_v = v(x)$ y
+		      $$
+			      (\neg x)_v =
+			      \begin{cases}
+				      1 & \text{si } v(x)= 0,  \\
+				      0 & \text{si } v(x) = 1.
+			      \end{cases}
+		      $$
+
+		\item Una cláusula es verdadera si al menos uno de sus literales es verdadero. Formalemente, si $C = t_1 \lor \dots \lor t_k$, entonces
+		      $$
+			      (C)_v = 1 \iff \exists i \in \{1,\dots,k\} \text{ tal que } (t_i)_v = 1.
+		      $$
+
+		\item Una fórmula es verdadera si todas sus cláusulas son verdaderas. Formalemente, si $F = C_1 \land \dots \land C_m$, entonces
+		      $$
+			      (F)_v = 1 \iff \forall i \in \{1,\dots,m\},\ (C_i)_v = 1.
+		      $$
+	\end{itemize}
+\end{definition}
+
+
+\begin{definition}{(Problema de satisfacibilidad booleana)}
+	Sea $F$ una fórmula booleana en CNF, el problema de satisfacibilidad booleana consiste en determinar si existe una interpretación $v$ para las variables de $F$ tal que $(F)_v = 1$.
+\end{definition}
+
