@@ -316,6 +316,29 @@ En lo que sigue, se considerarán únicamente fórmulas booleanas en forma norma
 
 
 \begin{definition}{(Problema de satisfacibilidad booleana)}
-	Sea $F$ una fórmula booleana en CNF, el problema de satisfacibilidad booleana consiste en determinar si existe una interpretación $v$ para las variables de $F$ tal que $(F)_v = 1$.
+	Sea $F$ una fórmula booleana en CNF, el problema de satisfacibilidad booleana (SAT) consiste en determinar si existe una interpretación $v$ para las variables de $F$ tal que $(F)_v = 1$.
 \end{definition}
 
+Este problema servirá como base para los resultados que se presentarán en este trabajo.
+
+\subsection{SAT como problema NP-completo}
+
+El problema de satisfacibilidad booleana es uno de los problemas más relevantes en la teoría de la complejidad computacional. En particular, fue el primer problema demostrado como NP-completo por Cook en \cite{Cook1971}, lo que lo convierte en un punto de referencia fundamental para el estudio de la complejidad computacional.
+
+La importancia de SAT radica en que cualquier problema en NP puede transformarse, en tiempo polinomial, en una instancia equivalente de satisfacibilidad booleana \cite{automataTheory}. En consecuencia, SAT actúa como un problema representativo de la clase NP: resolverlo eficientemente implicaría la existencia de algoritmos eficientes para todos los problemas en NP.
+
+% TODO: hablar de 2-sat y otras variantes polinomiales
+
+\subsection{SAT desde la perspectiva de lenguajes formales}
+
+El problema SAT puede ser abordado desde la perspectiva de lenguajes formales. En este sentido en la Facultad de Matemática y Computación de la Universidad de La Habana se han realizado varios trabajos: \cite{aCFSAT}, \cite{aSRCSAT}, \cite{MSAT} y \cite{RCGSAT}, los cuales modelan el problema como un lenguaje formal y buscan resolver instancias específicas en tiempo polinomial o demostrar que ciertas clases de lenguajes tienen problemas de decisión NP-duros.
+
+En estos trabajos se toman dos enfoques principales utilizando el problema del vacío o de la palabra en lenguajes respectivamente. En el primer caso, se construye el lenguaje de las interpretaciones verdaras de una fórmula y se determina si este es vacío o no, en caso de no ser vacío implica que existe una interpretación verdadera y que la formula es satisfacible. En el segundo caso se construye el lenguaje de las fórmulas satisfacibles y se determina si la fórmula dada pertenece a ese lenguaje.
+
+En \cite{aCFSAT} primero se asume que todas las variables de la formula son distintas y se construye el lenguaje de las interpretaciones verdaderas de la fórmula, sin dichas restricciones en las variables. Se demuestra que dicho lenguaje es regular mediante la construcción de un autómata finito, el cuál se denominó autómata booleano, que representa las reglas de la lógica proposicional en sus transiciones y sus estados representan un valor de verdad para la fórmula que se tiene hasta el momento. Por último se intersecta dicho automata con un lenguaje libre del contexto que garantize que todas las instancias de la misma variable tengan el mismo valor de verdad, y se determina si el lenguaje resultante es vacío o no.
+
+En \cite{aSRCSAT} se intersecta el autómata booleano con grámaticas de concatenacion de rango simple lo cual amplia el conjunto de instancias se SAT solubles en tiempo polinomial. En \cite{MSAT} se aplica una idea similar, intersectando el autómata booleano con gramáticas matriciales simples, que aunque en el caso general son de tamaño exponencial con respecto a la fórmula, introduce la idea de utilizar una variante del lenguaje \textit{Copy} para garantizar que todas las instancias de la misma variable tengan el mismo valor de verdad.
+
+En \cite{RCGSAT} se toma el enfoque del problema de la palabra. Se construye el lenguaje de las fórmulas satisfacibles mediante una transducción de una variante del lenguaje \textit{Copy}, y además se propone una gramática de concatenación de rango que genera reconoce este lenguaje. Como resultado se demuestra que el problema de la palabra para todos los formalismos que generen la variante del lenguaje \textit{Copy} y sean cerrados bajo transducción finita es Np-duro.
+
+% TODO: leer articulos otros articulos y mencionarlos aquí
