@@ -58,11 +58,13 @@ Si se aplica la concatenación de manera repetida sobre una misma cadena, se obt
 
 \paragraph{Ejemplo:} Sea el alfabeto $\alphabet = \{0, 1\}$. Algunas cadenas sobre este alfabeto son $0$, $1$, $10$, $1101$ y $\eword$. Un ejemplo de lenguaje sobre $\alphabet$ es el conjunto de todas las cadenas que terminan en 0.
 
-Al ser los lenguajes conjuntos de cadenas, es posible definir sobre ellos operaciones clásicas de conjuntos como unión, intersección y complemento \cite{automataTheory}. También es de interés el estudio de problemas asociados a los lenguajes, como determinar si una cadena pertenece a un lenguaje o si un lenguaje es vacío.
+Al ser los lenguajes conjuntos de cadenas, es posible definir sobre ellos operaciones clásicas de conjuntos como unión, intersección y complemento \cite{automataTheory}. Es posible responder preguntas sobre lenguajes, como determinar si un lenguaje es vacío o contiene alguna cadena. Este problema se conoce como el problema del vacío.
 
 \begin{definition}{(Problema del vacío)}
 	El problema del vacío consiste en determinar, para un lenguaje dado $L$, si $L = \emptyset$.
 \end{definition}
+
+Este problema se utiliza en este trabajo para decidir si una fórmula booleana es satisfacible o no y en los trabajos \cite{aCFSAT}, \cite{aSRCSAT}, \cite{MSAT} y \cite{RCGSAT} para determinar si una fórmula booleana con ciertas restricciones es satisfacible o no.
 
 A continuación se presentan los principales formalismos para describir y generar lenguajes y la clasificación de estos.
 
@@ -158,7 +160,8 @@ Como ejemplos de la inclusion estricta de estas familias de lenguajes, se pueden
 	\item El lenguaje $L_2 = \{ww \suchthat w \in \{a, b\}^*\}$ es un lenguaje dependiente del contexto que no es libre de contexto, por lo que $L_2 \in \mathcal{L}(\csen) - \mathcal{L}(\cfg)$ \cite{automataTheory}.
 \end{itemize}
 
-En la siguiente sección se presenta un mecanismo capaz reconocer la familia de los lenguajes regulares.
+% cada vez que yo diga en "se utilizan en este trabajo" ahi va un capitulo que aun no tengo escrito o numerado
+La familia de los lenguajes regulares a pesar de ser la menos extensa de las familias de lenguajes de la jerarquía de Chomsky, es de gran importancia pues, como se expone	 en este trabajo, es capaz de reconocer las interpretaciones que hacen verdaderas a las clásulas de una fórmula booleana. En la siguiente sección se mecanismo capaz reconocer la familia de los lenguajes regulares.
 
 \subsection{Lenguajes regulares y autómatas}
 \label{sec:automata}
@@ -190,11 +193,11 @@ La siguiente definición extiende la función de transición $\delta$ para caden
 
 	\textbf{Paso inductivo:} Para cualquier estado $q \in Q$, símbolo $a \in \alphabet$ y cadena $w \in \alphabet^*$, se define:
 	$$
-		\hat{\delta}(q, aw) = \hat{\delta}(\delta(q, a), w)
+		\hat{\delta}(q, aw) = \hat{\delta}(\delta(q, a), w).
 	$$
 \end{definition}
 
-Con esta función de transición extendida, se define el lenguaje reconocido por un AFD. Un AFD procesa una cadena de entrada $w$ aplicando la función de transición $\delta$ para cada símbolo de la cadena comenzando en el estado inicial $q_0$. Si al finalizar con todos los símbolos de la cadena el autómata se encuentra en un estado que pertenece a $F$, o sea, $\hat{\delta}(q_0, w) \in F$, entonces se dice que el autómata acepta la cadena, lo que implica que la cadena pertenece al lenguaje reconocido por el autómata.
+Con esta función de transición extendida, se define el lenguaje reconocido por un AFD. Un AFD procesa una cadena de entrada $w$ aplicando la función de transición $\delta$ para cada símbolo de la cadena comenzando en el estado inicial $q_0$ y determinando en cada paso el estado siguiente. Si al finalizar con todos los símbolos de la cadena el autómata se encuentra en un estado que pertenece a $F$, o sea, $\hat{\delta}(q_0, w) \in F$, entonces se dice que el autómata acepta la cadena, lo que implica que la cadena pertenece al lenguaje reconocido por el autómata.
 
 
 \begin{definition}{(Lenguaje reconocido por un AFD)}
@@ -206,7 +209,7 @@ Con esta función de transición extendida, se define el lenguaje reconocido por
 
 En \cite{automataTheory} se demuestra que los lenguajes reconocidos por AFDs son exactamente los lenguajes regulares.
 
-En el contexto de la teoría de lenguajes formales, resulta necesario analizar el costo computacional de los problemas de decisión asociados a lenguajes, como el problema del vacío o el problema de la palabra. A continuación se introducen nociones básicas de complejidad computacional que serán útiles para dicho análisis.
+En el contexto de la teoría de lenguajes formales, resulta necesario analizar el costo computacional de los problemas de decisión asociados a lenguajes, como el problema del vacío. A continuación se introducen nociones básicas de complejidad computacional que serán útiles para dicho análisis.
 
 \section{Complejidad computacional}
 La teoría de la complejidad computacional clasifica problemas en función de los recursos necesarios para resolverlos. A continuación se introducen algunos conceptos de esta teoría, como la notación asintótica y las clases de problemas.
@@ -223,9 +226,9 @@ La notación asintótica se usa para describir el comportamiento de una función
 	$$
 \end{definition}
 
-Esta notación se utiliza para describir el límite superior del crecimiento de una función, lo cual es usado para analizar la eficiencia de algoritmos y la complejidad de problemas computacionales.
+Esta notación se utiliza para describir el límite superior del crecimiento de una función, lo cual se usa para analizar la eficiencia de algoritmos y la complejidad de problemas computacionales.
 
-Se dice que un algoritmo requiere una cantidad de tiempo polinomial si su tiempo de ejecución es $O(n^k)$ donde $n$ es el tamaño de la entrada del algoritmo y $k$ es una constante. La complejidad de un problema es la complejidad del algoritmo más eficiente que lo resuelve en el peor caso.
+Se dice que un algoritmo requiere una cantidad de tiempo polinomial si puede ejecutarse en una complejidad de $O(n^k)$ donde $n$ es el tamaño de la entrada del algoritmo y $k$ es una constante. La complejidad de un problema es la complejidad del algoritmo más eficiente que lo resuelve en el peor caso.
 
 En dependencia de los recursos computacionales necesarios para resolverlos, los problemas se agrupan en diferentes clases de complejidad. A continuación se presentan algunas de estas, las cuales clasifican problemas de decisión según el tiempo de ejecución de los algoritmos que los resuelven.
 
@@ -234,7 +237,7 @@ En dependencia de los recursos computacionales necesarios para resolverlos, los 
 Los problemas de decisión se agrupan en diferentes clases según los recursos computacionales necesarios para resolverlos. A continuación se definen las clases de complejidad que se utilizarán a lo largo de este trabajo:
 
 \begin{definition}{(Clase P)}
-	La clase de complejidad P es el conjunto de problemas de decisión que pueden ser resueltos en tiempo polinomial \cite{automataTheory}.
+	La clase de complejidad P es el conjunto de problemas de decisión que pueden resolverse en tiempo polinomial \cite{automataTheory}.
 \end{definition}
 
 \begin{definition}{(Clase NP)}
@@ -253,12 +256,12 @@ Determinar si P es igual a NP es uno de los problemas abiertos más famosos en l
 
 El conjunto de los problemas NP-completos tiene la propiedad de que si se encuentra un algoritmo de tiempo polinomial para resolver cualquier problema NP-completo, entonces se demostraría que P es igual a NP. Por otro lado, si se demuestra que no existe tal algoritmo, entonces se confirmaría que P es diferente de NP \cite{automataTheory}.
 
-Entre los problemas de decisión estudiados en complejidad computacional se encuentra el problema de satisfacibilidad booleana.
+En este trabajo se estudia el problema de la satisfacibilidad booleana, que es un problema de decisión NP-completo. A continuación se define este problema.
 
 
 \section{El problema de la satisfacibilidad booleana}
 
-El problema de la satisfacibilidad booleana (SAT) es un problema de decisión en las ciencias de la computación. En esta sección se define este problema y se analiza su importancia para la teoría de la complejidad computacional.
+El problema de la satisfacibilidad booleana (SAT) es un problema de decisión perteneciente a la clase NP-completo. En esta sección se define este problema y se analiza su importancia para la teoría de la complejidad computacional.
 
 \subsection{Definiciones}
 
@@ -289,56 +292,26 @@ A continuación se definen los conceptos necesarios para formalizar el problema 
 
 \end{definition}
 
-En lo que sigue, se considerarán únicamente fórmulas booleanas en forma normal conjuntiva. Por simplicidad, se las denominará simplemente fórmulas booleanas o fórmulas.
-
 
 \begin{definition}{(Interpretación)}
 	Una interpretación es una asignación de valores de verdad a las variables de una fórmula booleana. Formalmente, sea $F$ una fórmula y sea $X = \{x_1, \ldots, x_n\}$ el conjunto de variables de $F$. Una interpretación es una función $v: X \to \{0, 1\}$.
 \end{definition}
 
-\begin{definition}{(Evaluación de una fórmula)}
-	Sea $v: X \to \{0,1\}$ una interpretación. La evaluación de una fórmula booleana bajo $v$ es la función
-	$$
-		(\cdot)_v : \mathcal{F} \to \{0,1\}
-	$$
-
-	donde $\mathcal{F}$ es el conjunto de todas las fórmulas booleanas, y se
-	define como sigue:
-
-	\begin{itemize}
-		\item Si $x$ es una variable, entonces $(x)_v = v(x)$ y
-		      $$
-			      (\neg x)_v =
-			      \begin{cases}
-				      1 & \text{si } v(x)= 0,  \\
-				      0 & \text{si } v(x) = 1.
-			      \end{cases}
-		      $$
-
-		\item Una cláusula es verdadera si al menos uno de sus literales es verdadero. Formalmente, si $C = t_1 \lor \dots \lor t_k$, entonces
-		      $$
-			      (C)_v = 1 \iff \exists i \in \{1,\dots,k\} \text{ tal que } (t_i)_v = 1.
-		      $$
-
-		\item Una fórmula es verdadera si todas sus cláusulas son verdaderas. Formalmente, si $F = C_1 \land \dots \land C_m$, entonces
-		      $$
-			      (F)_v = 1 \iff \forall i \in \{1,\dots,m\},\ (C_i)_v = 1.
-		      $$
-	\end{itemize}
-\end{definition}
-
 
 \begin{definition}{(Problema de satisfacibilidad booleana)}
-	Sea $F$ una fórmula booleana en CNF, el problema de satisfacibilidad booleana (SAT) consiste en determinar si existe una interpretación $v$ para las variables de $F$ tal que $(F)_v = 1$.
+	Sea $F$ una fórmula booleana, el problema de satisfacibilidad booleana (SAT) consiste en determinar si existe una interpretación $v$ para las variables de $F$ tal que la fórmula completa sea verdadera.
 \end{definition}
+
+En \cite{automataTheory} se demuestra que para toda fórmula booleana existe una fórmula booleana en CNF que es satisfacible si y solo si la fórmula original es satisfacible. Por lo tanto, sin pérdida de generalidad, en lo que sigue se considerarán únicamente fórmulas booleanas en CNF. Por simplicidad, se las denominará simplemente fórmulas booleanas o fórmulas.
 
 El problema de satisfacibilidad booleana es el objeto de estudio de este trabajo.
 
 \subsection{SAT como problema NP-completo}
 
-El problema de satisfacibilidad booleana es un problema de gran relevancia en la teoría de la complejidad computacional \cite{automataTheory}. En particular, fue el primer problema demostrado como NP-completo por Cook en \cite{Cook1971}, lo que lo convierte en un punto de referencia para el estudio de la complejidad computacional.
+El problema de satisfacibilidad booleana es un problema de gran relevancia en la teoría de la complejidad computacional \cite{automataTheory}. En particular, fue el primer problema demostrado como NP-completo por Stephen Cook en \cite{Cook1971}, lo que lo convierte en un punto de referencia para el estudio de la complejidad computacional.
 
-La importancia de SAT radica en que cualquier problema en NP puede transformarse, en tiempo polinomial, en una instancia equivalente de satisfacibilidad booleana \cite{automataTheory}. En consecuencia, SAT actúa como un problema representativo de la clase NP: resolverlo eficientemente implicaría la existencia de algoritmos eficientes para todos los problemas en NP.
+% La importancia de SAT radica en que cualquier problema en NP puede transformarse, en tiempo polinomial, en una instancia equivalente de satisfacibilidad booleana \cite{automataTheory}. 
+En consecuencia, SAT actúa como un problema representativo de la clase NP: resolverlo eficientemente implicaría la existencia de algoritmos eficientes para todos los problemas en NP.
 
 % TODO: hablar de 2-sat y otras variantes polinomiales
 

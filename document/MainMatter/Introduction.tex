@@ -1,0 +1,46 @@
+\chapter*{Introducción}
+
+El problema de satisfacibilidad booleana (\textit{SAT}) es un problema fundamental en la ciencia de la computación y la lógica matemática. Dada una fórmula booleana, compuesta por variables booleanas y operadores lógicos como conjunciones, disyunciones y negaciones, el problema de SAT consiste en determinar si existe una asignación de valores verdaderos o falsos a las variables que haga que la fórmula sea verdadera. En 1971, Stephen Cook demostró que el SAT es un problema NP-completo \cite{automataTheory}, lo que implica que es al menos tan difícil como cualquier otro problema en la clase NP. Esta propiedad ha llevado a que el SAT sea un punto de referencia para la complejidad computacional y ha motivado el desarrollo de numerosas investigaciones para la búsqueda de métodos eficientes para resolverlo \cite{biere2021handbook}.
+
+La teoría de lenguajes formales y autómatas es una rama de la Ciencia de la Computación que estudia los lenguajes formales \cite{automataTheory}. Esta teoría proporciona un marco formal para entender la estructura y el comportamiento de los lenguajes, así como para clasificar los diferentes tipos de lenguajes según sus características. La aplicación de esta teoría abarca una amplia gama de áreas, incluyendo la compilación, el análisis de programas, el procesamiento de lenguajes naturales y artificiales y la teoría de la computabilidad \cite{automataTheory}.
+
+En este trabajo se vinculan las dos ramas de la computación mencionadas, proponiendo un enfoque para resolver SAT utilizando la teoría de lenguajes formales y autómatas.
+
+En estudios anteriores realizados en la facultad de Matemática y Computación de la Universidad de La Habana \cite{aCFSAT,aSRCSAT, MSAT}, se propone resolver variantes específicas del problema de satisfacibilidad booleana mediante el problema del vacío de varios tipos de gramáticas. En este trabajo se generaliza la idea de usar el problema del vacío para cualquier variante, proponiendo un método independiente del orden de las variables. Esto garantiza que el método sea aplicable a cualquier fórmula booleana, lo cual era una limitación en los estudios anteriores, donde se requería un orden específico de las variables.
+
+Para ello se propone la construcción del lenguaje de las interpretaciones que satisfacen una fórmula booleana dada, asumiendo que la fórmula se encuentra en forma normal conjuntiva y que cada ocurrencia de variable es distinta. Esta suposición permite construir un autómata finito determinista de tamaño polinomial con respecto a la longitud de la fórmula. Adicionalmente, se define un lenguaje auxiliar $L_{0,1,d}$ que codifica la consistencia de las asignaciones entre distintas ocurrencias de una misma variable, forzando que estas compartan el mismo valor. La intersección de ambos lenguajes permite caracterizar exactamente el conjunto de interpretaciones que satisfacen la fórmula. De esta forma, la satisfacibilidad de la fórmula se reduce a decidir si el lenguaje resultante es vacío.
+
+Las gramáticas libres de contexto múltiples (MCFG) y libres de contexto múltiples paralelas (pMCFG) \cite{Seki1991OnMC} son formalismos de gramáticas desarrollados como una generalización de las gramáticas libres de contexto (CFG) \cite{automataTheory}, con el objetivo de proporcionar un modelo más expresivo para describir lenguajes. En este trabajo se estudia el uso de MCFG y pMCFG para describir el lenguaje de las interpretaciones que satisfacen una fórmula booleana dada mediante la intersección con un lenguaje regular, así como la complejidad de decidir si dicho lenguaje es vacío.
+
+Dado que las MCFG y pMCFG son cerradas bajo intersección con lenguajes regulares y se puede determinar si son vacías en tiempo polinomial \cite{Seki1991OnMC}, surge la siguiente pregunta científica: ¿Es posible describir el lenguaje de las interpretaciones verdaderas de una fórmula booleana con MCFG o pMCFG y decidir si este es vacío en tiempo polinomial?
+
+En este contexto, el objeto de estudio de este trabajo es la caracterización formal de los lenguajes asociados a interpretaciones de fórmulas booleanas que las satisfacen y el análisis de su descripción mediante distintos formalismos de la teoría de lenguajes. En particular, se analiza cómo estos lenguajes pueden ser representados mediante MCFG o pMCFG, así como las condiciones bajo las cuales su problema del vacío puede ser decidido en tiempo polinomial.
+
+El objetivo general de este trabajo es dada una fórmula booleana $F$, definir y construir el lenguaje de las interpretaciones verdaderas para $F$.
+
+Para cumplir el objetivo general, se plantean los siguientes objetivos específicos:
+
+\begin{itemize}
+    \item Estudiar el estado del arte referido a los formalismos de teoría de lenguajes y el problema SAT.
+    \item Establecer una representación de las interpretaciones de una fórmula booleana como una cadena.
+    \item Definir el lenguaje de las interpretaciones verdaderas de una fórmula booleana dada.
+    \item Construir el lenguaje de las interpretaciones verdaderas de una fórmula booleana mediante la intersección de un autómata finito determinista y el lenguaje $L_{0, 1, d}$.
+    \item Construir el lenguaje de las interpretaciones verdaderas de una fórmula booleana utilizando gramáticas libres de contexto múltiples paralelas.
+    \item Demostrar que, aunque el lenguaje de las interpretaciones que satisfacen una fórmula booleana puede ser descrito por una pMCFG, decidir si este lenguaje es vacío es un problema NP-duro.
+\end{itemize}
+
+Una de las principales contribuciones de este trabajo es demostrar que, aunque para toda fórmula booleana existe una pMCFG que describe el lenguaje de sus interpretaciones verdaderas, el problema de construir dicha gramática mediante la intersección con un lenguaje regular y decidir si el lenguaje que genera es vacío es NP-duro. Este resultado contrasta con afirmaciones presentes en la literatura donde se presentan propiedades de las pMCFG que sugieren que este problema puede resolverse en tiempo polinomial.
+
+Este trabajo se ha estructurado en 4 capítulos: en el primero se presentan los principales conceptos y definiciones que serán utilizados en el resto de la investigación, en el segundo se describe la construcción del lenguaje de las interpretaciones verdaderas y se analizan algunas de sus propiedades, en el tercero se introducen las pMCFG y MCFG y se analizan sus características, y en el cuarto se utilizan las pMCFG para realizar la construcción del lenguaje de las interpretaciones verdaderas y se analizan las implicaciones computacionales.
+
+% añadir refs cuando se tengan los capítulos escritos
+
+En el capítulo 1 se presentan los principales conceptos y definiciones que serán utilizados en el resto de la investigación, incluyendo una introducción a la teoría de lenguajes formales y autómatas, así como una descripción detallada del problema de satisfacibilidad booleana (SAT). Además, se realiza un análisis de los trabajos previos relacionados con la aplicación de la teoría de lenguajes para resolver variantes del problema de SAT.
+
+En el capítulo 2 se muestra como codificar el lenguaje de las interpretaciones verdaderas de una fórmula booleana mediante una cadena de símbolos. Posteriormente se define el lenguaje de las interpretaciones verdaderas y se propone una construcción del mismo utilizando la intersección de un autómata finito determinista y el lenguaje $L_{0, 1, d}$. Para finalizar se demuestra que decidir si es vacía la intersección de cualquier formalismo que describa el lenguaje $L_{0, 1, d}$ con un lenguaje regular es un problema NP-duro.
+
+En el capítulo 3 se introducen las gramáticas libres de contexto múltiples (MCFG) y libres de contexto múltiples paralelas (pMCFG), se describen los algoritmos para decidir si el lenguaje generado por una MCFG o pMCFG es vacío y para construir la intersección de una MCFG o pMCFG con un lenguaje regular. Se demuestra que el algoritmo propuesto para calcular la intersección de una MCFG con un lenguaje regular no es generalizable a las pMCFG y se discute la dureza de este problema.
+
+En el capítulo 4 se muestra como construir el lenguaje de las interpretaciones verdaderas de una fórmula booleana utilizando pMCFG y se analiza la complejidad computacional de esta construcción. Se demuestra que para toda fórmula booleana, existe una pMCFG que describe el lenguaje de sus interpretaciones verdaderas y que decidir si esta es vacía es un problema NP-duro.
+
+Finalmente se presentan las conclusiones, recomendaciones y trabajo futuro.

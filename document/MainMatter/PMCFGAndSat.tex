@@ -1,0 +1,260 @@
+\chapter{Lenguaje de las interpretaciones que satisfacen una fórmula empleando gramáticas libres de contexto múltiples}
+
+\section{$L_{0, 1, d}$ como lenguaje de múltiple contexto paralelo}
+
+En esta sección se presenta un pMCFG que reconoce el lenguaje:
+
+% no recuerdo en secciones anteriores si puse \binalph^+ o \binalph^*, en cualquier caso, tengo la gramática para eso y las demostraciones son viratualmente las mismas
+$$
+    L_{0, 1, d} = \{(wd)^n \suchthat w \in \binalph^*, n \geq 1 \},
+$$
+
+la cual puede utilizarse para representar las interpretaciones de una fórmula booleana codificadas como secuencias binarias separadas por el símbolo $d$.
+
+La idea de la construcción es dividir el proceso de generación en dos etapas. Primero se genera una cadena de la forma $wd$, donde $w$ es una cadena binaria arbitraria. Luego, esta misma cadena se repite una o más veces mediante una acumulación progresiva sobre una segunda componente de la tupla generada.
+
+Para ello se define la pMCFG:
+
+$$
+    G_{0, 1, d} = (N, T, F, P, S),
+$$
+
+donde:
+
+\begin{itemize}
+    \item $N = \{ S, C, A \}$
+    \item $T = \{0, 1, d\}$
+    \item $F = \{res, copy, f_0, f_1, g\}$ donde:
+          \begin{itemize}
+              \item $res[(x, y)] = y$
+              \item $copy[(x, y)] = (x, xy)$
+              \item $f_0[(x, y)] = (0x, y)$
+              \item $f_1[(x, y)] = (1x, y)$
+              \item $g() = (d, \eword)$
+          \end{itemize}
+    \item $P$ contiene las siguientes reglas:
+          \begin{itemize}
+              \item $S \gprod res(C)$
+              \item $C \gprod copy(C)$
+              \item $C \gprod copy(A)$
+              \item $A \gprod f_0(A)$
+              \item $A \gprod f_1(A)$
+              \item $A \gprod g()$
+          \end{itemize}
+    \item $S$ es el símbolo inicial.
+\end{itemize}
+
+El comportamiento de la grámatica puede describirse de la siguiente forma:
+
+\begin{itemize}
+    \item El símbolo no terminal $A$ genera tuplas de la forma $(wd, \eword)$. La primera componente contiene una cadena binaria terminada en $d$, mientras que la segunda componente permanece vacía.
+    \item El símbolo no terminal $C$ utiliza la función $copy$ para copiar una cantidad arbitraria $n \geq 1$ de veces la primera componente sobre la segunda. De esta forma se generan tuplas de la forma $(wd, (wd)^n)$ con $ n\geq 1$.
+    \item Finalmente, el símbolo inicial $S$ utiliza la función $res$ para extraer la segunda componente de la tupla generada por $C$, obteniéndose una cadena de la forma $(wd)^n$ para algun $n \geq 1$.
+
+          % por si el nombre `res` no parece tener sentido, yo me inspiré en que en rust las funciones que pueden lanzar error devuelven una tupla de tipo Result<resultado, error> (lo que bueno, aqui en el resultado está en el lado izquierdo xd) podemos poner un nombre más clásico para una función que devuelva el segundo elemento de una tupla, si no, me gustaria poner una nota al pie diciendo de donde se me ocurrió el nombre :D
+\end{itemize}
+
+A continuación se muestra un ejemplo de cómo la cadena $010d010d$ es generada a partir de la gramática $G_{0, 1, d}$:
+
+\begin{enumerate}
+    \item $(d, \eword) \in L(A)$ ya que $A \gprod g()$.
+    \item $(0d, \eword) \in L(A)$ ya que $A \gprod f_0(A)$ y $(d, \eword) \in L(A)$.
+    \item $(10d, \eword) \in L(A)$ ya que $A \gprod f_1(A)$ y $(0d, \eword) \in L(A)$.
+    \item $(010d, \eword) \in L(A)$ ya que $A \gprod f_0(A)$ y $(10d, \eword) \in L(A)$.
+    \item $(010d, 010d) \in L(C)$ ya que $C \gprod copy(A)$ y $(010d, \eword) \in L(A)$.
+    \item $(010d, 010d010d) \in L(C)$ ya que $C \gprod copy(C)$ y $(010d, 010d) \in L(C)$.
+    \item $010d010d \in L(S)$ ya que $S \gprod res(C)$ y $(010d, 010d010d) \in L(C)$.
+\end{enumerate}
+
+En los primeros 4 pasos se genera la cadena $wd = 010d$ en la primera componente de la tupla. Luego, se acumula ese resultado en la segunda componente en los siguientes 2 pasos aplicando la función $copy$. Finalmente, se aplica la función $res$ para extraer la cadena acumulada resultante. Como $010d010d \in L(S)$ entonces $010d010d \in L(G_{0, 1, d})$.
+
+A continuación se demostrará formalmente que $L(G_{0, 1, d}) = L_{0, 1, d}$. La demostración se realizará caracterizando el lenguaje generado por cada uno de los símbolos no terminales de la gramática.
+
+A continuación se analizará el lenguaje generado por $A$.
+
+\subsection{Lenguaje generado por $A$}
+
+El símbolo no terminal $A$ es el encargado de construir la cadena base $wd$. La regla
+$$
+    A \gprod g()
+$$
+
+introduce el símbolo terminal $d$, mientras que las reglas:
+
+$$
+    A \gprod f_0(A), \quad A\gprod f_1(A)
+$$
+
+permiten agregar símbolos binarios al inicio de la primera componente de la tupla. Como consecuencia, $A$ genera exactamente las tuplas cuya primera componente es una cadena binaria terminada en $d$, y cuya segunda componente permanece vacía.
+
+\begin{lemma}
+    \label{lemma:la}
+    El lenguaje generado por el símbolo no terminal $A$ es:
+    $$
+        L(A) = \{ (w d, \eword) \suchthat w \in \binalph^* \}.
+    $$
+\end{lemma}
+
+\paragraph{Demostración} Primero se demostrará por inducción sobre la longitud de $w$ que toda tupla de la forma $(w d, \eword)$ con $w \in \binalph^*$ es generada por $A$, es decir
+$$
+    \{ (w d, \eword) \suchthat w \in \binalph^* \} \subseteq L(A).
+$$
+
+\subparagraph{Caso base} $|w| = 0$. Se tiene que $w = \eword$, luego $w d = d$ y $(d, \eword) \in L(A)$ ya que $A \gprod g()$.
+
+\subparagraph{Paso inductivo} Supóngase que para todo $w' \in \binalph^*$ con $|w'| = k$ se cumple que $(w' d, \eword) \in L(A)$. Entonces, para cada $a \in \binalph$ se tiene que $(a w' d, \eword) \in L(A)$ ya que $A \gprod f_a(A)$ y $(w' d, \eword) \in L(A)$. Luego $(w d, \eword) \in L(A)$ para todo $w \in \binalph^*$.
+
+Reciprocamente, se demostrará que para todo $(x, y) \in L(A)$ se cumple que $(x, y) = (w d, \eword)$ para algún $w \in \binalph^*$. Como $(x, y) \in L(A)$ entonces $(x, y)$ solo pudo haber sido obtenido mediante la aplicación de dos reglas:
+
+\begin{itemize}
+    \item $(x, y) = f_a(A)$ ya que $A \to f_a(A)$ para $a \in \{0, 1\}$.
+    \item $(x, y) = g()$ ya que $A \to g()$.
+\end{itemize}
+
+Se demostrará la implicación por inducción sobre la cantidad de reglas aplicadas para generar $(x, y)$.
+
+\subparagraph{Caso base} Se aplicaron $n = 1$ reglas, luego $(x, y)$ solo puede ser generado usando $A \gprod g()$, por tanto $(x, y) = (d, \eword)$.
+
+\subparagraph{Paso inductivo} Supóngase que $(x, y)$ se generó aplicando $n = k > 1$ reglas. Necesariamente $(x, y)$ fue generado con las reglas $A \gprod f_0(A)$ o $A \gprod f_1(A)$.
+Por tanto $(x, y) = f_a[(x', y')]$ para algún $a \in \binalph$ y $(x', y') \in L(A)$ generado con $n' < k$ reglas. Por hipótesis inductiva, $(x', y') = (w' d, \eword)$ para algún $w' \in \binalph^*$. Luego
+
+$$
+    (x, y) = f_a[(x', y')] = f_a[(w' d, \eword)] = (a w' d, \eword)
+$$
+para algún $w' \in \binalph^*$ y $a \in \binalph$. Como $w = aw' \in \binalph^*$ entonces $(x, y) = (wd, e)$ con $w \in \binalph$.
+
+Por lo tanto, $L(A) = \{ (w d, \eword) \suchthat w \in \binalph^* \}$. \qed
+
+A continuación se caracteriza el lenguaje generado por $C$.
+
+\subsection{Lenguaje generado por $C$}
+
+El símbolo no terminal $C$ es el encargado de acumular copias de la cadena generada por $A$. La regla
+
+$$
+    C \gprod copy(A)
+$$
+
+inicializa la acumulación, mientras que
+
+$$
+    C \gprod copy(C)
+$$
+
+permite concatenar nuevas copias de la primera componente sobre la segunda componente de la tupla. Por ello, $C$ genera exactamente las tuplas cuya segunda componente consiste en una o más repeticiones de la primera.
+
+\begin{lemma}
+    \label{lem:lc}
+    El lenguaje generado por el símbolo no terminal $C$ es:
+    $$
+        L(C) = \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}.
+    $$
+\end{lemma}
+
+\paragraph{Demostración}
+
+Primero se demostrará que para todo $n \geq 1$ si $(x, y) \in L(A)$ entonces $(x, x^n) \in L(C)$ mediante inducción sobre $n$.
+
+\subparagraph{Caso base} Para $n = 1$ se tiene que $(x, y) \in L(A)$ y por el lema \ref{lemma:la} $(x, y) = (x, \eword)$. Como se tiene que $C \to copy(A)$ entonces
+$$
+    copy[(x, y)] = copy[(x, \eword)] = (x, x) \in L(C).
+$$
+
+\subparagraph{Paso Inductivo} Para $n = k$ por hipótesis de inducción $(x, x^k) \in L(C)$ con $(x, y) \in L(A)$. Como se tiene que $C \to copy(A)$ entonces
+$$
+    copy[(x, x^k)] = (x, xx^k) = (x, x^{k+1}) \in L(C).
+$$
+
+Por tanto si $(x, y) \in L(A)$ entonces $(x, x^n) \in L(C)$ para todo $n \geq 1$.
+
+Para probar la otra inclusión, es necesario demostrar que si $(x, y) \in L(C)$ entonces $(x, y) = (x, x^n)$ con $(x, z) \in L(A)$.
+
+Si $(x, y) \in L(C)$ entonces necesariamente se tiene uno de los dos casos:
+
+\begin{itemize}
+    \item $(x, y) = copy[(x', y')]$ para algún $(x', y') \in L(C)$ pues $C \to copy[C]$.
+          % cual es la forma correcta de hacer esta disyunción entre plequitas? xd
+    \item $(x, y) = copy[(x', y')]$ para algún $(x', y') \in L(A)$ pues $C \to copy[A]$.
+\end{itemize}
+
+Por tanto $(x, y)$ solo pudo haber sido obtenido mediante la aplicación de la función $copy$. Se demostrará que $(x, y) = (x, x^n)$ con $(x, z) \in L(A)$ por inducción sobre la cantidad de veces que se aplica la función $copy$.
+
+\subparagraph{Caso base} La función $copy$ se aplica una sola vez, entonces $(x, y) = copy[(x', y')]$ con $(x', y') \in L(A)$. Por el lema \ref{lemma:la} entonces $(x', y') = (x', \eword)$, luego
+
+$$
+    (x, y) = copy[(x', y')] = copy[(x', \eword)] = (x', x').
+$$
+
+Por tanto $(x, y)$ es de la forma $(x, x)$ con $(x, z) \in L(A)$.
+
+\subparagraph{Paso inductivo} La función $copy$ se aplicó $n > 1$ veces. Entonces necesariamente $(x, y) = copy[(x', y')]$ con $(x', y') \in L(C)$. Por hipótesis de inducción $(x', y') = (x', (x')^{n-1})$. Luego
+
+$$
+    (x, y) = copy[(x', y')] = copy[(x', (x')^{n-1})] = (x', x'(x')^{n-1}) = (x', (x')^n).
+$$
+
+Luego se tiene que si $(x, y) \in L(C)$ entonces $(x, y) = (x, x^n)$ con $(x, z) \in L(A)$.
+
+Como se tienen las inclusiones
+$$
+    \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\} \subseteq L(C)
+    \quad\text{y} \quad
+    L(C) \subseteq \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}
+$$
+
+entonces $L(C) = \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}$. \qed
+
+En la siguiente sección se caracterizará el lenguaje generado por el símbolo inicial $S$, es decir, el lenguaje generado por la gramática $G_{0, 1, d}$ y se demostrará que coincide exactamente con el lenguaje $L_{0, 1, d}$.
+
+\subsection{Lenguaje generado por $S$}
+
+El símbolo inicial $S$ utiliza la función
+$$
+    res[(x, y)] = y
+$$
+
+para extraer la segunda componente de las tuplas generadas por $C$. Por tanto, el lenguaje generado por la gramática coincide exactamente con el conjunto de cadenas acumuladas en dicha componente.
+
+\begin{lemma}
+    \label{lem:ls}
+    El lenguaje generado por el símbolo no terminal $S$ es:
+    $$
+        L(S) = \{y \suchthat (x, y) \in L(C)\}
+    $$
+\end{lemma}
+
+La demostración es directa dada la estructura de $G_{0, 1, d}$.
+
+Para toda $(x, y) \in L(C)$ se tiene que $y \in L(S)$ pues $y = res[(x, y)]$ y $S \to res(C)$, luego
+$$
+    \{y \suchthat (x, y) \in L(C)\} \subseteq L(S).
+$$
+También se tiene que para toda $y \in L(S)$ esta solo pudo haber sido generada por la regla $S \to res(C)$, por tanto, $y = res[(x, y)]$ para algún $(x, y) \in L(C)$, por tanto
+$$
+    L(S) \subseteq \{y \suchthat (x, y) \in L(C)\}
+$$
+
+Luego se tiene que $L(S) = \{y \suchthat (x, y) \in L(C)\}$. \qed
+
+Por definición, el lenguaje generado por el símbolo no terminal $S$ es el lenguaje generado por $G_{0, 1, d}$. Como consecuencia, se tiene el siguiente teorema.
+
+\begin{theorem}
+    El lenguaje generado por $G_{0, 1, d}$ es $L_{0, 1, d}$, es decir:
+    $$
+        L(G_{0, 1, d}) = L_{0, 1, d}.
+    $$
+\end{theorem}
+
+\paragraph{Demostración} La demostración es una aplicación directa lemas \ref{lemma:la}, \ref{lem:lc} y \ref{lem:ls}.
+
+Por el lema \ref{lemma:la} tenemos que el lenguaje asociado al no terminal $A$ es el de las tuplas de la forma $(wd, \eword)$ con $w \in \binalph^*$, con este resultado y aplicando el lema \ref{lem:lc} se tiene que el lenguaje asociado al no terminal $C$ es el de las tuplas de la forma $(wd, (wd)^+)$ $w \in \binalph^*$. Finalmente, aplicando el lema \ref{lem:ls} se tiene que el lenguaje generado por $G_{0, 1, d} = L(S)$ es el de las cadenas de la forma $(wd)^+$ con $w \in \binalph^*$, es decir, exactamente el lenguaje $L_{0, 1, d}$. Por lo tanto, $L(G_{0, 1, d}) = L_{0, 1, d}$. \qed
+
+% Aqui va que implica esto para las pMCFG
+
+Esto demuestra que el lenguaje $L_{0, 1, d}$ puede ser generado por una pMCFG. Además se tiene que se puede decidir si una pMCFG es vacía en tiempo polinomial y que son cerradas bajo intersección con lenguajes regulares. Como consecuencia, el problema SAT puede ser reducido en tiempo polinomial al problema de decidir si la intersección entre una pMCFG y un lenguaje regular es vacía, siendo este un problema NP-duro. Dado que decidir si el lenguaje intersección resultante es vacío es decidible en tiempo polinomial, entonces determinar la intersección entre una pMCFG y un lenguaje regular es un problema NP-duro.
+
+Se tiene entonces el siguiente teorema.
+
+\begin{theorem}
+    Determinar la intersección entre una pMCFG y un lenguaje regular es NP-duro.
+\end{theorem}

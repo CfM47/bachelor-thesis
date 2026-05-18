@@ -197,9 +197,10 @@
   \begin{flushright}}%
     {\end{flushright}}
 
-\newtheorem{theorem}{Teorema}[chapter]
-\newtheorem{definition}{Definición}[chapter]
-\newtheorem{lemma}{Lema}[chapter]
+% \newtheorem{theorem}{Teorema}[chapter]
+% \newtheorem{corollary}{Colorario}[chapter]
+% \newtheorem{definition}{Definición}[chapter]
+% \newtheorem{lemma}{Lema}[chapter]
 
 
 \AtBeginDocument{%

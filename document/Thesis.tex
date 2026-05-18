@@ -1,4 +1,5 @@
 \documentclass[12pt,oneside]{uhthesis}
+
 \usepackage{subfigure}
 \usepackage[ruled,lined,linesnumbered,titlenumbered,algochapter,spanish,onelanguage]{algorithm2e}
 \usepackage{amsmath}
@@ -22,6 +23,10 @@
 \renewcommand{\listalgorithmcfname}{Índice de Algoritmos}
 %\dontprintsemicolon
 \SetAlgoNoEnd
+
+\usepackage{tikz}
+\usepackage{enumitem}
+\usetikzlibrary{automata, positioning, arrows}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -58,6 +63,12 @@
 \logo{Graphics/uhlogo}
 \makenomenclature
 
+\usepackage{amsthm}
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{corollary}{Colorario}[chapter]
+\newtheorem{definition}{Definición}[chapter]
+\newtheorem{lemma}{Lema}[chapter]
+
 \renewcommand{\vec}[1]{\boldsymbol{#1}}
 \newcommand{\diff}[1]{\ensuremath{\mathrm{d}#1}}
 \newcommand{\me}[1]{\mathrm{e}^{#1}}
@@ -90,7 +101,11 @@
 
 \mainmatter
 
+\include{MainMatter/Introduction}
 \include{MainMatter/Preliminares}
+\include{MainMatter/ElTeorema}
+\include{MainMatter/PMCFG}
+\include{MainMatter/PMCFGAndSat}
 \backmatter
 
 \include{BackMatter/Conclusions}

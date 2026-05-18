@@ -1,0 +1,340 @@
+\chapter{\lquoti El teorema \rquoti}
+
+\section{Codificación de las interpretaciones de una fórmula booleana como cadenas}
+
+Una formula booleana $F$, con $n$ variables $X = \{x_1, x_2, \ldots, x_n\}$ y $m$ cláusulas tiene la siguiente estructura:
+$$
+    F = C_1 \land C_2 \land \ldots \land C_m
+$$
+
+donde cada cláusula $C_i$ es una disyunción de literales
+$$
+    C_i = t_{i1} \lor t_{i2} \lor \ldots \lor t_{ik_i}
+$$
+
+donde cada literal $t_{ij}$ es una variable $x_l$ o su negación $\neg x_l$ para algún $l \in \{1, \ldots, n\}$.
+
+El problema de satisfacibilidad booleana (SAT) consiste en decidir si existe una interpretación $v$ de las variables de $F$ tal que $(F)_v = 1$, es decir, si existe una asignación de valores a las variables que haga verdadera a la fórmula.
+
+Para representar las interpretaciones de $F$ como cadenas, se asignará a cada variable un símbolo binario: $0$ para falso y $1$ para verdadero. De esta forma, cada interpretación $v$ de las variables de $F$ se puede representar como una cadena de longitud $n$ sobre el alfabeto $\{0, 1\}$, donde el $i$-ésimo símbolo de la cadena representa el valor asignado a la variable $x_i$ por la interpretación $v$. Por ejemplo, si $X = \{x_1, x_2, x_3\}$ y una interpretación $v$ asigna $v(x_1) = 0$, $v(x_2) = 1$ y $v(x_3) = 0$, entonces la cadena que representa a esta interpretación sería 010.
+
+Para resolver el problema de la satisfacibilidad booleana, este se reducirá a decidir si un lenguaje es vacío o no.
+
+Para ello se codificarán las interpretaciones de la siguiente manera:
+\begin{enumerate}
+    \item A cada interpretación $v$ se le asigna una cadena $w$ de longitud $n$ sobre el alfabeto $\{0, 1\}$, donde el $i$-ésimo símbolo de la cadena representa el valor asignado a la variable $x_i$ por la interpretación $v$.
+    \item Se introduce un nuevo símbolo $d$ que se utilizará como separador entre las cláusulas de la fórmula.
+    \item Se copia la cadena $w$ asociada a cada interpretación $v$ $m$ veces, una por cada cláusula de la fórmula, y se separan con el símbolo $d$.
+\end{enumerate}
+
+De esta forma, cada interpretación $v$ de las variables de $F$ se representa como una cadena de la forma $(wd)^m$, donde $w$ es la cadena binaria que representa a la interpretación $v$ y $d$ es el símbolo separador.
+
+El lenguaje de todas las interpretaciones que satisfacen a $F$ se puede definir como el siguiente lenguaje sobre el alfabeto $\{0, 1, d\}$:
+
+$$
+    L_v = \{(wd)^m \suchthat w \text{ es una cadena que representa a $v$ y $v$ satisface la fórmula} \}
+$$
+
+Como para cada interpretación $v$ existe una y solo una cadena asociada en $L_v$, entonces el lenguaje $L_v$ es vacío si y solo si no existe una interpretación que haga verdadera a $F$. Por tanto, para decidir si existe una interpretación que haga verdadera a $F$ basta con decidir si el lenguaje $L_v$ es vacío o no. Es decir, se puede reducir el problema SAT a decidir si el lenguaje $L_v$ es vacío o no.
+
+En el resto del capítulo se describe como construir el lenguaje $L_v$ a partir de la fórmula $F$. En la siguiente sección se presenta un autómata que reconoce el lenguaje de las cadenas que permiten que cada cláusula sea satisfecha por una interpretación distinta.
+
+\section{Autómata CNF}
+En esta sección se construirá un autómata $\automata_F$ que reconoce el lenguaje de las cadenas que permiten que cada cláusula de la fórmula $F$ sea satisfecha por una interpretación distinta, es decir, el lenguaje $L_F$ definido como sigue:
+$$
+    L_F = \{ w_1 d w_2 d \ldots d w_m d \suchthat w_i \text{ representa a una interpretación que satisface la cláusula } C_i\}
+$$
+
+Para construir dicho autómata se construirá primero un autómata $\automata_C$ para cada cláusula de la fórmula, y luego se concatenarán dichos autómatas para obtener el autómata que reconoce el lenguaje $L_F$. A continuación se describe la construcción del autómata para cada cláusula de la fórmula.
+
+
+\subsection{Automata cláusula}
+En esta sección se construye el autómata $\automata_C$ que reconoce el lenguaje de las cadenas que representan a las interpretaciones que satisfacen a una cláusula $C$ de la fórmula $F$. Es decir, el lenguaje $L_C$ definido como sigue:
+$$
+    L_C = \{ w \suchthat w \text{ representa a una interpretación que satisface la cláusula } C \}
+$$
+
+Si la fórmula tiene $n$ variables, el autómata $\automata_C$ tendrá $2(n + 1) = O(n)$ estados: $n+1$ de la forma $(q_f, i)$ y $n+1$ de la forma $(q_t, i)$, con $i \in \{0, \ldots, n\}$. Estos estados representarán la información de si luego de leer los $i$ primeros símbolos de la cadena, ya se encontró un literal de la cláusula que evalúa verdadero o no. Es decir:
+
+\begin{itemize}
+    \item Los estados de la forma $(q_f, i)$ (o estados verdaderos) representan que luego de leer $i$ símbolos de la cadena, no hay ningún literal de la cláusula que evalúe verdadero, es decir, no se ha leído el valor de una variable $x_j$ con $1 \leq j \leq i$ cuyo literal asociado en la cláusula sea verdadero.
+    \item Los estados de la forma $(q_t, i)$ (o estados falsos) representan que luego de leer $i$ símbolos de la cadena, ya se ha leído el valor de una variable $x_j$ con $1 \leq j \leq i$ cuyo literal asociado en la cláusula es verdadero.
+\end{itemize}
+
+El estado inicial del autómata será $(q_f, 0)$, pues al no haber leído ningún símbolo de la cadena, no se ha leído el valor asociado a ninguna variable y por tanto la cláusula no puede ser verdadera. El estado de aceptación del autómata será $(q_t, n)$, ya que significa que luego de leer los $n$ símbolos de la cadena, se ha leído el valor de una variable cuyo literal asociado en la cláusula es verdadero, por lo tanto la cláusula es verdadera.
+
+Las transiciones entre los estados solo existen de estados con $(q_f, i)$ o $(q_t, i)$ a estados con $(q_f, i+1)$ o $(q_t, i+1)$.
+
+\begin{itemize}
+    \item Para los estados de la forma $(q_t, i)$ se tiene la transición $\delta((q_t, i), a) = (q_t, i+1)$ para cualquier $a \in \binalph$ dado que si se ha leído un símbolo cuyo literal asociado evalúa verdadero luego de leer $i$ variables, no importan los símbolos restantes, la cláusula seguirá siendo verdadera.
+    \item Por otro lado para los estados de la forma $(q_f, i)$ se tendrá la transición $\delta((q_f, i), a) = (q_t, i+1)$ si el símbolo $a$ es tal que el literal asociado a la variable $x_{i+1}$ en la cláusula evalúa verdadero, es decir, $a = 1$ y $x_{i+1} \in C$ o $a = 0$ y $\neg x_{i+1} \in C$. En otro caso, se tendrá la transición $\delta((q_f, i), a) = (q_f, i+1)$.
+\end{itemize}
+
+Este autómata se define formalmente a continuación.
+
+\begin{definition} (Autómata cláusula)
+    Definimos el autómata $\automata_C = (Q, \binalph, \delta, (q_f, 0), F)$ de la donde:
+    \begin{itemize}
+        \item $Q = \{(q_f, i), (q_t, i) \suchthat i \in \{0, \ldots, n\}\}$
+        \item el estado inicial $(q_f, 0)$
+        \item $F = \{(q_t, n)\}$
+    \end{itemize}
+
+    con la función de transición $\delta$ definida para todo $i \in \{0, \ldots, n-1\}$ y $a \in \{0, 1\}$ por:
+    \begin{itemize}
+        \item $\delta((q_t, i), a) = (q_t, i+1)$
+        \item $$\delta((q_f, i), a) = \begin{cases}
+                      (q_t, i+1) & \text{si } (x_{i+1} \in C \land a = 1) \lor (\neg x_{i+1} \in C \land a = 0) \\
+                      (q_f, i+1) & \text{en otro caso}
+                  \end{cases}$$
+    \end{itemize}
+\end{definition}
+
+A continuación se demostrará que el lenguaje reconocido por el autómata $A_C$ es exactamente el lenguaje $L_C$. Para ello, primero se demostrará el siguiente lema que describe la invariante mantenida por el autómata luego de leer $k$ variables.
+
+\begin{lemma}
+    \label{lem:ac}
+    El autómata $A_C$ luego de leer $k$ símbolos se encuentra en un estado verdadero $(q_t, k)$ si y solo si existe una variable $x_i$ de $C$ con $i \leq k$ tal que el literal asociado en $C$ es verdadero, o sea, existe $i \leq k$ tal que $w_i = 1 \land x_i \in C$ o $w_i = 0 \land \neg x_i \in C$.
+\end{lemma}
+
+\paragraph{Demostración} Primero se demostrará que $\automata_C$ luego de leer $k$ símbolos se encuentra en un estado verdadero si existe una variable $x_i$ de $C$ tal que el literal asociado en $C$ es verdadero. Es decir
+
+$$
+    \extran(q_0, a_1 \ldots a_k) = (q_t, k) \implies \exists i \leq k \text{ tal que } (a_i = 1 \land x_i \in C) \lor (a_i = 0 \land \neg x_i \in C)
+$$
+
+Se demostrará por inducción sobre $k$.
+
+\subparagraph{Caso base} Para $k = 0$ se tiene que $\extran(q_0, \eword) = (q_f, 0)$, por lo tanto no se cumple que $\extran(q_0, \eword) = (q_t, 0)$, y por tanto la afirmación se cumple trivialmente.
+
+\subparagraph{Paso inductivo} Supóngase que la afirmación se cumple para $k$. Supóngase además que luego de leer $k+1$ símbolos el autómata se encuentra en un estado verdadero, es decir, $\extran(q_0, a_1 \ldots a_{k+1}) = (q_t, k+1)$. Se tienen dos casos:
+
+\begin{itemize}
+    \item $\extran(q_0, a_1 \ldots a_k) = (q_t, k)$, entonces por la hipótesis inductiva existe una variable $x_i$ de $C$ con $i \leq k$ tal que el literal asociado en $C$ es verdadero, por lo tanto se cumple la afirmación.
+    \item $\extran(q_0, a_1 \ldots a_k) = (q_f, k)$, entonces por la definición de la función de transición se tiene que $a_{k+1}$ es tal que el literal asociado a la variable $x_{k+1}$ en $C$ es verdadero, es decir, $a_{k+1} = 1$ y $x_{k+1} \in C$ o $a_{k+1} = 0$ y $\neg x_{k+1} \in C$. Por lo tanto, se cumple la afirmación.
+
+\end{itemize}
+
+Por tanto para todo $k \in \{0, \ldots, n\}$ se cumple que si el autómata luego de leer $k$ símbolos se encuentra en un estado verdadero, entonces existe una variable $x_i$ de $C$ con $i \leq k$ tal que el literal asociado en $C$ es verdadero.
+
+A continuación se demuestra la implicación recíproca, es decir, que si existe una variable $x_i$ de $C$ con $i \leq k$ tal que el literal asociado en $C$ es verdadero, entonces el autómata luego de leer $k$ símbolos se encuentra en un estado verdadero. Es decir:
+$$
+    \exists i \leq k \text{ tal que } (a_i = 1 \land x_i \in C) \lor (a_i = 0 \land \neg x_i \in C) \implies \extran(q_0, a_1 \ldots a_k) = (q_t, k)
+$$
+
+Se demostrará por inducción sobre $k$.
+
+\subparagraph{Caso base} Para $k = 0$ no existe una variable $x_i$ de $C$ con $i \leq 0$, por lo tanto no se cumple que exista una variable $x_i$ de $C$ con $i \leq 0$ y $\extran(q_0, \eword) = (q_t, 0)$, por tanto la afirmación se cumple.
+
+\subparagraph{Paso inductivo} Supóngase que la afirmación se cumple para k. Supóngase además que existe una variable $x_i$ de $C$ con $i \leq k+1$ tal que el literal asociado en $C$ es verdadero. Se tienen dos casos:
+
+\begin{itemize}
+    \item Existe $i \geq k$ tal que el literal asociado a la variable $x_i$ en $C$ es verdadero, entonces por hipótesis inductiva,
+          $$
+              \extran(q_0, a_1 \ldots a_k) = (q_t, k).
+          $$
+          Como $\extran ((q_t, k), a_{k+1}) = (q_t, k+1)$, para todo $a_{k+1} \in \binalph$ concluye que
+          $$
+              \extran(q_0, a_1 \ldots a_{k+1}) = (q_t, k+1),
+          $$
+          y por lo tanto se cumple la afirmación.
+    \item El literal asociado a \(x_{k+1}\) en \(C\) es verdadero. Es decir,
+          $$
+              (a_{k+1}=1 \land x_{k+1}\in C)
+              \lor
+              (a_{k+1}=0 \land \neg x_{k+1}\in C).
+          $$
+          Entonces, independientemente del estado alcanzado tras leer \(a_1\ldots a_k\), por definición de \(\delta\) se tiene que
+          $$
+              \delta((q_f,k),a_{k+1})=(q_t,k+1)
+          $$
+          y además
+          $$
+              \delta((q_t,k),a_{k+1})=(q_t,k+1).
+          $$
+          Por tanto,
+          $$
+              \extran(q_0,a_1\ldots a_{k+1})=(q_t,k+1).
+          $$
+          y por lo tanto se cumple la afirmación.
+\end{itemize}
+
+Luego de demostrar ambas implicaciones se concluye que para todo $k \in \{0, \ldots, n\}$ se cumple que el autómata luego de leer $k$ símbolos se encuentra en un estado verdadero si y solo si existe una variable $x_i$ de $C$ con $i \leq k$ tal que el literal asociado en $C$ es verdadero. \qed
+
+
+Ahora se procederá a enunciar y demostrar el teorema que establece la equivalencia entre el lenguaje reconocido por el autómata $A_C$ y el lenguaje $L_C$.
+
+\begin{theorem}
+    \label{thm:cautomata}
+    Se cumple que $L_C = L(A_C)$
+\end{theorem}
+
+\paragraph{Demostración}
+\subparagraph{($L_C \subseteq L(A_C)$)} Supongamos que $w \in L_C$, entonces $w = a_{1} \ldots a_{n}$ representa a una interpretación $v$ tal que $(C)_v = 1$, por tanto existe un literal $t$ de $C$ tal que $(t)_v = 1$. Por el lema \ref{lem:ac} con $k = n$ se cumple que $\extran(q_0, w) = (q_t, n)$, luego $w \in L(A_C)$.
+
+\subparagraph{($L(A_C) \subseteq L_C$)} Supongamos que $w \in L(A_C)$, entonces $\extran(q_0, w) = (q_t, n)$, por el lema \ref{lem:ac} con $k = n$ se cumple que existe un literal $t$ de $C$ tal que $(t)_v = 1$, luego $(C)_v = 1$ y $w$ representa a una interpretación $v$ tal que $(C)_v = 1$, por tanto $w \in L_C$. \qed
+
+A continuación se describirá la construcción del autómata que reconoce el lenguaje $L_F$ a partir de los autómatas $A_C$ asociados a cada cláusula de la fórmula $F$.
+
+\subsection{Autómata fórmula}
+
+Dada la fórmula $F$ con cláusulas $C_1, \ldots, C_m$, se tienen autómatas $\automata_{i}$ que reconocen el lenguaje $L_{C_i}$ para cada cláusula $C_i$ de la fórmula. Para construir el autómata que reconoce el lenguaje $L_F$ se necesita concatenar los autómatas $\automata_{i}$ para cada cláusula $C_i$ de la fórmula, pero antes es necesario modificar estos autómatas para que reconozcan las cadenas que representan a una interpretación que satisface a la cláusula con el símbolo separador $d$ al final.
+
+Primero se construye un autómata que reconozca el lenguaje $L_C$ con los separadores de cláusulas, es decir el lenguaje $L_{Cd} = \{(wd) \suchthat w \in L_C\}$. Para esto basta con modificar el autómata $A_C$ para que reconozca la cadena $d$ después de haber leído una cadena de $L_C$ si está en el estado de aceptación.
+
+\begin{definition}(Autómata cláusula con separador)
+    Dada una cláusula $C_i$ de una fórmula con las variables $X=\{x_1, \ldots x_n\}$ sea
+    $$
+        \automata_i = (Q, \binalph, \delta, (q_f, 0), \{(q_t, n)\})
+    $$
+    el autómata cláusula asociado a $C_i$. Se define el autómata cláusula con separador asociado a $C_i$ como
+    $$
+        \automata_{di} = (Q \cup \{q_d\}, \{0, 1, d\}, \delta', (q_f, 0), \{q_d\})
+    $$
+    donde $\delta'$ se define como
+    $$
+        \delta'(q, a) = \begin{cases}
+            \delta(q, a) & \text{si } q \in Q \text{ y } q \neq (q_t, n) \\
+            q_d          & \text{si } q = (q_t, n) \text{ y } a = d
+        \end{cases}
+    $$
+\end{definition}
+
+El autómata $\automata_{di}$ reconoce el lenguaje de las cadenas que representan a las interpretaciones que satisfacen a la cláusula $C_i$ con el símbolo separador $d$ al final.
+
+\begin{theorem}
+    \label{thm:dautomata}
+    Se cumple que $L(\automata_{di}) = \{(wd) \suchthat w \in L_{C_i}\}$
+\end{theorem}
+
+La demostración es directa dada la definición de $\delta'$ y el hecho de que $L_{C_i} = L(\automata_i)$. \qed
+
+
+El siguiente paso es concatenar los autómatas cláusula con separador para construir un autómata que reconozca el lenguaje $L_F$.
+
+Para ello, se concatenan los autómatas $A_{di}$ para cada cláusula $C_i$ de la fórmula mediante el procedimiento de concatenación de \cite{automataTheory}. Es decir, se conecta el estado de aceptación $q_{di}$ del autómata $A_{di}$ con el estado inicial $(q_{f(i+1)}, 0)$ del autómata $A_{d(i+1)}$ para cada $i < m$, mediante la transición
+$$
+    \delta((q_{ti}, n), \eword) = (q_{f(i+1)}, 0).
+$$
+
+% quizás mi explicación de que da igual porque es lo mismo que fusionar los estados pudiera estar mejor
+Estas transiciones introducen indeterminismo en el autómata. Sin embargo, existe una construcción estándar para convertir un autómata no determinista a un autómata determinista \cite{automataTheory}.
+
+\begin{definition} (Autómata Fórmula)
+    Sean $C_1, \ldots, C_m$ las cláusulas de la fórmula $F$ y
+    $$
+        \automata_{di} = (Q_i, \{0, 1, d\}, \delta_i, (q_{fi}, 0), (q_{di}))
+    $$
+    Se define el autómata fórmula asociado a $F$ como
+    $$
+        \automata_F = (Q, \{0, 1, d\}, \delta, (q_{f1}, 0), \{q_{dm}\})
+    $$ donde:
+    \begin{itemize}
+        \item $Q = \bigcup_{i=1}^{m} Q_i$
+        \item La función de transición $\delta$ es la unión de las funciones de transición $\delta_i$ y las transiciones $\delta((q_{di}, n), \eword) = (q_{f(i+1)}, 0)$ para cada $i < m$.
+    \end{itemize}
+\end{definition}
+
+Con la construcción del autómata fórmula se ha demostrado el siguiente teorema.
+
+\begin{theorem}
+    El autómata $\automata_F$ reconoce el lenguaje $L_F$ definido como
+    $$
+        L_F = \{ w_1 d w_2 d \ldots d w_m d \suchthat w_i \text{ representa a una interpretación que satisface la cláusula } C_i\}
+    $$
+\end{theorem}
+
+Dado que los lenguajes regulares son aquellos que pueden ser reconocidos por un autómata finito, se tiene como resultado que el lenguaje $L_F$ es un lenguaje regular.
+
+\begin{corollary}
+    El lenguaje $L_F$ es un lenguaje regular.
+\end{corollary}
+
+En la siguiente sección se demostrará como obtener el lenguaje $L_v$ de todas las interpretaciones que satisfacen a la fórmula $F$ a partir de intersectar el lenguaje $L_F$ con un lenguaje que obliga a que las interpretaciones sean las mismas para todas las cláusulas de la fórmula.
+
+\section{Copy}
+Dada una fórmula en forma normal conjuntiva
+$$
+    F = C_1 \land C_2 \land \ldots \land C_m,
+$$
+el lenguaje $L_F$ es el lenguaje de las cadenas $w_1d w_2d \ldots d w_md$, donde $w_i$ representa a una interpretación $v_i$ que satisface a la cláusula $C_i$. Para obtener el lenguaje $L_v$ de todas las interpretaciones que satisfacen a la fórmula $F$, es necesario imponer la restricción de que las interpretaciones $v_i$ asociadas a cada cláusula $C_i$ sean iguales, es decir, que $v_1 = v_2 = \ldots = v_m$. Para ello se intersectará el lenguaje $L_F$ con el lenguaje $L_{0, 1, d}$, que obliga a que las cadenas que representan a las interpretaciones asociadas a cada cláusula sean iguales. Este lenguaje se define a continuación.
+
+\begin{definition}
+    El lenguaje $L_{0, 1, d}$ se define como:
+    $$
+        L_{0, 1, d} = \{ (wd)^k \suchthat w \in \binalph^*, k \geq 1 \}
+    $$
+
+    $L_{0, 1, d}$ contiene cadenas sobre el alfabeto $\{0, 1, d\}$ que representan una cadena binaria concatenada con el símbolo $d$ repetida una o más veces.
+\end{definition}
+
+
+A continuación se demuestra que el lenguaje $L_F \cap L_{0, 1, d}$ es exactamente el lenguaje $L_v$ de todas las interpretaciones que hacen verdadera a $F$.
+
+\begin{theorem}
+    \label{thm:lv-intersection}
+    Se cumple que $L_v = L_F \cap L_{0, 1, d}$
+\end{theorem}
+
+\paragraph{Demostración}
+
+Para demostrar que $L_v = L_F \cap L_{0, 1, d}$ se demostrará primero que $L_v \subseteq L_F \cap L_{0, 1, d}$ y luego que $L_F \cap L_{0, 1, d} \subseteq L_v$.
+
+\subparagraph{($L_v \subseteq L_F \cap L_{0, 1, d}$)} Sea $\alpha \in L_v$, entonces $\alpha$ es una cadena de la forma $(wd)^m$ donde $w$ representa a una interpretación $v$ que satisface a la fórmula $F$.
+
+Se tiene que $\alpha \in L_{0, 1, d}$, ya que $\alpha$ es una cadena de la forma $(wd)^m$ con $w \in \binalph^*$ y $m \geq 1$.
+
+Por otro lado, como $v$ satisface a la fórmula $F$, entonces $v$ satisface todas las cláusulas de $F$, es decir, $(C_i)_v = 1$ para todo $i \leq m$. Por lo tanto, $\alpha = w_1d \ldots w_md$ donde $w_i = w$ representa a la interpretación $v$ que satisface a la cláusula $C_i$ para todo $i \leq m$, por lo tanto $\alpha \in L_F$.
+
+Al $\alpha$ pertenecer a ambos conjuntos se concluye que $\alpha \in L_F \cap L_{0, 1, d}$, luego $L_v \subseteq L_F \cap L_{0, 1, d}$.
+
+\subparagraph{($L_F \cap L_{0, 1, d} \subseteq L_v$)} Sea $\alpha \in L_F \cap L_{0, 1, d}$. Como $\alpha \in L_{0, 1, d}$, entonces existen $w \in \binalph^*$ y $k \geq 1$ tales que
+\begin{equation}
+    \alpha = (wd)^k.
+    \label{eq:alpha-l01d}
+\end{equation}
+
+Como $\alpha \in L_F$, entonces
+\begin{equation}
+    \label{eq:alpha-lf}
+    \alpha = w_1 d w_2 d \ldots d w_m d
+\end{equation}
+
+donde $w_i$ representa a una interpretación $v_i$ que satisface a la cláusula $C_i$ para todo $i \leq m$. Juntando las ecuaciones \ref{eq:alpha-l01d} y \ref{eq:alpha-lf} se tiene
+\begin{equation}
+    w_1 d w_2 d \ldots d w_m d = (wd)^k.
+\end{equation}
+
+Como en \ref{eq:alpha-lf} el símbolo separador aparece exactamente $m$ veces, entonces $k = m$. Es decir,
+\begin{equation}
+    w_1 d w_2 d \ldots d w_m d = (wd)^m.
+\end{equation}
+
+Por tanto las cadenas separadas por el símbolo $d$ son iguales a $w$, es decir, $$
+    w_1 = w_2 = \ldots = w_m = w,
+$$
+
+al ser $w$ la cadena que representa a una interpretación $v$, entonces $w_i$ representa a la misma interpretación $v$ para todo $i \leq m$. Por lo tanto, existe una interpretación $v$ tal que $v_i = v$ para todo $i \leq m$ que satisface todas las cláusulas de la fórmula, y por tanto satisface la fórmula. Luego $\alpha = (wd)^m \in L_v$ con $(F)_v = 1$, por tanto $\alpha \in L_v$. Luego $L_F \cap L_{0, 1, d} \subseteq L_v$.
+
+Como se ha demostrado que $L_v \subseteq L_F \cap L_{0, 1, d}$ y que $L_F \cap L_{0, 1, d} \subseteq L_v$, se concluye que $L_v = L_F \cap L_{0, 1, d}$. \qed
+
+Una consecuencia directa del \ref{thm:lv-intersection} es el siguiente resultado.
+
+\begin{theorem}
+    \label{thm:el-teorema}
+    Para cualquier formalismo que genere el lenguaje $L_{0, 1, d}$ y sea cerrado bajo intersección con lenguajes regulares, entonces decidir si la intersección de un lenguaje generado por dicho formalismo con un lenguaje regular es vacía es NP-duro.
+\end{theorem}
+
+\subparagraph{Demostración} Supóngase que existe un formalismo $G$ que genera el lenguaje $L_{0, 1, d}$ y es cerrado bajo intersección con lenguajes regulares. Se demostrará que el problema de decidir si la intersección de un lenguaje generado por dicho formalismo con un lenguaje regular es vacía es NP-duro. Para ello, se reducirá el problema SAT a dicho problema.
+
+Sea $F$ una fórmula booleana con $n$ variables y $m$ cláusulas. Se construye el autómata $A_F$ que reconoce el lenguaje $L_F$. Luego se construye el lenguaje $L_{0, 1, d}$ a partir del formalismo $G$. Dado que $G$ es cerrado bajo intersección con lenguajes regulares, entonces se puede construir el lenguaje $L_F \cap L_{0, 1, d}$ a partir de la intersección de $L_F$ y $L_{0, 1, d}$. Por el teorema \ref{thm:lv-intersection} se tiene que $L_v = L_F \cap L_{0, 1, d}$, por lo tanto decidir si existe una interpretación que hace verdadera a $F$ es equivalente a decidir si el lenguaje $L_F \cap L_{0, 1, d}$ es vacío o no.
+
+Por lo tanto, se ha demostrado que existe una reducción polinomial de SAT al problema de decidir si la intersección de un lenguaje generado por el formalismo $G$ con un lenguaje regular es vacío o no, y por lo tanto dicho problema es NP-duro. \qed
+
+Una restricción importante que debe tener el formalismo $G$ para que el teorema \ref{thm:el-teorema} se cumpla que es la representación de $L_{0, 1, d}$ como lenguaje generado por $G$ sea $O(1)$. Puesto que el hecho de que la reducción anterior sea polinomial depende de que la construcción del lenguaje $L_{0, 1, d}$ a partir del formalismo $G$ sea $O(1)$, es decir, que el tamaño de la representación del lenguaje $L_{0, 1, d}$ a partir del formalismo $G$ no dependa de la fórmula booleana $F$.
+
+En este trabajo, al igual que en \cite{RCGSAT}, se conjetura que el lenguaje $L_{0, 1, d}$, tiene tamaño $O(1)$ en cualquiera de sus representaciones.
+
+En la literatura consultada para este trabajo aparecen tres formalismos capaces de generar el lenguaje $L_{0, 1, d}$: las gramáticas de índice global \cite{globalIndexLanguages}, las gramáticas de concatenación de rango \cite{propertiesRCGBib}, las gramáticas libres de contexto múltiples paralelas \cite{Seki1991OnMC}. En todos los casos la gramática que genera el lenguaje $L_{0, 1, d}$ tiene tamaño $O(1)$.
+
+En los siguientes capítulos se estudian las propiedades de las gramáticas libres de contexto múltiples paralelas y se construye una gramática libre de contexto múltiple paralela que genera el lenguaje $L_{0, 1, d}$, para luego demostrar que la intersección de un lenguaje generado por una gramática libre de contexto múltiple paralela con un lenguaje regular es NP-duro.
