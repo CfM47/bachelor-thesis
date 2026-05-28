@@ -1,3 +1,4 @@
+% mis macros
 \newcommand{\true}{\textit{true}}
 \newcommand{\false}{\textit{false}}
 \newcommand{\suchthat}{\;|\;}
@@ -19,3 +20,72 @@
 \newcommand{\csen}{\text{CS}}
 \newcommand{\reg}{\text{REG}}
 \newcommand{\re}{\text{RE}}
+
+
+% ---- lenguajes ----
+
+% Lenguaje de todas las interpretaciones de una fórmula
+\newcommand{\allsatlang}{L_{\mathrm{all}}}
+
+% Lenguaje de interpretaciones satisfactorias de una fórmula
+\newcommand{\satlang}{L_{\mathrm{sat}}}
+
+% Lenguaje de interpretaciones independientes por cláusula
+\newcommand{\indlang}{L_{\mathrm{ind}}}
+
+% Lenguaje asociado a una cláusula
+\newcommand{\clauselang}[1]{L_{#1}}
+
+% Lenguaje asociado a una cláusula con separador d
+\newcommand{\dclauselang}[1]{L_{#1}^{d}}
+
+% Lenguaje de repeticiones (wd)^k
+\newcommand{\repeatlang}{L_{0,1,d}}
+
+% -------------------- AUTÓMATAS --------------------
+
+% Autómata genérico
+\newcommand{\aut}[1]{\mathcal{A}_{#1}}
+
+% Autómata cláusula
+% uso: \aut{C}
+% produce: \mathcal{A}_C
+
+% Autómata cláusula con separador
+\newcommand{\daut}[1]{\mathcal{A}_{#1}^{d}}
+
+% Autómata fórmula
+% uso: \aut{F}
+% produce: \mathcal{A}_F
+
+% ------------------ GRAMÁTICAS ------------------
+
+% gramática 0, 1, d
+\newcommand{\repeatgramm}{G_{0, 1, d}}
+
+% -------------------- OTROS --------------------
+
+% Variables de cláusulas indexadas
+\newcommand{\Ci}{C_i}
+
+% Variables de interpretaciones indexadas
+\newcommand{\vi}{v_i}
+
+% Evaluación de fórmula bajo interpretación
+\newcommand{\eval}[2]{\left(#1\right)_{#2}}
+
+% -------------------- EJEMPLOS DE USO --------------------
+
+% \satlang(F)
+% \indlang(F)
+% \clauselang{C}
+% \clauselang{C_i}
+% \dclauselang{C}
+% \dclauselang{C_i}
+
+% \aut{C}
+% \daut{C}
+% \aut{F}
+
+% \eval{F}{v}
+% \eval{C_i}{v}
