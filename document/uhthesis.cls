@@ -178,18 +178,24 @@
   \addcontentsline{toc}{chapter}{Introducción}%
   \chapter*{Introducción}}%
 {}
-\newenvironment{conclusions}%
+\newenvironment{conclusionsAndRecomendations}%
 {\cleardoublepage%
   \phantomsection%
-  \addcontentsline{toc}{chapter}{Conclusiones}%
-  \chapter*{Conclusiones}}%
+  \addcontentsline{toc}{chapter}{Conclusiones y Recomendaciones}%
+  \chapter*{Conclusiones y Recomendaciones}}%
 {}
-\newenvironment{recomendations}%
-{\cleardoublepage%
-  \phantomsection%
-  \addcontentsline{toc}{chapter}{Recomendaciones}%
-  \chapter*{Recomendaciones}}%
-{}
+% \newenvironment{conclusions}%
+% {\cleardoublepage%
+%   \phantomsection%
+%   \addcontentsline{toc}{chapter}{Conclusiones}%
+%   \chapter*{Conclusiones}}%
+% {}
+% \newenvironment{recomendations}%
+% {\cleardoublepage%
+%   \phantomsection%
+%   \addcontentsline{toc}{chapter}{Recomendaciones}%
+%   \chapter*{Recomendaciones}}%
+% {}
 \newenvironment{dedication}%
 {\cleardoublepage%
   \thispagestyle{empty}%
