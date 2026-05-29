@@ -1,5 +1,6 @@
 \chapter{Lenguaje de las interpretaciones que satisfacen una fórmula empleando gramáticas libres de contexto múltiples}
 \label{ch:w-plus}
+
 En esta sección se propone una gramática libre de contexto múltiple paralela (pMCFG) que genera el lenguaje de las interpretaciones de fórmulas booleanas codificadas como cadenas binarias separadas por el símbolo $d$. Esta gramática se utilizará junto con el teorema \ref{thm:el-teorema} del capítulo \ref{ch:el-teorema} para demostrar que cualquier algoritmo que construya la intersección de una pMCFG con un lenguaje regular es polinomial solo si P = NP.
 
 En la sección \ref{sec:repeatlang-pmcfg} se presenta la gramática pMCFG que genera el lenguaje de las interpretaciones de fórmulas booleanas codificadas como cadenas binarias separadas por el símbolo $d$, se explica su funcionamiento y se demuestra formalmente que esta genera el lenguaje $\repeatlang$. En la sección \ref{sec:wplus-results} se utiliza esta gramática para demostrar que si las pMCFG fueran cerradas bajo intersección con lenguajes regulares, hallar la intersección entre una pMCFG y un lenguaje regular es un problema NP-duro.
@@ -18,7 +19,7 @@ $$
 
 la cual puede utilizarse para representar las interpretaciones de una fórmula booleana codificadas como secuencias binarias separadas por el símbolo $d$.
 
-La idea de la construcción es dividir el proceso de generación en dos etapas. Primero se genera una cadena de la forma $wd$, donde $w$ es una cadena binaria arbitraria. Luego, esta misma cadena se repite una o más veces mediante una acumulación progresiva sobre una segunda componente de la tupla generada.
+La idea de la construcción es dividir el proceso de generación en dos etapas. Primero se genera una cadena de la forma $wd$, donde $w$ es una cadena binaria cualquiera. Luego, esta misma cadena se repite una o más veces mediante una acumulación progresiva sobre una segunda componente de la tupla generada.
 
 Para ello se define la gramática pMCFG $\repeatgramm$ de la figura \ref{fig:repeat-grammar}.
 
@@ -136,11 +137,11 @@ El la gramática $\repeatgramm$ genera exactamente el lenguaje $\repeatlang$. Es
     Se cumple que $L(\repeatgramm) = \repeatlang$.
 \end{theorem}
 
-En las siguientes secciones se demostrará formalmente que el teorema \ref{thm:repeatlang-pmcfg}. Para ello en las siguientes secciones se presentan una serie de lemas con el objetivo de caracterizar el lenguaje asociado a cada uno de los símbolos no terminales de la gramática.
+En las siguientes secciones se demostrará formalmente que el teorema \ref{thm:repeatlang-pmcfg}. Para ello se presentan tres lemas con el objetivo de caracterizar el lenguaje asociado a cada uno de los símbolos no terminales de la gramática.
 
 A continuación se analizará el lenguaje asociado al no terminal $A$.
 
-\subsection{Lenguaje asociado al no terminal $A$}
+\subsection*{Lenguaje asociado al no terminal $A$}
 
 El símbolo no terminal $A$ se utiliza para construir la cadena base $wd$. La regla
 $$
@@ -201,7 +202,7 @@ entonces $L(A) = \{ (w d, \eword) \suchthat w \in \binalph^* \}$. \qed
 
 A continuación se caracteriza el lenguaje asociado al no terminal $C$.
 
-\subsection{Lenguaje asociado al no terminal $C$}
+\subsection*{Lenguaje asociado al no terminal $C$}
 
 El no terminal $C$ acumula copias de la cadena generada por $A$. La regla
 
@@ -274,7 +275,7 @@ $$    \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\} \subseteq L(C) \quad\text
 
 En la siguiente sección se caracterizará el lenguaje generado por el símbolo inicial $S$, es decir, el lenguaje generado por la gramática $G_{0, 1, d}$ y se demostrará que coincide exactamente con el lenguaje $\repeatlang$.
 
-\subsection{Lenguaje generado por $S$}
+\subsection*{Lenguaje generado por $S$}
 
 El símbolo inicial $S$ utiliza la función
 $$
@@ -330,4 +331,8 @@ El teorema \ref{thm:repeatlang-pmcfg} muestra que el lenguaje $\repeatlang$ se p
 
 % esto me quedo un poco ... no se
 
-El teorema anterior describe una consecuencia de la construcción presentada en esta sección, la cual muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. En la literatura consultada no se ha encontrado ningún algoritmo que determine la intersección entre una pMCFG y un lenguaje regular. El teorema anterior demuestra que dicho algoritmo no puede ser polinomial a menos que P = NP, lo que podría explicar la ausencia de dicho algoritmo en la literatura. Sin embargo, el teorema \ref{thm:pmcfg-int-reg} no descarta la existencia de un algoritmo no polinomial para determinar la intersección entre una pMCFG y un lenguaje regular, lo cual se propone como sugerencia para futuras investigaciones.
+El teorema anterior describe una consecuencia de la construcción presentada en esta sección, la cual muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. En la literatura consultada solo se encontró el algoritmo propuesto en \cite{Seki1991OnMC} para determinar la intersección entre una MCFG el cual también se propone para las pMCFG. Sin embargo este algoritmo es incorrecto, como se demuestra en el capítulo \ref{ch:pmcfg} 
+
+El teorema anterior demuestra que dicho algoritmo no puede ser polinomial a menos que P = NP, lo que podría explicar la ausencia de dicho algoritmo en la literatura. Sin embargo, el teorema \ref{thm:pmcfg-int-reg} no descarta la existencia de un algoritmo no polinomial para determinar la intersección entre una pMCFG y un lenguaje regular, lo cual se propone como sugerencia para futuras investigaciones.
+
+En el siguiente capítulo se presentan las conclusiones y recomendaciones del trabajo.
