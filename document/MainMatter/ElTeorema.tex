@@ -41,21 +41,23 @@ De esta forma, a cada interpretación $v$ de las variables de $F$ se le asocia u
 
 Por ejemplo, para la fórmula $F  = (x_1 \lor \neg x_3) \land (-x_1 \lor x_2)$, si una interpretación $v$ asigna $v(x_1) = 0$, $v(x_2) = 1$ y $v(x_3) = 0$, entonces la cadena que se le asociará a esta interpretación será $010d010d$.
 
-El lenguaje de todas las interpretaciones para todas las fórmulas posibles se puede definir como el siguiente lenguaje sobre el alfabeto $\{0, 1, d\}$:
-$$
-    \repeatlang = \{ (wd)^k \suchthat w \in \binalph^*, k \geq 1 \}
-$$
+En el resto del capítulo, dada una interpretación $v$ de una fórmula con $n$ variables y $m$ cláusulas, se dirá que la cadena $w \in \{0, 1\}^n$ codifica a $v$, o que representa la interpretación $v$, y se denominará representación extendida de $v$ a la cadena $(wd)^m$ asociada.
+
+% El lenguaje de todas las interpretaciones para todas las fórmulas posibles se puede definir como el siguiente lenguaje sobre el alfabeto $\{0, 1, d\}$:
+% $$
+%     \repeatlang = \{ (wd)^k \suchthat w \in \binalph^*, k \geq 1 \}
+% $$
 
 El lenguaje de todas las interpretaciones que satisfacen a una fórmula $F$ de $m$ cláusulas se puede definir como el siguiente lenguaje sobre el alfabeto $\{0, 1, d\}$:
 
 $$
-    \satlang(F) = \{(wd)^m \suchthat w \text{ representa una interpretación que satisface la fórmula } F \text{ de } m \text{ cláusulas} \}.
+    \satlang(F) = \{(wd)^m \suchthat w \text{ codifica a una interpretación que satisface } F = C_1 \land \ldots \land C_m \}.
 $$
 
 
 Como para cada interpretación $v$ existe una y solo una cadena asociada en $\satlang(F)$, entonces el lenguaje $\satlang(F)$ es vacío si y solo si no existe una interpretación que haga verdadera a $F$. 
 
-Por tanto, para decidir si existe una interpretación que haga verdadera a $F$ basta con decidir si el lenguaje $\satlang(F)$ es vacío o no. Luego, se puede reducir el problema SAT para una fórmula $F$ a decidir si el lenguaje $\satlang(F)$ es vacío o no.
+Para decidir si existe una interpretación que haga verdadera a $F$ basta con decidir si el lenguaje $\satlang(F)$ es vacío o no. Por tanto, se puede reducir el problema SAT para una fórmula $F$ a decidir si el lenguaje $\satlang(F)$ es vacío o no.
 
 En el resto del capítulo se describe como construir el lenguaje $\satlang(F)$. En la siguiente sección se presenta un autómata que reconoce el lenguaje de las cadenas que permiten que cada cláusula se satisfaga por una interpretación distinta. En la sección \ref{sec:intersec-wplus} se muestra como obtener el lenguaje $\satlang(F)$ a partir de la intersección del lenguaje reconocido por dicho autómata con el lenguaje $\repeatlang $.
 
@@ -75,12 +77,12 @@ Para construir dicho autómata se construirá primero un autómata $\automata_C$
 
 
 \subsection{Automata cláusula}
-En esta sección se construye el autómata $\automata_C$ que reconoce el lenguaje de las cadenas que representan a las interpretaciones que satisfacen a una cláusula $C$ de la fórmula $F$. Se denotará a este lenguaje $\clauselang{C}$ y se define como sigue:
+En esta sección se construye el autómata $\automata_C$ que reconoce el lenguaje de las cadenas que representan a las interpretaciones que satisfacen a una cláusula $C$ de una fórmula $n$ variables $X= \{x_1, \ldots, x_n\}$. Se denotará a este lenguaje $\clauselang{C}$ y se define como sigue:
 $$
     \clauselang{C} = \{ w \suchthat w \text{ representa a una interpretación que satisface la cláusula } C \}
 $$
 
-Para una fórmula con $n$ variables, los estados del autómata $\aut{C}$ son de la forma $(q_f, i)$ o $(q_t, i)$, donde $i \in \{0, \ldots, n\}$. Estos estados representarán la información de si luego de leer los $i$ primeros símbolos de la cadena, ya se encontró un literal de la cláusula que evalúa verdadero o no:
+Para una fórmula con $n$ variables, los estados del autómata $\aut{C}$ son de la forma $(q_f, i)$ o $(q_t, i)$, donde $i \in \{0, \ldots, n\}$. Estos estados representan la información de si luego de leer los $i$ primeros símbolos de la cadena, ya se encontró un literal de la cláusula que evalúa verdadero o no.
 
 \begin{itemize}
     \item Un estado de la forma $(q_f, i)$ representan que luego de leer $i$ símbolos de la cadena no se ha leído el valor de una variable $x_j$ con $1 \leq j \leq i$ cuyo literal asociado en la cláusula sea verdadero.
@@ -194,7 +196,7 @@ Para una fórmula con $n$ variables, el autómata $\automata_C$ tendrá $2(n + 1
 
 A continuación se demostrará que el lenguaje que reconoce el autómata $\aut{C}$ es exactamente el lenguaje 
 $$
-\clauselang{C} = \{ w \suchthat w \text{ representa a una interpretación que satisface la cláusula } C \}.
+\clauselang{C} = \{ w \suchthat w \text{ codifica a una interpretación que satisface la cláusula } C \}.
 $$
 Para ello, primero se demostrará el siguiente lema que describe la propiedad mantenida por el autómata luego de leer $k$ variables.
 
@@ -318,7 +320,7 @@ A continuación se describirá la construcción del autómata que reconoce el le
 Dada la fórmula $F$ con cláusulas $C_1, \ldots, C_m$, se tienen autómatas $\aut{\Ci}$ que reconocen el lenguaje $\clauselang{C_i}$ para cada cláusula $C_i$ de la fórmula, bajo la suposición en la que se permite que cada cláusula se satisfaga por una interpretación distinta. Para construir el autómata que reconoce el lenguaje 
 
 $$
-    \indlang(F) = \{ w_1 d \ldots  w_m d \suchthat w_i \text{ representa a una interpretación que satisface la cláusula } \Ci\}.
+    \indlang(F) = \{ w_1 d \ldots  w_m d \suchthat w_i \text{ codifica a una interpretación que satisface la cláusula } \Ci\}.
 $$
 
 se necesita concatenar los autómatas $\aut{\Ci}$ para cada cláusula $C_i$ de la fórmula, pero antes es necesario modificar estos autómatas para que reconozcan las cadenas que representan a una interpretación que satisface a la cláusula con el símbolo separador $d$ al final. De esta forma, para cada cláusula $C_i$ el autómata resultante reconocerá las cadenas de la forma $w_id$, donde $w_i$ representa a una interpretación que satisface a la cláusula $C_i$. 
@@ -558,9 +560,9 @@ Dado que los lenguajes regulares son aquellos que pueden ser reconocidos por un 
     El lenguaje $\indlang(F)$ es un lenguaje regular.
 \end{corollary}
 
-Las cadenas del lenguaje $\indlang(F)$ no necesariamente representan a una interpretación que satisface a la fórmula $F$, ya que cada cláusula de la fórmula puede ser satisfecha por una interpretación diferente.
+Las cadenas del lenguaje $\indlang(F)$ no necesariamente corresponden a la representación extendida de una interpretación que satisface a la fórmula $F$, ya que cada cláusula de la fórmula se puede satisfacer por una interpretación diferente.
 
-Por ejemplo, dada la fórmula $F = (x_1 \lor \neg x_2) \land (\neg x_1 \lor x_3)$, la cadena $101d001d$ pertenece a $\indlang(F)$ pero no representa a una única interpretación $F$. Esto se debe a que $101$ y $001$ son cadenas que representan dos interpretaciones diferentes que satisfacen a cada cláusula de la fórmula $F$. 
+Por ejemplo, dada la fórmula $F = (x_1 \lor \neg x_2) \land (\neg x_1 \lor x_3)$, la cadena $101d001d$ pertenece a $\indlang(F)$ pero no representa una interpretación $F$. Esto se debe a que $101$ y $001$ son cadenas que representan dos interpretaciones diferentes que satisfacen a cada cláusula de la fórmula $F$. 
 
 En la siguiente sección se demostrará como obtener el lenguaje $\satlang(F)$ de todas las interpretaciones que satisfacen a la fórmula $F$ a partir de intersectar el lenguaje $\indlang(F)$ con el lenguaje $\repeatlang$ que obliga a que las interpretaciones sean las mismas para todas las cláusulas de la fórmula.
 
@@ -600,9 +602,9 @@ A continuación se demuestra que el lenguaje $\indlang(F) \cap \repeatlang$ es e
     \begin{itemize}
         \item $\satlang(F)$ es el lenguaje de todas las interpretaciones que satisfacen a la fórmula $F$,
         \item $\indlang(F)$ es el lenguaje de las cadenas $w_1d w_2d \ldots d w_md$, donde $w_i$ representa a una interpretación $v_i$ que satisface a la cláusula $C_i$, y
-        \item $\repeatlang$ es el lenguaje de las cadenas de la forma $(wd)^k$ con $w \in \binalph^*$ y $k \geq 1$,
+        \item $\repeatlang$ es el lenguaje de las cadenas de la forma $(wd)^k$ con $w \in \binalph^*$ y $k \geq 1$.
     \end{itemize}
-    se cumple que $\satlang(F) = \indlang(F) \cap \repeatlang$
+    Entonces se cumple que $\satlang(F) = \indlang(F) \cap \repeatlang$
 \end{theorem}
 
 \paragraph{Demostración}
@@ -620,10 +622,6 @@ Se tiene que $\alpha \in \repeatlang$, ya que $\alpha$ es una cadena de la forma
 Por otro lado, como $v$ satisface a la fórmula $F$, entonces $v$ satisface todas las cláusulas de $F$. Por lo tanto, $\alpha = w_1d \ldots w_md$ donde $w_i = w$ representa a la interpretación $v$ que satisface a la cláusula $C_i$ para todo $i \leq m$, por lo tanto $\alpha \in \indlang(F)$.
 
 Al $\alpha$ pertenecer a ambos conjuntos se concluye que $\alpha \in \indlang(F) \cap \repeatlang$, luego $\satlang(F) \subseteq \indlang(F) \cap \repeatlang$.
-
-Para demostrar que $\indlang(F) \cap \repeatlang \subseteq \satlang(F)$ se demostrará que si $\alpha$ es una cadena de la forma $(wd)^m$ donde $w$ representa a una interpretación $v$ que satisface a todas las cláusulas de la fórmula $F$, entonces $\alpha \in \satlang(F)$.
-
-% para mi el párrafo anterior está un poco por gusto, yo lo quitaría, pero bueno "estaría bueno un párrafo del estilo..."
 
 
 \subparagraph{$\indlang(F) \cap \repeatlang \subseteq \satlang(F)$:}
@@ -697,10 +695,10 @@ En este trabajo, al igual que en \cite{RCGSAT}, se conjetura que el lenguaje $\r
 En la literatura consultada para este trabajo aparecen tres formalismos capaces de generar el lenguaje $\repeatlang$: las gramáticas de índice global \cite{globalIndexLanguages}, las gramáticas de concatenación de rango \cite{propertiesRCGBib}, las gramáticas libres de contexto múltiples paralelas (pMCFG) \cite{Seki1991OnMC}. En todos los casos la gramática que genera el lenguaje $\repeatlang$ tiene tamaño $O(1)$.
 
 
-En el caso de las gramáticas de índice global, aplicando el teorema \ref{thm:el-teorema}, el problema de intersección con lenguajes regulares es NP-duro, aun cuando en la literatura se reportan algoritmos polinomiales \cite{globalIndexLanguages}. Por otro lado, las gramáticas de concatenación de rango son cerradas bajo intersección con lenguajes regulares, pero el problema del vacío es indecidible, a menos que se cumplan ciertas restricciones, en cuyo caso no generan el lenguaje $\repeatlang$ \cite{propertiesRCGBib}.
+En el caso de las gramáticas de índice global, aplicando el teorema \ref{thm:el-teorema}, el problema de intersección con lenguajes regulares es NP-duro, aun cuando en \cite{globalIndexLanguages} se sugiere que este problema pueda ser resuelto en tiempo polinomial. Por otro lado, las gramáticas de concatenación de rango son cerradas bajo intersección con lenguajes regulares, pero el problema del vacío es indecidible, a menos que se cumplan ciertas restricciones, en cuyo caso no generan el lenguaje $\repeatlang$ \cite{propertiesRCGBib}.
 
-De acuerdo con la literatura consultada para este trabajo, las gramáticas libres de contexto múltiples paralelas satisfacen simultáneamente todas las propiedades requeridas: generan el lenguaje $\repeatlang$ con representaciones de tamaño constante, son cerradas bajo intersección con lenguajes regulares y poseen problema del vacío decidible en tiempo polinomial. Teniéndose estas propiedades, sería posible resolver SAT en tiempo polinomial, representando $\repeatlang$ con dicho formalismo.
+De acuerdo con la literatura consultada para este trabajo, las gramáticas libres de contexto múltiples paralelas satisfacen simultáneamente todas las propiedades requeridas: generan el lenguaje $\repeatlang$ con representaciones de tamaño constante, son cerradas bajo intersección con lenguajes regulares y poseen problema del vacío decidible en tiempo polinomial. Teniéndose estas propiedades, de acuerdo con el teorema \ref{thm:el-teorema}, sería posible resolver SAT en tiempo polinomial, representando $\repeatlang$ con dicho formalismo.
 
-Desgraciadamente, el procedimiento para determinar la intersección de una pMCFG con un lenguaje regular reportado por la literatura es incorrecto. En \cite{Seki1991OnMC} se generaliza el algoritmo para un caso particular de este formalismo. Sin embargo como se muestra en el capítulo siguiente, dicho algoritmo puede ser refutado con un contraejemplo, y, como se demuestra en el capítulo \ref{ch:w-plus} determinar la intersección de una pMCFG con un lenguaje regular resulta ser un problema NP-duro.
+Desafortunadamente, el procedimiento para determinar la intersección de una pMCFG con un lenguaje regular reportado por la literatura es incorrecto. En \cite{Seki1991OnMC} se propone un algoritmo para resolver el problema para las gramáticas libres de contexto múltiples (MCFG), un caso particular de las pMCFG, y propone que este algoritmo pueda ser utilizado para las pMCFG. Sin embargo como se muestra en el próximo capítulo mediante un contraejemplo, dicho algoritmo no es correcto para las pMCFG, y, como se demuestra en el capítulo \ref{ch:w-plus} determinar la intersección de una pMCFG con un lenguaje regular resulta ser un problema NP-duro.
 
-En el siguiente capítulo se presentan las gramáticas libres de contexto múltiple paralelas.
+En el siguiente capítulo se presentan las gramáticas libres de contexto múltiples paralelas.
