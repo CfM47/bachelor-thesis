@@ -1,6 +1,15 @@
 \chapter{Gramáticas libres de contexto múltiple paralelas}
 \label{ch:pmcfg}
+La gramáticas libres de contexto múltiples paralelas (pMCFG) \cite{Seki1991OnMC} fueron introducidas en 1991 por Seki et al. como una generalización de las gramáticas libres de contexto (CFG). Estas fueron desarrolladas con el objetivo de proporcionar un formalismo gramatical capaz de generar lenguajes que no pueden ser generados por CFG, pero que aún mantienen ciertas de sus propiedades, como la decidibilidad del problema del vacío.
+
+Las gramáticas libres de contexto múltiples paralelas se utilizan en el capítulo \ref{ch:w-plus} para construir una gramática que genere el lenguaje de las interpretaciones de fórmulas booleanas.
+
+En la sección \ref{sec:definitions} se presentan las definiciones formales de las pMCFG y de las gramáticas libres de contexto múltiples (MCFG), que son un caso particular de las pMCFG. En la sección \ref{sec:emptiness} se muestra un algoritmo para resolver el problema del vacío de las pMCFG y se analiza su complejidad. En la sección \ref{sec:pmcfg-intersection} se expone el algoritmo para determinar la intersección de una MCFG con un lenguaje regular, se analiza su complejidad y se demuestra que dicho algoritmo no es aplicable a las pMCFG.
+
+A continuación se introducen las gramáticas libres de contexto múltiples paralelas.
+
 \section{Definiciones}
+\label{sec:definitions}
 
 Las gramáticas libres de contexto múltiples (MCFG) y libres de contexto múltiples paralelas (pMCFG) son generalizaciones de las gramáticas libres de contexto (CFG) que permiten la generación de una familia de lenguajes más amplia que estas, pero más reducida que la de los lenguajes dependientes del contexto \cite{Seki1991OnMC}. La idea de ambos formalismos es extender las CFG de forma tal que los símbolos no terminales puedan generar tuplas de cadenas en lugar de una sola cadena \cite{Seki1991OnMC}.
 
@@ -156,7 +165,7 @@ En el la figura \ref{fig:pmcfg-example} se muestra una pMCFG que genera el lengu
 \end{figure}
 % yo no veo tan horrible esta figura? verdad que no?
 
-% aunque la gramática no es exactamente igual a la del articulo la puse, porque lo que hice fue añadir que símbolo A que está por gusto, pero es para usar todas las funciones.
+% aunque la gramatica no es exactamente igual a la del articulo la puse, porque lo que hice fue añadir que simbolo A que está por gusto, pero es para usar todas las funciones.
 
 % la razón por la cual no defino la derivación como tal, es que en ningún lado la encuentro como tal, en plan A => algo1 => algo2 
 
@@ -259,6 +268,7 @@ En la figura \ref{fig:pmcfg-example-2} se muestra la MCFG $G_2$ que genera el le
 En siguientes secciones se estudia cómo resolver el problema del vacío de las pMCFG y la intersección de estas con lenguajes regulares.
 
 \section{Problema del vacío para pMCFG y MCFG}
+\label{sec:emptiness}
 
 Aunque la familia de lenguajes que generan las pMCFG es estrictamente más amplia que la de las CFG \cite{Seki1991OnMC}, resolver el problema del vacío para una pMCFG es igual de complejo que resolver el mismo problema para una CFG. De hecho, el algoritmo para resolver el problema del vacío para una pMCFG es similar al algoritmo análogo para una CFG expuesto en \cite{automataTheory}.
 
@@ -357,6 +367,7 @@ Aunque el algoritmo presentado tiene complejidad polinomial, este puede optimiza
 En lugar de recorrer repetidamente todas las reglas de producción, es posible mantener, para cada regla, la cantidad de símbolos no terminales de su lado derecho que aún no han sido identificados como generadores. Cada vez que un nuevo símbolo se añade a $Gen$, se actualizan únicamente las reglas que dependen de este símbolo. De esta forma, cada regla y cada ocurrencia de un símbolo no terminal son procesadas un número constante de veces. Por lo tanto, el problema del vacío para una pMCFG puede resolverse en tiempo lineal respecto al tamaño de la gramática \cite{Seki1991OnMC}.
 
 \section{Intersección de pMCFG y MCFG con lenguajes regulares}
+\label{sec:pmcfg-intersection}
 
 % añadir ref 
 En el capítulo \ref{ch:el-teorema} se demuestra que es posible construir el lenguaje de las interpretaciones que satisfacen una fórmula intersectando un autómata finito determinista con el lenguaje $L_{0, 1, d}$. Esto permite que sea posible resolver el problema de la satisfacibilidad booleana decidiendo si el lenguaje resultante de dicha intersección es vacío o no. Dado que el problema del vacío para una pMCFG es decidible en tiempo polinomial, es de interés estudiar la intersección de una pMCFG o una MCFG con un lenguaje regular, y analizar si el resultado de esa intersección pertenece a la misma familia de lenguajes.

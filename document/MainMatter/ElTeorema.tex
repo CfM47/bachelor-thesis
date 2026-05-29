@@ -1,6 +1,14 @@
 \chapter{SAT y el problema del vacío para la intersección con un lenguaje regular}
 \label{ch:el-teorema}
+
+En esta sección se presenta el lenguaje $\satlang(F)$ al cual pertenecen todas las interpretaciones que satisfacen a una fórmula $F$ y se muestra una forma de construirlo a partir de la intersección del lenguaje $\repeatlang$ con un autómata finito determinista. Esta construcción permite resolver el problema de la satisfacibilidad booleana (SAT) para una fórmula $F$ a través de la decisión de si el lenguaje $\satlang(F)$ es vacío o no.
+
+El capítulo se estructura de la siguiente forma: en la sección \ref{sec:codification} se muestra cómo codificar las interpretaciones de una fórmula usando el alfabeto $\{0, 1, d\}$ y se define el lenguaje $\satlang(F)$. En la sección \ref{sec:automata-cnf} se relaja el problema de satisfacibilidad booleana para permitir que cada cláusula de la fórmula se satisfaga por una interpretación distinta, y se construye un autómata que reconoce el lenguaje de las cadenas que representan a las interpretaciones que satisfacen a cada cláusula de la fórmula. Finalmente, en la sección \ref{sec:intersec-wplus} se muestra cómo obtener el lenguaje $\satlang(F)$ a partir de la intersección del lenguaje reconocido por dicho autómata con el lenguaje $\repeatlang$. Por último, se presenta por qué para todo formalismo que represente el lenguaje $\repeatlang$ decidir si es vacío o construir la intersección con un lenguaje regular son problemas NP-duros.
+
+A continuación se presenta cómo codificar una interpretación de una fórmula booleana como una cadena sobre el alfabeto $\{0, 1, d\}$.
+
 \section{Codificación de las interpretaciones de una fórmula booleana como cadenas}
+\label{sec:codification}
 
 Una formula booleana $F$, con $n$ variables $X = \{x_1, x_2, \ldots, x_n\}$ y $m$ cláusulas tiene la siguiente estructura:
 $$
@@ -51,7 +59,8 @@ Por tanto, para decidir si existe una interpretación que haga verdadera a $F$ b
 
 En el resto del capítulo se describe como construir el lenguaje $\satlang(F)$. En la siguiente sección se presenta un autómata que reconoce el lenguaje de las cadenas que permiten que cada cláusula se satisfaga por una interpretación distinta. En la sección \ref{sec:intersec-wplus} se muestra como obtener el lenguaje $\satlang(F)$ a partir de la intersección del lenguaje reconocido por dicho autómata con el lenguaje $\repeatlang $.
 
-\section{Autómata para el lenguaje $\indlang(F)$}
+\section{Autómata CNF}
+\label{sec:automata-cnf}
 
 En esta sección se considera una versión relajada del problema, en la que se permite que cada cláusula de la fórmula se satisfaga por una interpretación distinta, en lugar de exigir una única interpretación que satisfaga a todas las cláusulas simultáneamente. Bajo esta relajación se define el lenguaje
 
@@ -555,7 +564,7 @@ Por ejemplo, dada la fórmula $F = (x_1 \lor \neg x_2) \land (\neg x_1 \lor x_3)
 
 En la siguiente sección se demostrará como obtener el lenguaje $\satlang(F)$ de todas las interpretaciones que satisfacen a la fórmula $F$ a partir de intersectar el lenguaje $\indlang(F)$ con el lenguaje $\repeatlang$ que obliga a que las interpretaciones sean las mismas para todas las cláusulas de la fórmula.
 
-\section{$\satlang(F)$ a partir de la intersección con un lenguaje regular}
+\section{Intersección con el lenguaje de interpretaciones iguales}
 \label{sec:intersec-wplus}
 
 En esta sección se demostrará que el lenguaje $\satlang(F)$ de todas las interpretaciones que satisfacen a la fórmula $F$ se puede obtener a partir de la intersección del lenguaje $\indlang(F)$ con el lenguaje $\repeatlang$.
@@ -692,4 +701,6 @@ En el caso de las gramáticas de índice global, aplicando el teorema \ref{thm:e
 
 De acuerdo con la literatura consultada para este trabajo, las gramáticas libres de contexto múltiples paralelas satisfacen simultáneamente todas las propiedades requeridas: generan el lenguaje $\repeatlang$ con representaciones de tamaño constante, son cerradas bajo intersección con lenguajes regulares y poseen problema del vacío decidible en tiempo polinomial. Teniéndose estas propiedades, sería posible resolver SAT en tiempo polinomial, representando $\repeatlang$ con dicho formalismo.
 
-Desgraciadamente, el procedimiento para determinar la intersección de una pMCFG con un lenguaje regular reportado por la literatura es incorrecto. En \cite{Seki1991OnMC} se generaliza el algoritmo para un caso particular de este formalismo. Sin embargo como se muestra en el capítulo siguiente, dicho algoritmo puede ser refutado con un contraejemplo, y, como se demuestra en el capítulo \ref{ch:wplus} determinar la interseccion de una pMCFG con un lenguaje regular resulta ser un problema NP-duro.
+Desgraciadamente, el procedimiento para determinar la intersección de una pMCFG con un lenguaje regular reportado por la literatura es incorrecto. En \cite{Seki1991OnMC} se generaliza el algoritmo para un caso particular de este formalismo. Sin embargo como se muestra en el capítulo siguiente, dicho algoritmo puede ser refutado con un contraejemplo, y, como se demuestra en el capítulo \ref{ch:w-plus} determinar la intersección de una pMCFG con un lenguaje regular resulta ser un problema NP-duro.
+
+En el siguiente capítulo se presentan las gramáticas libres de contexto múltiple paralelas.
