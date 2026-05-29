@@ -67,7 +67,7 @@ En el resto del capítulo se describe como construir el lenguaje $\satlang(F)$. 
 En esta sección se considera una versión relajada del problema, en la que se permite que cada cláusula de la fórmula se satisfaga por una interpretación distinta, en lugar de exigir una única interpretación que satisfaga a todas las cláusulas simultáneamente. Bajo esta relajación se define el lenguaje
 
 $$
-    \indlang(F) = \{ w_1 d \ldots  w_m d \suchthat w_i \text{ representa a una interpretación que satisface la cláusula } \Ci\}
+    \indlang(F) = \{ w_1 d \ldots  w_m d \suchthat w_i \text{ codifica una interpretación que satisface la cláusula } \Ci\}
 $$
 
 y se construye un autómata $\aut{F}$ que lo reconoce. Más adelante, en la sección \ref{sec:intersec-wplus}, al intersectar este lenguaje con $\repeatlang$ se recuperará la restricción de que todas las cláusulas compartan la misma interpretación.
@@ -209,7 +209,7 @@ Para ello, primero se demostrará el siguiente lema que describe la propiedad ma
 
 \begin{equation}
     \label{eq:ac-implies}
-    \extran((q_f, 0), a_1 \ldots a_k) = (q_t, k) \implies \exists i \in \{1, \ldots, k \} \text{ tal que } (a_i = 1 \land x_i \in C) \lor (a_i = 0 \land \neg x_i \in C).    
+    \extran((q_f, 0), a_1 \ldots a_k) = (q_t, k) \implies \exists i \in \{1, \ldots, k \} \text{ con } (a_i = 1 \land x_i \in C) \lor (a_i = 0 \land \neg x_i \in C).    
 \end{equation}
 
 
@@ -231,7 +231,7 @@ A continuación se demuestra la implicación recíproca: si existe una variable 
 
 \begin{equation}
     \label{eq:ac-implied-by}
-    \exists i \in \{1, \ldots, k \} \text{ tal que } (a_i = 1 \land x_i \in C) \lor (a_i = 0 \land \neg x_i \in C) \implies \extran((q_f, 0), a_1 \ldots a_k) = (q_t, k).    
+    \exists i \in \{1, \ldots, k \} \text{ con } (a_i = 1 \land x_i \in C) \lor (a_i = 0 \land \neg x_i \in C) \implies \extran((q_f, 0), a_1 \ldots a_k) = (q_t, k).    
 \end{equation}
 
 
@@ -320,7 +320,7 @@ A continuación se describirá la construcción del autómata que reconoce el le
 Dada la fórmula $F$ con cláusulas $C_1, \ldots, C_m$, se tienen autómatas $\aut{\Ci}$ que reconocen el lenguaje $\clauselang{C_i}$ para cada cláusula $C_i$ de la fórmula, bajo la suposición en la que se permite que cada cláusula se satisfaga por una interpretación distinta. Para construir el autómata que reconoce el lenguaje 
 
 $$
-    \indlang(F) = \{ w_1 d \ldots  w_m d \suchthat w_i \text{ codifica a una interpretación que satisface la cláusula } \Ci\}.
+    \indlang(F) = \{ w_1 d \ldots  w_m d \suchthat w_i \text{ codifica una interpretación que satisface la cláusula } \Ci\}.
 $$
 
 se necesita concatenar los autómatas $\aut{\Ci}$ para cada cláusula $C_i$ de la fórmula, pero antes es necesario modificar estos autómatas para que reconozcan las cadenas que representan a una interpretación que satisface a la cláusula con el símbolo separador $d$ al final. De esta forma, para cada cláusula $C_i$ el autómata resultante reconocerá las cadenas de la forma $w_id$, donde $w_i$ representa a una interpretación que satisface a la cláusula $C_i$. 
@@ -550,7 +550,7 @@ Con la construcción del autómata fórmula se ha demostrado el siguiente teorem
 \begin{theorem}
     El autómata $\automata_F$ reconoce el lenguaje $\indlang(F)$ definido como
     $$
-        \indlang(F) = \{ w_1 d \ldots w_m d \suchthat w_i \text{ representa una interpretación que satisface la cláusula } C_i\}.
+        \indlang(F) = \{ w_1 d \ldots w_m d \suchthat w_i \text{ codifica una interpretación que satisface la cláusula } C_i\}.
     $$
 \end{theorem}
 
