@@ -1,5 +1,6 @@
 \chapter{Gramáticas libres de contexto múltiple paralelas}
 \label{ch:pmcfg}
+
 La gramáticas libres de contexto múltiples paralelas (pMCFG) \cite{Seki1991OnMC} fueron introducidas en 1991 por Seki et al. como una generalización de las gramáticas libres de contexto (CFG). Estas fueron desarrolladas con el objetivo de proporcionar un formalismo gramatical capaz de generar lenguajes que no pueden ser generados por CFG, pero que aún mantienen ciertas de sus propiedades, como la decidibilidad del problema del vacío.
 
 Las gramáticas libres de contexto múltiples paralelas se utilizan en el capítulo \ref{ch:w-plus} para construir una gramática que genere el lenguaje de las interpretaciones de fórmulas booleanas.
@@ -125,49 +126,31 @@ duplican una cadena y concatenan dos cadenas precedidas por el símbolo terminal
 
 En el la figura \ref{fig:pmcfg-example} se muestra una pMCFG que genera el lenguaje $\{a^{2^n} \suchthat n \geq 0\}$ \cite{Seki1991OnMC}.
  
-\begin{figure}[t]
+\begin{figure}[h]
     \centering
-    $G_1 = (N,T,F,P,S)$
-    $$
-    \begin{aligned}
-        N &= \{S,A\}
-        &
-        T &= \{a\}
-        &
-        F &= \{f,g,h\}
-    \end{aligned}
-    $$
-    $P$ contiene las reglas de producción:
-    $$
-    S \to f(S), \quad
-    S \to g(A,A), \quad
-    A \to h()
-    $$
+    $G_1 = (N,T,F,P,S)$ donde $N = \{S,A\}$ y $T = \{a\}$.
+    
+    $P$ y $F$ contienen las siguientes producciones y funciones respectivamente:
 
-    y las funciones de reordenamiento se definen como sigue:
-    $$
-    \begin{array}{c@{\qquad}c}
-        \begin{aligned}
-            f : (T^*)^1 &\to (T^*)^1 \\
-            g : (T^*)^1 \times (T^*)^1 &\to (T^*)^1 \\
-            h : (T^*)^0 &\to (T^*)^1
-        \end{aligned}
-        &
-        \begin{aligned}
+    \begin{minipage}{0.45\textwidth}
+        \begin{align*}
+            S &\to f(S), \quad \\
+            S &\to g(A,A), \quad \\
+            A &\to h()
+        \end{align*}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \begin{align*}
             f[(x_{11})] &= (x_{11}x_{11}) \\
             g[(x_{11}),(x_{21})] &= (ax_{11}x_{21}) \\
             h() &= (\eword)
-        \end{aligned}
-    \end{array}
-    $$
+        \end{align*}
+    \end{minipage}
     \caption{Gramática libre de contexto múltiple paralela que genera el lenguaje $\{a^{2^n} \suchthat n \geq 0\}$.}
     \label{fig:pmcfg-example}
 \end{figure}
-% yo no veo tan horrible esta figura? verdad que no?
 
-% aunque la gramatica no es exactamente igual a la del articulo la puse, porque lo que hice fue añadir que simbolo A que está por gusto, pero es para usar todas las funciones.
-
-% la razón por la cual no defino la derivación como tal, es que en ningún lado la encuentro como tal, en plan A => algo1 => algo2 
 
 A diferencia de las CFG, en una pMCFG cada símbolo no terminal $A$ tiene asociado un conjunto $L(A)$ de tuplas de cadenas, construido aplicando las funciones de reordenamiento a tuplas previamente obtenidas a partir de las reglas de la pMCFG. El lenguaje generado por la pMCFG es el conjunto de cadenas que pueden ser obtenidas a partir del símbolo inicial $S$ a través de este proceso.
 
@@ -208,62 +191,45 @@ En \cite{Seki1991OnMC} se definen las gramáticas libres de contexto múltiples 
     El lenguaje generado por una MCFG se define de la misma manera que el lenguaje generado por una pMCFG.
 \end{definition}
 
+En el la figura \ref{fig:pmcfg-example} la pMCFG $G_1$ no es una MCFG ya que la función $f$ no es lineal.
 
-\begin{figure}[t]
+En la figura \ref{fig:pmcfg-example-2} se muestra la MCFG $G_2$ que genera el lenguaje $\{www \suchthat w \in \{0, 1\}^+\}$ \cite{ParsingBeyCFG}. Para ilustrar este hecho se demostrará que la cadena $010101 \in L(G_2)$:
+\begin{itemize}
+    \item $(1, 1, 1) \in L(A)$ porque existe la producción $A \to f_5()$ y $f_5() = (1, 1, 1)$.
+    \item $(01, 01, 01) \in L(A)$ porque $(1, 1, 1) \in L(A)$, $f_2[(1, 1, 1)] = (01, 01, 01)$ y existe la producción $A \to f_2(A)$.
+    \item $(010101) \in L(S)$ porque $(01, 01, 01) \in L(A)$, $f_1[(01, 01, 01)] = (010101)$ y existe la producción $S \to f_1(A)$.
+    \item $010101 \in L(G_2)$ porque $(010101) \in L(S)$.
+\end{itemize}
+
+\begin{figure}[h]
     \centering
-    $G_2 = (N,T,F,P,S)$
-    $$
-    \begin{aligned}
-        N &= \{S,A\}
-        &
-        T &= \{0,1\}
-        &
-        F &= \{f_1,f_2,f_3,f_4,f_5\}
-    \end{aligned}
-    $$
+    $G_2 = (N, T, F, P, S)$ donde $N = \{S, A\}$ y $T = \{0, 1\}$. 
+    
+    $P$ y $F$ contienen las siguientes producciones y funciones respectivamente:
 
-    $P$ contiene las reglas de producción:
-    $$
-    S \to f_1(A), \quad
-    A \to f_2(A), \quad
-    A \to f_3(A), \quad
-    A \to f_4(), \quad
-    A \to f_5()
-    $$
-
-    y las funciones de reordenamiento se definen como sigue:
-    $$
-    \begin{array}{c@{\qquad\qquad}c}
-        \begin{aligned}
-            f_1 : (T^*)^3 &\to (T^*)^1 \\
-            f_2 : (T^*)^3 &\to (T^*)^3 \\
-            f_3 : (T^*)^3 &\to (T^*)^3 \\
-            f_4 : (T^*)^0 &\to (T^*)^3 \\
-            f_5 : (T^*)^0 &\to (T^*)^3
-        \end{aligned}
-        &
-        \begin{aligned}
+    \begin{minipage}{0.45\textwidth}
+        \begin{align*}
+            S &\to f_1(A) \\
+            A &\to f_2(A) \\
+            A &\to f_3(A) \\
+            A &\to f_4() \\
+            A &\to f_5()
+        \end{align*}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \begin{align*}
             f_1[(x,y,z)] &= (xyz) \\
             f_2[(x,y,z)] &= (0x,0y,0z) \\
             f_3[(x,y,z)] &= (1x,1y,1z) \\
             f_4() &= (0,0,0) \\
             f_5() &= (1,1,1)
-        \end{aligned}
-    \end{array}
-    $$
+        \end{align*}
+    \end{minipage}
 
-    \caption{Gramática libre de contexto múltiple paralela que genera el lenguaje $\{www \suchthat w \in \{a, b\}^+\}$.}
+    \caption{Gramática libre de contexto múltiple paralela que genera el lenguaje $\{www \suchthat w \in \{0, 1\}^+\}$.}
     \label{fig:pmcfg-example-2}
 \end{figure}
-En el la figura \ref{fig:pmcfg-example} la pMCFG $G_1$ no es una MCFG ya que la función $f$ no es lineal.
-
-En la figura \ref{fig:pmcfg-example-2} se muestra la MCFG $G_2$ que genera el lenguaje $\{www \suchthat w \in \{a, b\}^+\}$ \cite{ParsingBeyCFG}. Para ilustrar este hecho se demostrará que la cadena $ababab \in L(G_2)$:
-\begin{itemize}
-    \item $(b, b, b) \in L(A)$ porque existe la producción $A \to f_5()$ y $f_5() = (b, b, b)$.
-    \item $(ab, ab, ab) \in L(A)$ porque $(b, b, b) \in L(A)$, $f_2[(b, b, b)] = (ab, ab, ab)$ y existe la producción $A \to f_2(A)$.
-    \item $(ababab) \in L(S)$ porque $(ab, ab, ab) \in L(A)$, $f_1[(ab, ab, ab)] = (ababab)$ y existe la producción $S \to f_1(A)$.
-    \item $ababab \in L(G_2)$ porque $(ababab) \in L(S)$.
-\end{itemize}
 
 En siguientes secciones se estudia cómo resolver el problema del vacío de las pMCFG y la intersección de estas con lenguajes regulares.
 
@@ -280,39 +246,25 @@ Para exponer el algoritmo para determinar si el lenguaje generado por una pMCFG 
 
 Por ejemplo, en la gramática $G_3$ de la figura \ref{fig:pmcfg-example-3} el símbolo no terminal $S$ es generador, ya que $L(S) = \{(a)\}$ no es vacío, mientras que el símbolo no terminal $A$ no es generador, ya que $L(A)$ es un conjunto vacío.
 
-\begin{figure}[t]
+\begin{figure}[h]
     \centering
-    $G_3 = (N,T,F,P,S)$
-    $$
-    \begin{aligned}
-        N &= \{S,A\}
-        &
-        T &= \{a,b\}
-        &
-        F &= \{f,g\}
-    \end{aligned}
-    $$
-
-    $P$ contiene las reglas de producción:
-    $$
-    S \to g(), \quad
-    A \to f(A)
-    $$
-
-    y las funciones de reordenamiento se definen como sigue:
-    $$
-    \begin{array}{c@{\qquad\qquad}c}
-        \begin{aligned}
-            f : (T^*)^1 &\to (T^*)^1 \\
-            g : (T^*)^0 &\to (T^*)^1
-        \end{aligned}
-        &
-        \begin{aligned}
-            f[(x)] &= (x) \\
-            g() &= (a)
-        \end{aligned}
-    \end{array}
-    $$
+    $G_3 = (N,T,F,P,S)$ donde $N = \{S,A\}$ y $T = \{a,b\}$.
+    
+    $P$ y $F$ contienen las siguientes producciones y funciones respectivamente:
+    
+    \begin{minipage}{0.45\textwidth}
+        \begin{align*}
+            S &\to g(), \\
+            A &\to f(A)
+        \end{align*}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \begin{align*}
+            g() &= (a) \\
+            f[(x)] &= (x)
+        \end{align*}
+    \end{minipage}
 
     \caption{Gramática libre de contexto múltiple paralela con símbolos generadores y no generadores.}
     \label{fig:pmcfg-example-3}
@@ -557,4 +509,4 @@ $$
 
 Para que $S[(p, p)]$ genere alguna cadena, el no terminal $A[(p, p)]$ debe poder generar alguna cadena. Pero según el análisis anterior, los únicos $A[(r, s)]$ generadores son $A[(q_0, q_1)]$ y $A[(q_1, q_2)]$, ambos con $r \neq s$. Por lo tanto, ningún $A[(p, p)]$ es generador, y por ende ningún $S[(p, p)]$ lo es. Por lo tanto, la gramática obtenida no puede generar la cadena $aa$, lo cual demuestra que el método propuesto no es suficiente para hallar la intersección de una pMCFG con un DFA.
 
-En este capítulo se introdujeron las pMCFG y se demostró que el método propuesto para hallar la intersección de una MCFG con un DFA no es suficiente para hallar la intersección de una pMCFG con un DFA. En el siguiente capítulo se aplica el teorema \ref{thm:el-teorema} para demostrar que de existir un algoritmo para obtener una pMCFG que reconozca esta intersección este es polinomial solo si $P = NP$
+En este capítulo se introdujeron las pMCFG y se demostró que el método propuesto para hallar la intersección de una MCFG con un DFA no es suficiente para hallar la intersección de una pMCFG con un DFA. En el siguiente capítulo se aplica el teorema \ref{thm:el-teorema} para demostrar que de existir un algoritmo para obtener una pMCFG que reconozca esta intersección este es polinomial solo si $P = NP$.

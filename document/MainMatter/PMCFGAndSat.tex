@@ -24,18 +24,12 @@ La idea de la construcción es dividir el proceso de generación en dos etapas. 
 Para ello se define la gramática pMCFG $\repeatgramm$ de la figura \ref{fig:repeat-grammar}.
 
 \begin{figure}[h]
-    $$
-        \repeatgramm = (N, T, F, P, S)
-    $$
-    \begin{align*}
-        N = \{S, C, A\}
-        \quad 
-        T = \{0,1,d\}
-        \quad
-        F = \{res, copy, f_0, f_1, g\}
-    \end{align*}
+    \centering
+    $\repeatgramm = (N, T, F, P, S)$ donde $N = \{S, C, A\}$ y $T = \{0, 1, d\}$.
+
+    $P$ y $F$ contienen las siguientes producciones y funciones respectivamente:
+
     \begin{minipage}{0.45\textwidth}
-        $P$ contiene las producciones:
         \begin{align*}
             S &\gprod res(C) \\
             C &\gprod copy(C) \\
@@ -47,8 +41,6 @@ Para ello se define la gramática pMCFG $\repeatgramm$ de la figura \ref{fig:rep
     \end{minipage}
     \hfill
     \begin{minipage}{0.45\textwidth}
-
-        Las funciones de $F$ se definen como:
         \begin{align*}
             res[(x,y)]   &= (y) \\
             copy[(x,y)] &= (x,xy) \\
