@@ -61,7 +61,7 @@ Para decidir si existe una interpretación que haga verdadera a $F$ basta con de
 
 En el resto del capítulo se describe como construir el lenguaje $\satlang(F)$. En la siguiente sección se presenta un autómata que reconoce el lenguaje de las cadenas que permiten que cada cláusula se satisfaga por una interpretación distinta. En la sección \ref{sec:intersec-wplus} se muestra como obtener el lenguaje $\satlang(F)$ a partir de la intersección del lenguaje reconocido por dicho autómata con el lenguaje $\repeatlang $.
 
-\section{Autómata CNF}
+\section{Autómata para el lenguaje $\indlang(F)$}
 \label{sec:automata-cnf}
 
 En esta sección se considera una versión relajada del problema, en la que se permite que cada cláusula de la fórmula se satisfaga por una interpretación distinta, en lugar de exigir una única interpretación que satisfaga a todas las cláusulas simultáneamente. Bajo esta relajación se define el lenguaje
@@ -566,7 +566,7 @@ Por ejemplo, dada la fórmula $F = (x_1 \lor \neg x_2) \land (\neg x_1 \lor x_3)
 
 En la siguiente sección se demostrará como obtener el lenguaje $\satlang(F)$ de todas las interpretaciones que satisfacen a la fórmula $F$ a partir de intersectar el lenguaje $\indlang(F)$ con el lenguaje $\repeatlang$ que obliga a que las interpretaciones sean las mismas para todas las cláusulas de la fórmula.
 
-\section{Intersección con el lenguaje de interpretaciones iguales}
+\section{$\satlang(F)$ a partir de la intersección con un lenguaje regular}
 \label{sec:intersec-wplus}
 
 En esta sección se demostrará que el lenguaje $\satlang(F)$ de todas las interpretaciones que satisfacen a la fórmula $F$ se puede obtener a partir de la intersección del lenguaje $\indlang(F)$ con el lenguaje $\repeatlang$.
