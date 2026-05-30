@@ -14,7 +14,9 @@ A continuación se introducen las gramáticas libres de contexto múltiples para
 
 Las gramáticas libres de contexto múltiples (MCFG) y libres de contexto múltiples paralelas (pMCFG) son generalizaciones de las gramáticas libres de contexto (CFG) que permiten la generación de una familia de lenguajes más amplia que estas, pero más reducida que la de los lenguajes dependientes del contexto \cite{Seki1991OnMC}. La idea de ambos formalismos es extender las CFG de forma tal que los símbolos no terminales puedan generar tuplas de cadenas en lugar de una sola cadena \cite{Seki1991OnMC}.
 
-Estas gramáticas contienen reglas de producción capaces de especificar cómo combinar tuplas de cadenas para generar nuevas tuplas, mediante la aplicación de una función intermedia que reordena y concatena las cadenas generadas por los símbolos no terminales. A continuación se definen dichas funciones, las cuales serán denominadas \lquoti funciones de reordenamiento\rquoti \space \cite{ParsingBeyCFG}:
+Estas gramáticas contienen reglas de producción capaces de especificar cómo combinar tuplas de cadenas para generar nuevas tuplas, mediante la aplicación de una función intermedia que reordena y concatena las cadenas generadas por los símbolos no terminales.
+
+En una CFG, una producción permite convertir una cadena de terminales y no terminales en otra. Por ejemplo la producción $A \to aB$ permite convertir la cadena $abAbb$ en la cadena $abaBbb$. En el caso de las pMCFG es posible convertir tuplas en tuplas, por ejemplo, la tupla $(aaa, bbb, ccc)$ se pudiera convertir en la tupla $(ccca, bbba, aaac)$. Para ello se utilizan funciones de reordenamiento. Estas se definen a continuación.
 
 \begin{definition}
     Sea $T$ un alfabeto. Una función $f$ es una función de reordenamiento sobre $T$ si existen un entero $k \geq 0$ y enteros $d_0, d_1, \ldots, d_k \geq 0$ tales que
@@ -34,15 +36,15 @@ Estas gramáticas contienen reglas de producción capaces de especificar cómo c
     para $1 \leq i \leq k$.
 \end{definition}
 
-En la figura \ref{fig:reorder-fn} se muestran ejemplos de funciones de reordenamiento. En los casos particulares de $g$ y $h$ se tiene que las componentes $x_{ij}$ de las tuplas $x_i$ aparecen a lo sumo una vez en las componentes de la tupla resultante de aplicar $g$ y $h$. A las funciones de reordenamiento que cumplen esta condición se les llama funciones de reordenamiento lineales. 
+En la figura \ref{fig:reorder-fn} se muestran ejemplos de funciones de reordenamiento. En los casos particulares de $g(\vec{x_1}, \vec{x_2})$ y $h()$ se tiene que las componentes $x_{ij}$ de las tuplas $x_i$ aparecen a lo sumo una vez en las componentes de la tupla resultante de aplicar $g$ y $h$. A las funciones de reordenamiento que cumplen esta condición se les llama funciones de reordenamiento lineales. 
 
 \begin{figure}[h]
     \centering
     $$
     \begin{aligned}
-        f : (T^*)^1 &\to (T^*)^1
+        f : (T^*)^2 \times (T^*)^1 &\to (T^*)^3
         &
-        f[(x_{11})] &= x_{11}x_{11}
+        f[(x_{11}, x_{12}), (x_{21}, x_{22}, x_{23})] &= (x_{11}x_{21}x_{12}, x_{22}x_{23}x_{11}, aax_{11})
         \\[0.4em]
         g : (T^*)^1 \times (T^*)^1
         &\to (T^*)^1
@@ -55,6 +57,7 @@ En la figura \ref{fig:reorder-fn} se muestran ejemplos de funciones de reordenam
         &
         h()
         &= \eword
+        \\[0.4em]
     \end{aligned}
     $$
 
@@ -64,13 +67,13 @@ En la figura \ref{fig:reorder-fn} se muestran ejemplos de funciones de reordenam
 
 
 \begin{definition}
-    Una función de reordenamiento $f$ es lineal si cada componente $x_{ij}$ de las tuplas $\vec{x}_i$ aparece a lo sumo una vez en las componentes de la tupla resultante de aplicar $f$.
+    Una función de reordenamiento $f(\vec{x}_1, \ldots, \vec{x}_k)$ es lineal si cada componente $x_{ij}$ de las tuplas $\vec{x}_i$ aparece a lo sumo una vez en las componentes de la tupla resultante de aplicar $f(\vec{x}_1, \ldots, \vec{x}_k)$.
 \end{definition}
 
 % aquí se le pondría ejemplo o figura
 La función $f$ del ejemplo \ref{fig:reorder-fn} no es lineal, mientras que las funciones $g$ y $h$ sí lo son.
 
-Las funciones de reordenamiento permiten combinar las cadenas generadas por distintos símbolos no terminales. A partir de estas se definen las gramáticas libres de contexto múltiples paralelas.
+A partir de las funciones de reordenamiento se definen las gramáticas libres de contexto múltiples paralelas.
 
 \begin{definition}
     Una gramática libre de contexto múltiple paralela (pMCFG) es una tupla $G = (N, T, F, P, S)$ donde:
@@ -95,7 +98,7 @@ f : (T^*)^{dim(A_1)} \times \cdots \times (T^*)^{dim(A_k)}
 $$
 impone que el símbolo $A_i$ genere exactamente $dim(A_i)$ componentes, mientras que $A_0$ genera $dim(A_0)$ componentes.
 
-Por ejemplo, si
+Por ejemplo, si se tiene una función de reordenamiento
 $$
 f : (T^*)^2 \times (T^*)^1 \to (T^*)^3,
 $$
@@ -123,9 +126,34 @@ g[(x_{11}), (x_{21})]
 $$
 duplican una cadena y concatenan dos cadenas precedidas por el símbolo terminal $a$, respectivamente.
 
+En una pMCFG cada símbolo no terminal $A$ tiene asociado un conjunto $L(A)$ de tuplas de cadenas, construido aplicando las funciones de reordenamiento a tuplas previamente obtenidas a partir de las reglas de la pMCFG. El lenguaje generado por la pMCFG es el conjunto de cadenas que se pueden obtener a partir del símbolo inicial $S$ mediante este proceso.
 
-En el la figura \ref{fig:pmcfg-example} se muestra una pMCFG que genera el lenguaje $\{a^{2^n} \suchthat n \geq 0\}$ \cite{Seki1991OnMC}.
- 
+% ejemplo intuitivo coming soon
+
+\begin{definition}
+    \label{def:nt-lang}
+    Sea $G = (N, T, F, P, S)$ una pMCFG. Se define para todo $A \in N$, el lenguaje asociado $L(A)$ donde $L(A) \subseteq (T^*)^{\dim(A)}$ como  el menor conjunto que cumple las siguientes condiciones:
+    \begin{itemize}
+        \item Para toda regla $A \to f() \in P$, se tiene que $f() \in L(A)$.
+        \item Para toda regla $A \to f(A_1, \ldots, A_k) \in P$ con $k \geq 1$, si $x_i \in L(A_i)$ para $1 \leq i \leq k$, entonces se tiene que $f(x_1, \ldots, x_k) \in L(A)$.
+    \end{itemize}
+
+    El lenguaje generado por la pMCFG $G$ es el conjunto de cadenas terminales asociado al símbolo inicial $S$, es decir, $L(G) = \{ w \in T^* \suchthat (w) \in L(S) \}$.
+\end{definition}
+
+Nótese que los elementos del lenguaje de un símbolo no terminal $A$ son tuplas de cadenas, mientras que los elementos del lenguaje generado por la pMCFG son cadenas de símbolos terminales. Debido a que el símbolo inicial $S$ tiene dimensión 1, se tiene que $L(S)$ es un conjunto de tuplas de la forma $(w)$ con $w \in T^*$. Al lenguaje de una pMCFG pertenecen las cadenas $w$ para las cuales existe una tupla $(w) \in L(S)$, no exactamente las tuplas $(w)$ que pertenecen a $L(S)$.
+
+La pMCFG $G_1$ del ejemplo \ref{fig:pmcfg-example} genera el lenguaje $\{a^{2^n} \suchthat n \geq 0\}$ \cite{Seki1991OnMC}. Para ilustrar este hecho se demostrará que la cadena $a^4 \in L(G_1)$:
+
+\begin{itemize}
+    \item $(\eword) \in L(A)$ porque existe la producción $A \to h()$ y $h() = \eword$.
+    \item $(a) \in L(S)$ porque $(\eword) \in L(A)$, $g[(\eword), (\eword)] = (a)$ y existe la producción $S \to g(A, A)$. 
+    \item $(a^2) \in L(S)$ porque $(a) \in L(S)$, $f[(a)] = (aa)$ y existe la producción $S \to f(S)$.
+    \item $(a^4) \in L(S)$ porque $(a^2) \in L(S)$, $f[(a^2)] = (a^4)$ y existe la producción $S \to f(S)$.
+    \item $a^4 \in L(G_1)$ porque $(a^4) \in L(S)$.
+\end{itemize}
+
+
 \begin{figure}[h]
     \centering
     $G_1 = (N,T,F,P,S)$ donde $N = \{S,A\}$ y $T = \{a\}$.
@@ -151,33 +179,9 @@ En el la figura \ref{fig:pmcfg-example} se muestra una pMCFG que genera el lengu
     \label{fig:pmcfg-example}
 \end{figure}
 
+En \cite{Seki1991OnMC} se definen las gramáticas libres de contexto múltiples (MCFG) las cuales son un caso particular de las pMCFG, en las que se restringe el tipo de funciones de reordenamiento permitidas a funciones lineales. Este formalismo es de interés para este trabajo, pues en \cite{Seki1991OnMC} se presenta un método para construir la intersección de una MCFG con un lenguaje regular el cual se propone también para pMCFG. Este método se expone en la sección \ref{sec:pmcfg-intersection} y se demuestra que no es aplicable para las pMCFG.
 
-A diferencia de las CFG, en una pMCFG cada símbolo no terminal $A$ tiene asociado un conjunto $L(A)$ de tuplas de cadenas, construido aplicando las funciones de reordenamiento a tuplas previamente obtenidas a partir de las reglas de la pMCFG. El lenguaje generado por la pMCFG es el conjunto de cadenas que pueden ser obtenidas a partir del símbolo inicial $S$ a través de este proceso.
-
-% ejemplo intuitivo coming soon
-
-\begin{definition}
-    \label{def:nt-lang}
-    Sea $G = (N, T, F, P, S)$ una pMCFG. Se define para todo $A \in N$, el lenguaje asociado $L(A)$ donde $L(A) \subseteq (T^*)^{\dim(A)}$ como  el menor conjunto que cumple las siguientes condiciones:
-    \begin{itemize}
-        \item Para toda regla $A \to f() \in P$, se tiene que $f() \in L(A)$.
-        \item Para toda regla $A \to f(A_1, \ldots, A_k) \in P$ con $k \geq 1$, si $x_i \in L(A_i)$ para $1 \leq i \leq k$, entonces se tiene que $f(x_1, \ldots, x_k) \in L(A)$.
-    \end{itemize}
-
-    El lenguaje generado por la pMCFG $G$ es el conjunto de cadenas terminales asociado al símbolo inicial $S$, es decir, $L(G) = \{ w \in T^* \suchthat (w) \in L(S) \}$.
-\end{definition}
-
-La pMCFG $G_1$ del ejemplo \ref{fig:pmcfg-example} genera el lenguaje $\{a^{2^n} \suchthat n \geq 0\}$ \cite{Seki1991OnMC}. Para ilustrar este hecho se demostrará que la cadena $a^4 \in L(G_1)$:
-
-\begin{itemize}
-    \item $(\eword) \in L(A)$ porque existe la producción $A \to h()$ y $h() = \eword$.
-    \item $(a) \in L(S)$ porque $(\eword) \in L(A)$, $g[(\eword), (\eword)] = (a)$ y existe la producción $S \to g(A, A)$. 
-    \item $(a^2) \in L(S)$ porque $(a) \in L(S)$, $f[(a)] = (aa)$ y existe la producción $S \to f(S)$.
-    \item $(a^4) \in L(S)$ porque $(a^2) \in L(S)$, $f[(a^2)] = (a^4)$ y existe la producción $S \to f(S)$.
-    \item $a^4 \in L(G_1)$ porque $(a^4) \in L(S)$.
-\end{itemize}
-
-En \cite{Seki1991OnMC} se definen las gramáticas libres de contexto múltiples (MCFG) las cuales son un caso particular de las pMCFG, en las que se restringe el tipo de funciones de reordenamiento permitidas a funciones lineales. A continuación se define formalmente este tipo de gramáticas.
+A continuación se definen formalmente las gramáticas libres de contexto múltiples.
 
 \begin{definition}
     Una gramática libre de contexto múltiple (MCFG) es una tupla $G = (N, T, F, P, S)$ donde:
@@ -193,7 +197,7 @@ En \cite{Seki1991OnMC} se definen las gramáticas libres de contexto múltiples 
 
 En el la figura \ref{fig:pmcfg-example} la pMCFG $G_1$ no es una MCFG ya que la función $f$ no es lineal.
 
-En la figura \ref{fig:pmcfg-example-2} se muestra la MCFG $G_2$ que genera el lenguaje $\{www \suchthat w \in \{0, 1\}^+\}$ \cite{ParsingBeyCFG}. Para ilustrar este hecho se demostrará que la cadena $010101 \in L(G_2)$:
+En la figura \ref{fig:pmcfg-example-2} se muestra la pMCFG $G_2$ que genera el lenguaje $\{www \suchthat w \in \{0, 1\}^+\}$ \cite{ParsingBeyCFG}. Dado que Las funciones $f_1, f_2, f_3, f_4, f_5$ son lineales se tiene que $G_2$ es una MCFG. Para ilustrar este hecho se demostrará que la cadena $010101 \in L(G_2)$:
 \begin{itemize}
     \item $(1, 1, 1) \in L(A)$ porque existe la producción $A \to f_5()$ y $f_5() = (1, 1, 1)$.
     \item $(01, 01, 01) \in L(A)$ porque $(1, 1, 1) \in L(A)$, $f_2[(1, 1, 1)] = (01, 01, 01)$ y existe la producción $A \to f_2(A)$.
@@ -238,10 +242,13 @@ En siguientes secciones se estudia cómo resolver el problema del vacío de las 
 
 Aunque la familia de lenguajes que generan las pMCFG es estrictamente más amplia que la de las CFG \cite{Seki1991OnMC}, resolver el problema del vacío para una pMCFG es igual de complejo que resolver el mismo problema para una CFG. De hecho, el algoritmo para resolver el problema del vacío para una pMCFG es similar al algoritmo análogo para una CFG expuesto en \cite{automataTheory}.
 
-Para exponer el algoritmo para determinar si el lenguaje generado por una pMCFG es vacío, es necesario definir la noción de símbolo no terminal generador en una pMCFG.
+Para exponer el algoritmo que determina si el lenguaje generado por una pMCFG es vacío, es necesario definir la noción de símbolo no terminal generador en una pMCFG.
 
 \begin{definition}
-    Sea $G = (N, T, F, P, S)$ una pMCFG. Un símbolo no terminal $A \in N$ es generador si y solo si $L(A) \neq \emptyset$.
+    Sea $G = (N, T, F, P, S)$ una pMCFG. Un símbolo no terminal $A \in N$ es generador si y solo si el conjunto asociado al no terminal $A$ es no vacío. Formalmente 
+    $$
+    L(A) \neq \emptyset.
+    $$
 \end{definition}
 
 Por ejemplo, en la gramática $G_3$ de la figura \ref{fig:pmcfg-example-3} el símbolo no terminal $S$ es generador, ya que $L(S) = \{(a)\}$ no es vacío, mientras que el símbolo no terminal $A$ no es generador, ya que $L(A)$ es un conjunto vacío.
@@ -275,9 +282,9 @@ Como consecuencia directa, para una pMCFG $G$ con símbolo inicial $S$ se tiene 
 
 El algoritmo para determinar si $L(G)$ es vacío consiste en construir iterativamente el conjunto de símbolos generadores. 
 
-Inicialmente, se consideran generadores todos los símbolos no terminales que poseen una regla de producción de la forma $A \to f()$. Luego, mientras existan reglas $A \to f(A_1, \ldots, A_k)$ tales que algún símbolo $A_i$ sea generador y $A$ no lo sea, se añade $A$ al conjunto de símbolos generadores.
+Inicialmente, se consideran generadores todos los símbolos no terminales que poseen una regla de producción de la forma $A \to f()$. Luego, mientras existan reglas $A \to f(A_1, \ldots, A_k)$ tales que todos los símbolos $A_i$ sean generadores y $A$ no lo sea, se añade $A$ al conjunto de símbolos generadores.
 
-Este procedimiento replica directamente la definición \ref{def:nt-lang} en la que se define del conjunto $L(A)$, ya que un símbolo no terminal es generador si y solo si puede obtenerse a partir de reglas cuyos argumentos generan tuplas terminales.
+Este procedimiento replica directamente la definición \ref{def:nt-lang} en la que se define el conjunto $L(A)$, ya que un símbolo no terminal es generador si y solo si puede obtenerse a partir de reglas cuyos argumentos generan tuplas terminales.
 
 \begin{algorithm}[H]
     \caption{Determinación de símbolos generadores en una pMCFG}
@@ -301,7 +308,7 @@ $$
 L(G) \neq \emptyset \iff S \in Gen.
 $$
 
-Para analizar la complejidad del algoritmo, se definirá el tamaño $|G|$ de una pMCFG $G$ como el número total de ocurrencias de símbolos no terminales en las reglas de producción de $G$. Por ejemplo, la gramática $G_1$ del ejemplo \ref{fig:pmcfg-example} tiene tamaño $|G_1| = 3$.
+Para analizar la complejidad del algoritmo, se definirá el tamaño $|G|$ de una pMCFG $G$ como el número total de ocurrencias de símbolos no terminales en las reglas de producción de $G$. Por ejemplo, la gramática $G_1$ del ejemplo \ref{fig:pmcfg-example} de la página \pageref{fig:pmcfg-example} tiene tamaño $|G_1| = 3$.
 
 En cada iteración del ciclo, el algoritmo recorre todas las reglas de producción y, para cada regla $A \to f(A_1, \ldots, A_k)$ verifica si todos los símbolos $A_1, \ldots, A_k$ pertenecen a $Gen$. Por lo tanto, el costo total de cada iteración es lineal en el tamaño de la gramática.
 
@@ -314,9 +321,11 @@ En consecuencia, el algoritmo tiene complejidad temporal $O(|N| \cdot |G|)$, y, 
     El problema del vacío para una pMCFG es decidible en tiempo polinomial respecto al tamaño de la gramática.
 \end{theorem}
 
-Aunque el algoritmo presentado tiene complejidad polinomial, este puede optimizarse de manera análoga al algoritmo para determinar los símbolos generadores en una CFG \cite{automataTheory}. A continuación se describe la idea de esta optimización.
+Aunque el algoritmo presentado ya tiene complejidad polinomial, este puede optimizarse de manera análoga al algoritmo para determinar los símbolos generadores en una CFG \cite{automataTheory}. A continuación se describe la idea de esta optimización.
 
-En lugar de recorrer repetidamente todas las reglas de producción, es posible mantener, para cada regla, la cantidad de símbolos no terminales de su lado derecho que aún no han sido identificados como generadores. Cada vez que un nuevo símbolo se añade a $Gen$, se actualizan únicamente las reglas que dependen de este símbolo. De esta forma, cada regla y cada ocurrencia de un símbolo no terminal son procesadas un número constante de veces. Por lo tanto, el problema del vacío para una pMCFG puede resolverse en tiempo lineal respecto al tamaño de la gramática \cite{Seki1991OnMC}.
+En lugar de recorrer repetidamente todas las reglas de producción, es posible mantener, para cada regla, la cantidad de símbolos no terminales de su lado derecho que aún no han sido identificados como generadores. Cada vez que un nuevo símbolo se añade a $Gen$, se actualizan únicamente las reglas que dependen de este símbolo. De esta forma, cada regla y cada ocurrencia de un símbolo no terminal se procesan un número constante de veces. Por lo tanto, el problema del vacío para una pMCFG puede resolverse en tiempo lineal respecto al tamaño de la gramática \cite{Seki1991OnMC}.
+
+En la siguiente sección se analiza la intersección de una pMCFG y una MCFG con un lenguaje regular, y se demuestra que el método para construir la intersección de una MCFG con un lenguaje regular no es aplicable a las pMCFG.
 
 \section{Intersección de pMCFG y MCFG con lenguajes regulares}
 \label{sec:pmcfg-intersection}
@@ -326,14 +335,18 @@ En el capítulo \ref{ch:el-teorema} se demuestra que es posible construir el len
 
 \subsection{Intersección de MCFG con DFA}
 
-En \cite{Seki1991OnMC} se demuestra que la intersección de una MCFG con un lenguaje regular es una MCFG. Dada una MCFG $G = (N, T, F, P, S)$ y un DFA $\automata = (Q, T, \delta, q_0, F_\automata)$ que reconoce un lenguaje regular $R$, se construye     una nueva MCFG $G'$ tal que $L(G') = L(G) \cap R$.
+En \cite{Seki1991OnMC} se demuestra que la intersección de una MCFG con un lenguaje regular es una MCFG. La idea de la demostración es la siguiente.
+
+Dada una MCFG $G = (N, T, F, P, S)$ y un DFA $\automata = (Q, T, \delta, q_0, F_\automata)$ que reconoce un lenguaje regular $R$, se construye     una nueva MCFG $G'$ tal que $L(G') = L(G) \cap R$.
 
 La idea central consiste en enriquecer cada símbolo no terminal $A$ de la MCFG con información sobre los estados del DFA asociados a las componentes de las tuplas en $L(A)$. Si $A$ tiene dimensión $d$, entonces los nuevos símbolos no terminales tienen la forma
 $$
     A[(p_1, q_1), \ldots, (p_d, q_d)]
 $$
 
-con $p_i,q_i \in Q$ para cada $1 \leq i \leq d$. La idea es que este símbolo represente la restricción de $A$ a aquellas tuplas cuya $i$-ésima componente lleva al DFA desde el estado $p_i$ al estado $q_i$.
+con $p_i,q_i \in Q$ para cada $1 \leq i \leq d$. 
+
+La idea es que este símbolo represente la restricción de $A$ a aquellas tuplas cuya $i$-ésima componente lleva al DFA desde el estado $p_i$ al estado $q_i$.
 
 % si lo siguiente oscurece mas que aclarar, se puede quitar sin problemas
 Formalmente, la construcción garantiza la siguiente propiedad:
@@ -347,7 +360,6 @@ Formalmente, la construcción garantiza la siguiente propiedad:
 donde $\extran$ es la función de transición extendida del DFA y $\vec w = (w_1, \ldots, w_d)$.
 
 Por cada regla $A_0 \to f(A_1, \dots, A_k)$ de $G$ se agrega un conjunto de reglas a en $G'$, una por cada elección de de estados para $A_0, A_1, \ldots, A_k$ que sea consistente con $f$.
-% ya se que la gente no lee con lookahead, pero es que si meto ahí lo siguiente al principio por mantener un orden topológico, creo que se entiende menos
 
 Para precisar qué significa \lquoti consistente\rquoti, considérese una regla $A_0 \to f(A_1, \dots, A_k)$ y una elección de no-terminales enriquecidos del lado derecho:
 $$
@@ -418,15 +430,15 @@ Además, por cada combinación de estados, es necesario verificar la compatibili
 
 En total el costo de la construcción es $O(|P| \cdot q^{2(r+1)D} \cdot DVT)$. \qed
 
-Aunque la construcción anterior puede tomar un tiempo exponencial respecto a la gramática original, es polinomial respecto al número de estados del DFA. Esto significa que para una MCFG específica intersectarla con un DFA es polinomial.
-% aquí me gustaría llegar a una conclusión, en plan, aunque es exponencial en dependencia de la gramática, es polinomial respecto al número de estados del DFA, lo cual es relevante para el capítulo 2, ya que el DFA se construye a partir de la fórmula. Escucho consejos :v
+Aunque la construcción anterior puede tomar un tiempo exponencial respecto a la gramática original, es polinomial respecto al número de estados del DFA. Esto significa que para una MCFG específica, intersectar dicha MCFG con un DFA es un problema que puede ser resuelto en tiempo polinomial.
+
 La construcción del teorema \ref{thm:mcfg-reg} no es aplicable en el caso de las pMCFG, ya que para mantener la propiedad de la ecuación \ref{eq:intersection-invariant} es necesario que las funciones de reordenamiento sean lineales.
 
 En la siguiente sección se muestra que el método propuesto para hallar la intersección de una MCFG con un DFA no es suficiente para hallar la intersección de una pMCFG con un DFA.
 
 \subsection{Intersección de pMCFG con DFA}
 
-Hallar la intersección de una pMCFG con un DFA es más complejo que en el caso de una MCFG, debido a que las funciones de reordenamiento no necesariamente son lineales. En \cite{Seki1991OnMC} se propone el mismo método que para una MCFG. Sin embargo, este método no es suficiente, es posible demostrarlo con un contraejemplo.
+Hallar la intersección de una pMCFG con un DFA es más complejo que en el caso de una MCFG, debido a que las funciones de reordenamiento no son necesariamente lineales. En \cite{Seki1991OnMC} se plantea que se puede usar el mismo método que para una MCFG. Sin embargo, este método no es aplicable a una pMCFG, es posible demostrarlo con un contraejemplo.
 
 Sea la pMCFG $G_{aa} = (N, T, F, P, S)$ con 
 \begin{itemize}
@@ -436,7 +448,14 @@ Sea la pMCFG $G_{aa} = (N, T, F, P, S)$ con
     \item $P$ contiene las reglas de producción $S \to f(A)$ y $A \to g()$.
 \end{itemize}
 
-El símbolo no terminal $S$ genera la tupla $(aa)$, por lo tanto $L(G_{aa}) = \{aa\}$.
+Dada la definición de $L(G_{aa})$, se tiene que:
+\begin{itemize}
+    \item $(a) \in L(A)$ porque existe la producción $A \to g()$ y $g() = (a)$.
+    \item $(aa) \in L(S)$ porque $(a) \in L(A)$, $f[(a)] = (aa)$ y existe la producción $S \to f(A)$.
+    \item $aa \in L(G_{aa})$ porque $(aa) \in L(S)$.
+\end{itemize}
+
+Luego lo tanto $aa \in L(G_{aa})$.
 
 Sea $\mathcal{A} = (\{q_0, q_1, q_2\}, T, \delta, q_0, \{q_2\})$ con función de transición $\delta$ definida como:
 \begin{itemize}
@@ -444,7 +463,7 @@ Sea $\mathcal{A} = (\{q_0, q_1, q_2\}, T, \delta, q_0, \{q_2\})$ con función de
     \item $\delta(q_1, a) = q_2$
 \end{itemize}
 
-Este autómata reconoce el lenguaje $\{aa\}$, por lo tanto $L(\mathcal{A}) = \{aa\}$. En la figura \ref{fig:dfa-example} se muestra el autómata $\mathcal{A}$. 
+Este autómata reconoce el lenguaje $\{aa\}$, por lo tanto $L(\mathcal{A}) = \{aa\}$. En la figura \ref{fig:dfa-example} se muestra la representación gráfica del autómata $\mathcal{A}$. 
 
 \begin{figure}[t]
     \centering
@@ -507,6 +526,8 @@ $$
 S[(p, p)] \to f(A[(p, p)]).
 $$
 
-Para que $S[(p, p)]$ genere alguna cadena, el no terminal $A[(p, p)]$ debe poder generar alguna cadena. Pero según el análisis anterior, los únicos $A[(r, s)]$ generadores son $A[(q_0, q_1)]$ y $A[(q_1, q_2)]$, ambos con $r \neq s$. Por lo tanto, ningún $A[(p, p)]$ es generador, y por ende ningún $S[(p, p)]$ lo es. Por lo tanto, la gramática obtenida no puede generar la cadena $aa$, lo cual demuestra que el método propuesto no es suficiente para hallar la intersección de una pMCFG con un DFA.
+Para que $S[(p, p)]$ genere alguna cadena, el no terminal $A[(p, p)]$ debe poder generar alguna cadena. Pero según el análisis anterior, los únicos $A[(r, s)]$ generadores son $A[(q_0, q_1)]$ y $A[(q_1, q_2)]$, ambos con $r \neq s$. Por lo tanto, ningún $A[(p, p)]$ es generador, y por ende ningún $S[(p, p)]$ lo es. 
 
-En este capítulo se introdujeron las pMCFG y se demostró que el método propuesto para hallar la intersección de una MCFG con un DFA no es suficiente para hallar la intersección de una pMCFG con un DFA. En el siguiente capítulo se aplica el teorema \ref{thm:el-teorema} para demostrar que de existir un algoritmo para obtener una pMCFG que reconozca esta intersección este es polinomial solo si $P = NP$.
+Por lo tanto, la gramática obtenida no puede generar la cadena $aa$, lo cual demuestra que el método propuesto no es correcto para hallar la intersección de una pMCFG con un DFA.
+
+En este capítulo se introdujeron las pMCFG y se demostró que el método propuesto para hallar la intersección de una MCFG con un DFA no es correcto para hallar la intersección de una pMCFG con un DFA. En el siguiente capítulo se aplica el teorema \ref{thm:el-teorema} para demostrar que de existir un algoritmo para obtener una pMCFG que reconozca esta intersección este es polinomial solo si $P = NP$.
