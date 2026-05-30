@@ -43,11 +43,6 @@ Por ejemplo, para la fórmula $F  = (x_1 \lor \neg x_3) \land (-x_1 \lor x_2)$, 
 
 En el resto del capítulo, dada una interpretación $v$ de una fórmula con $n$ variables y $m$ cláusulas, se dirá que la cadena $w \in \{0, 1\}^n$ codifica a $v$, o que representa la interpretación $v$, y se denominará representación extendida de $v$ a la cadena $(wd)^m$ asociada.
 
-% El lenguaje de todas las interpretaciones para todas las fórmulas posibles se puede definir como el siguiente lenguaje sobre el alfabeto $\{0, 1, d\}$:
-% $$
-%     \repeatlang = \{ (wd)^k \suchthat w \in \binalph^*, k \geq 1 \}
-% $$
-
 El lenguaje de todas las interpretaciones que satisfacen a una fórmula $F$ de $m$ cláusulas se puede definir como el siguiente lenguaje sobre el alfabeto $\{0, 1, d\}$:
 
 $$
@@ -159,8 +154,6 @@ Las transiciones entre los estados solo existen entre estados de la forma $(q_f,
 
 % ---------------------------------------------------
 
-% este párrafo explica mejor por que hay 4 estados? 
-
 En la figura \ref{fig:clause_automaton} se muestra el autómata cláusula asociado a la cláusula $C = x_1 \lor \neg x_2$ de una fórmula con variables $X = \{x_1, x_2, x_3\}$.
 
 A continuación se define formalmente el autómata cláusula.
@@ -264,7 +257,6 @@ Se tienen dos casos: existe un literal $x_j$ con $j \leq k$ tal que el literal a
             \delta((q_f,k),a_{k+1})=(q_t,k+1)
         $$
         Como para todo $i \leq k$ el literal asociado a $x_i$ en $C$ es falso, por la implicación \ref{eq:ac-implies} ya demostrada, se tiene que
-        % no estoy del todo cómodo usando la otra implicación, creo que no hay error lógico ni ninguna dependencia circular ahí, igual, no estoy cómodo completamente
         $$
             \extran((q_f, 0), a_1 \ldots a_k) \neq (q_t, k).
         $$
@@ -425,7 +417,6 @@ $$
 $$
 
 Estas transiciones introducen indeterminismo en el autómata. Sin embargo, existe una construcción estándar para convertir un autómata no determinista a un autómata determinista \cite{automataTheory}. Esta construcción puede tomar un tiempo exponencial en el número de estados del autómata no determinista. No obstante, en este caso particular la construcción es inmediata, pues las transiciones $\eword$ solo conectan el estado final de un autómata con el estado inicial del siguiente. Esto permite que el indeterminismo pueda ser eliminado sustituyendo ambos estados por uno nuevo y modificando la función de transición.
-% como? ya se
 
 A continuación se define formalmente el autómata fórmula asociado a una fórmula $F$ con cláusulas $C_1, \ldots, C_m$.
 

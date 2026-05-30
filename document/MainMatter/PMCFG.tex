@@ -70,8 +70,7 @@ En la figura \ref{fig:reorder-fn} se muestran ejemplos de funciones de reordenam
     Una función de reordenamiento $f(\vec{x}_1, \ldots, \vec{x}_k)$ es lineal si cada componente $x_{ij}$ de las tuplas $\vec{x}_i$ aparece a lo sumo una vez en las componentes de la tupla resultante de aplicar $f(\vec{x}_1, \ldots, \vec{x}_k)$.
 \end{definition}
 
-% aquí se le pondría ejemplo o figura
-La función $f$ del ejemplo \ref{fig:reorder-fn} no es lineal, mientras que las funciones $g$ y $h$ sí lo son.
+La función $f$ de la figura \ref{fig:reorder-fn} no es lineal, mientras que las funciones $g$ y $h$ sí lo son.
 
 A partir de las funciones de reordenamiento se definen las gramáticas libres de contexto múltiples paralelas.
 
@@ -127,8 +126,6 @@ $$
 duplican una cadena y concatenan dos cadenas precedidas por el símbolo terminal $a$, respectivamente.
 
 En una pMCFG cada símbolo no terminal $A$ tiene asociado un conjunto $L(A)$ de tuplas de cadenas, construido aplicando las funciones de reordenamiento a tuplas previamente obtenidas a partir de las reglas de la pMCFG. El lenguaje generado por la pMCFG es el conjunto de cadenas que se pueden obtener a partir del símbolo inicial $S$ mediante este proceso.
-
-% ejemplo intuitivo coming soon
 
 \begin{definition}
     \label{def:nt-lang}
@@ -330,7 +327,6 @@ En la siguiente sección se analiza la intersección de una pMCFG y una MCFG con
 \section{Intersección de pMCFG y MCFG con lenguajes regulares}
 \label{sec:pmcfg-intersection}
 
-% añadir ref 
 En el capítulo \ref{ch:el-teorema} se demuestra que es posible construir el lenguaje de las interpretaciones que satisfacen una fórmula intersectando un autómata finito determinista con el lenguaje $L_{0, 1, d}$. Esto permite que sea posible resolver el problema de la satisfacibilidad booleana decidiendo si el lenguaje resultante de dicha intersección es vacío o no. Dado que el problema del vacío para una pMCFG es decidible en tiempo polinomial, es de interés estudiar la intersección de una pMCFG o una MCFG con un lenguaje regular, y analizar si el resultado de esa intersección pertenece a la misma familia de lenguajes.
 
 \subsection{Intersección de MCFG con DFA}
@@ -348,14 +344,12 @@ con $p_i,q_i \in Q$ para cada $1 \leq i \leq d$.
 
 La idea es que este símbolo represente la restricción de $A$ a aquellas tuplas cuya $i$-ésima componente lleva al DFA desde el estado $p_i$ al estado $q_i$.
 
-% si lo siguiente oscurece mas que aclarar, se puede quitar sin problemas
 Formalmente, la construcción garantiza la siguiente propiedad:
 \begin{equation}
     \label{eq:intersection-invariant}
     \vec w \in L(A[(p_1, q_1), \ldots, (p_d, q_d)]) \iff \vec w \in L(A) \text{ y } \extran(p_i, w_i) = q_i \quad
     \forall 1 \leq i \leq d,
 \end{equation}
-% algo hay que hacer con esto que está larguísimo
 
 donde $\extran$ es la función de transición extendida del DFA y $\vec w = (w_1, \ldots, w_d)$.
 

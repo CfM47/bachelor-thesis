@@ -12,7 +12,6 @@ A continuación se muestra que el lenguaje $\repeatlang$ puede ser descrito por 
 
 En esta sección se presenta una gramática libre de contexto múltiple paralela (pMCFG) que reconoce el lenguaje:
 
-% no recuerdo en secciones anteriores si puse \binalph^+ o \binalph^*, en cualquier caso, tengo la gramática para eso y las demostraciones son virtualmente las mismas
 $$
     \repeatlang = \{(wd)^n \suchthat w \in \binalph^*, n \geq 1 \},
 $$
@@ -310,7 +309,6 @@ Esto demuestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. A
 
 \section{Resultados sobre la intersección entre pMCFG y lenguajes regulares}
 \label{sec:wplus-results}
-% separé esto en una nueva sección para dar un cierre mas "formal" al capitulo
 
 El teorema \ref{thm:repeatlang-pmcfg} muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. Además en el capítulo \ref{ch:pmcfg} se demuestra que decidir si el lenguaje generado por una pMCFG es vacío es decidible en tiempo polinomial. Aunque en la literatura consultada no se ha encontrado ningún algoritmo que determine la intersección entre una pMCFG y un lenguaje regular el teorema siguiente muestra que determinar dicha intersección es NP-duro.
 
@@ -320,8 +318,6 @@ El teorema \ref{thm:repeatlang-pmcfg} muestra que el lenguaje $\repeatlang$ se p
 \end{theorem}
 
 \paragraph{Demostración} Sean $R$ un lenguaje regular y $G$ una pMCFG. Suponiendo que las pMCFG son cerradas bajo intersección con lenguajes regulares se tiene que existe una pMCFG $G'$ tal que $L(G') = L(G) \cap R$. Aplicando los teoremas \ref{thm:repeatlang-pmcfg} y \ref{thm:el-teorema} se tiene que decidir si $L(G') = \emptyset$ es un problema NP-duro. Por el teorema \ref{thm:empty-pmcfg} se tiene que decidir si $L(G')$ es vacío es decidible en tiempo polinomial con respecto al tamaño de $G'$. Por lo tanto determinar $G' = L(G) \cap R$ es un problema NP-duro. \qed
-
-% esto me quedo un poco ... no se
 
 El teorema anterior describe una consecuencia de la construcción presentada en esta sección, la cual muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. En la literatura consultada solo se encontró el algoritmo propuesto en \cite{Seki1991OnMC} para determinar la intersección entre una MCFG el cual también se propone para las pMCFG. Sin embargo este algoritmo no es aplicable para las pMCFG, como se demuestra en el capítulo \ref{ch:pmcfg} 
 

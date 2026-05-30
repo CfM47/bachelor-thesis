@@ -6,8 +6,6 @@ En este capítulo se presentan las definiciones que se utilizan en el resto del 
 \section{Teoría de lenguajes}
 \label{sec:languages}
 
-% Introducción cohesiva temporal
-
 En esta sección se definen conceptos fundamentales teoría de lenguajes y formalismos para describir y reconocer lenguajes que servirán de base para el contenido de los capítulos y secciones posteriores. 
 
 \subsection{Conceptos, operaciones y problemas relacionados con lenguajes}
@@ -66,7 +64,6 @@ Para este trabajo, es de particular interés el \lquoti problema del vacío\rquo
 \end{definition}
 
 En el capítulo \ref{ch:el-teorema} se reduce el problema de la satisfacibilidad booleana a determinar si el lenguaje de las interpretaciones que satisfacen una fórmula codificadas como cadenas es vacío o no. El problema de la satisfacibilidad booleana se define en la sección \ref{sec:sat}. 
-% yo vi que Raudel hizo esto en su tesis, dijo algo así como "... esto es importante porque se lo usamos para no se que cosa GRAMÁTICAS DE CONCATENACIÓN DE RANGO (que es eso?), estas se definen en el capitulo TAL" si no fitduing, quitamos donde se define
 
 En la siguiente sección se introducen las gramáticas y la jerarquía de Chomsky, que las clasifica en diferentes tipos. Estas servirán de base para definir en el capítulo \ref{ch:pmcfg} las gramáticas libres de contexto múltiple paralelas, las cuales se utilizarán en el capítulo \ref{ch:w-plus} para generar el lenguaje de las interpretaciones formulas booleanas. 
 
@@ -301,7 +298,6 @@ A continuación se definen los conceptos necesarios para formalizar el problema 
 
 \begin{definition}{(Evaluación de una fórmula)}
 	Sea $v$ una interpretación. La evaluación de una fórmula booleana $F$ bajo $v$, denotada por $(F)_v$, es el valor de verdad obtenido al sustituir cada variable $x$ de $F$ por el valor $v(x)$ y evaluar la fórmula según las reglas de la lógica booleana. Se dice que una interpretación $v$ satisface una fórmula $F$ si $(F)_v = 1$.
-	% no estaría mal una referencia a un libro de lógica o algo de ese estilo
 \end{definition}
 
 
@@ -319,18 +315,13 @@ El problema de satisfacibilidad booleana es un problema de gran relevancia en la
 
 En consecuencia, SAT actúa como un problema representativo de la clase NP: resolverlo eficientemente implicaría la existencia de algoritmos eficientes para todos los problemas en NP.
 
-% aquí debería mencionar variantes polinomiales y hablar un poco de eso? sería como el estado del arte?
 \subsection{SAT desde la perspectiva de lenguajes formales}
-% o el estado del arte sería este?
-% en la última revisión habia un comentario de que aquí esta parte hacía ruido, que hacemos con ella por fin?
 
 El problema SAT puede ser abordado desde la perspectiva de lenguajes formales. En la Facultad de Matemática y Computación de la Universidad de La Habana se han realizado varios trabajos: \cite{aCFSAT}, \cite{aSRCSAT}, \cite{MSAT} y \cite{RCGSAT}. Estos atacan el problema con teoría de lenguajes formales y buscan resolver instancias específicas en tiempo polinomial o demostrar que ciertas clases de lenguajes tienen problemas de decisión NP-duros mediante reducciones polinomiales de SAT.
 
 En estos trabajos se toman dos enfoques principales utilizando el problema del vacío o de la palabra en lenguajes respectivamente. En el primer caso, se construye el lenguaje de las interpretaciones verdaderas de una fórmula y se determina si este es vacío o no, en caso de no ser vacío implica que existe una interpretación verdadera y que la fórmula es satisfacible. En el segundo caso se construye el lenguaje de todas las fórmulas satisfacibles y se determina si la fórmula dada pertenece a ese lenguaje.
 
 En \cite{aCFSAT} primero se asume que todas las variables de la fórmula son distintas y se construye el lenguaje de las interpretaciones verdaderas de la fórmula bajo esa asunción. Se demuestra que dicho lenguaje es regular mediante la construcción de un autómata finito, el cual se denominó autómata booleano, que representa las reglas de la lógica proposicional en sus transiciones y sus estados representan un valor de verdad para la fórmula que se tiene hasta el momento. Por último se intersecta dicho autómata con un lenguaje libre del contexto que garantice que todas las instancias de la misma variable tengan el mismo valor de verdad, y se determina si el lenguaje resultante es vacío o no.
-
-% Los siguientes párrafos son un intento quitarnos interrogantes, si no se logra el objetivo, se pueden mover para la siguiente sección
 
 En \cite{aSRCSAT} y \cite{MSAT} se generaliza la idea anterior y se exploran otros formalismos generadores de lenguajes y se analizan soluciones dadas de intersectar el autómata booleano con estos. En \cite{MSAT} además se introduce la idea de utilizar una variante del lenguaje \textit{Copy} para garantizar que todas las instancias de la misma variable tengan el mismo valor de verdad.
 
