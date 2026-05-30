@@ -132,7 +132,7 @@ En una pMCFG cada símbolo no terminal $A$ tiene asociado un conjunto $L(A)$ de 
     Sea $G = (N, T, F, P, S)$ una pMCFG. Se define para todo $A \in N$, el lenguaje asociado $L(A)$ donde $L(A) \subseteq (T^*)^{\dim(A)}$ como  el menor conjunto que cumple las siguientes condiciones:
     \begin{itemize}
         \item Para toda regla $A \to f() \in P$, se tiene que $f() \in L(A)$.
-        \item Para toda regla $A \to f(A_1, \ldots, A_k) \in P$ con $k \geq 1$, si $x_i \in L(A_i)$ para $1 \leq i \leq k$, entonces se tiene que $f(x_1, \ldots, x_k) \in L(A)$.
+        \item Para toda regla $A \to f(A_1, \ldots, A_k) \in P$ con $k \geq 1$, si $\vec{x_i} \in L(A_i)$ para $1 \leq i \leq k$, entonces se tiene que $f(\vec{x_1}, \ldots, \vec{x_k}) \in L(A)$.
     \end{itemize}
 
     El lenguaje generado por la pMCFG $G$ es el conjunto de cadenas terminales asociado al símbolo inicial $S$, es decir, $L(G) = \{ w \in T^* \suchthat (w) \in L(S) \}$.
@@ -140,7 +140,7 @@ En una pMCFG cada símbolo no terminal $A$ tiene asociado un conjunto $L(A)$ de 
 
 Nótese que los elementos del lenguaje de un símbolo no terminal $A$ son tuplas de cadenas, mientras que los elementos del lenguaje generado por la pMCFG son cadenas de símbolos terminales. Debido a que el símbolo inicial $S$ tiene dimensión 1, se tiene que $L(S)$ es un conjunto de tuplas de la forma $(w)$ con $w \in T^*$. Al lenguaje de una pMCFG pertenecen las cadenas $w$ para las cuales existe una tupla $(w) \in L(S)$, no exactamente las tuplas $(w)$ que pertenecen a $L(S)$.
 
-La pMCFG $G_1$ del ejemplo \ref{fig:pmcfg-example} genera el lenguaje $\{a^{2^n} \suchthat n \geq 0\}$ \cite{Seki1991OnMC}. Para ilustrar este hecho se demostrará que la cadena $a^4 \in L(G_1)$:
+La pMCFG $G_1$ del ejemplo \ref{fig:pmcfg-example} de la página \pageref{fig:pmcfg-example} genera el lenguaje $\{a^{2^n} \suchthat n \geq 0\}$ \cite{Seki1991OnMC}. Para ilustrar este hecho se demostrará que la cadena $a^4 \in L(G_1)$:
 
 \begin{itemize}
     \item $(\eword) \in L(A)$ porque existe la producción $A \to h()$ y $h() = \eword$.
@@ -184,7 +184,10 @@ A continuación se definen formalmente las gramáticas libres de contexto múlti
     Una gramática libre de contexto múltiple (MCFG) es una tupla $G = (N, T, F, P, S)$ donde:
     \begin{itemize}
         \item $N$ es un conjunto finito de símbolos llamados símbolos no terminales, cada $A \in N$ tiene una dimensión asociada $dim(A) \geq 1$. Esta dimension se representa mediante $dim(A)$.
-        \item $T$ es un conjunto finito de símbolos llamados terminales. Se cumple que $N \cap T = \emptyset$.
+        \item $T$ es un conjunto finito de símbolos llamados terminales. Se cumple que 
+        $$
+        N \cap T = \emptyset.
+        $$
         \item $F$ es un conjunto finito de funciones de reordenamiento lineales.
         \item $P$ es un conjunto finito de reglas de la forma $A_0 \to f(A_1, \ldots, A_k)$ con $k \geq 0, f \in F$ tal que $f: (T^*)^{dim(A_1)} \times \ldots \times (T^*)^{dim(A_k)} \to (T^*)^{dim(A_0)}$.
         \item $S$ es un símbolo no terminal inicial con $dim(S) = 1$.
@@ -192,7 +195,7 @@ A continuación se definen formalmente las gramáticas libres de contexto múlti
     El lenguaje generado por una MCFG se define de la misma manera que el lenguaje generado por una pMCFG.
 \end{definition}
 
-En el la figura \ref{fig:pmcfg-example} la pMCFG $G_1$ no es una MCFG ya que la función $f$ no es lineal.
+En el ejemplo de la figura \ref{fig:pmcfg-example} de la página \pageref{fig:pmcfg-example}, la pMCFG $G_1$ no es una MCFG ya que la función $f$ no es lineal.
 
 En la figura \ref{fig:pmcfg-example-2} se muestra la pMCFG $G_2$ que genera el lenguaje $\{www \suchthat w \in \{0, 1\}^+\}$ \cite{ParsingBeyCFG}. Dado que Las funciones $f_1, f_2, f_3, f_4, f_5$ son lineales se tiene que $G_2$ es una MCFG. Para ilustrar este hecho se demostrará que la cadena $010101 \in L(G_2)$:
 \begin{itemize}

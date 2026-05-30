@@ -1,7 +1,7 @@
 \chapter{Lenguaje de las interpretaciones que satisfacen una fórmula empleando gramáticas libres de contexto múltiple}
 \label{ch:w-plus}
 
-En esta sección se propone una gramática libre de contexto múltiple paralela (pMCFG) que genera el lenguaje de las interpretaciones de fórmulas booleanas codificadas como cadenas binarias separadas por el símbolo $d$. Esta gramática se utilizará junto con el teorema \ref{thm:el-teorema} del capítulo \ref{ch:el-teorema} para demostrar que cualquier algoritmo que construya la intersección de una pMCFG con un lenguaje regular es polinomial solo si P = NP.
+En esta sección se propone una gramática libre de contexto múltiple paralela (pMCFG) que genera el lenguaje de las interpretaciones de fórmulas booleanas codificadas como cadenas binarias separadas por el símbolo $d$. Esta gramática se utilizará junto con el teorema \ref{thm:el-teorema} del capítulo \ref{ch:el-teorema} para demostrar que cualquier algoritmo que construya la intersección de una pMCFG con un lenguaje regular no puede ser polinomial a menos que P = NP.
 
 En la sección \ref{sec:repeatlang-pmcfg} se presenta la gramática pMCFG que genera el lenguaje de las interpretaciones de fórmulas booleanas codificadas como cadenas binarias separadas por el símbolo $d$, se explica su funcionamiento y se demuestra formalmente que esta genera el lenguaje $\repeatlang$. En la sección \ref{sec:wplus-results} se utiliza esta gramática para demostrar que si las pMCFG fueran cerradas bajo intersección con lenguajes regulares, hallar la intersección entre una pMCFG y un lenguaje regular es un problema NP-duro.
 
@@ -128,7 +128,7 @@ El la gramática $\repeatgramm$ genera exactamente el lenguaje $\repeatlang$. Es
     Se cumple que $L(\repeatgramm) = \repeatlang$.
 \end{theorem}
 
-En las siguientes secciones se demostrará formalmente que el teorema \ref{thm:repeatlang-pmcfg}. Para ello se presentan tres lemas con el objetivo de caracterizar el lenguaje asociado a cada uno de los símbolos no terminales de la gramática.
+En las siguientes secciones se demostrará formalmente el teorema \ref{thm:repeatlang-pmcfg}. Para ello se presentan tres lemas con el objetivo de caracterizar el lenguaje asociado a cada uno de los símbolos no terminales de la gramática.
 
 A continuación se analizará el lenguaje asociado al no terminal $A$.
 
@@ -155,7 +155,7 @@ permiten agregar símbolos binarios al inicio de la primera componente de la tup
     $$
 \end{lemma}
 
-\paragraph{Demostración} Primero se demostrará por inducción sobre la longitud de $w$ que toda tupla de la forma $(w d, \eword)$ con $w \in \binalph^*$ es pertenece al lenguaje asociado a $A$, esto es
+\paragraph{Demostración} Primero se demostrará por inducción sobre la longitud de $w$ que toda tupla de la forma $(w d, \eword)$ con $w \in \binalph^*$ pertenece al lenguaje asociado a $A$, esto es
 $$
     \{ (w d, \eword) \suchthat w \in \binalph^* \} \subseteq L(A).
 $$
@@ -300,7 +300,7 @@ entonces $L(S) = \{(y) \suchthat (x, y) \in L(C)\}$. \qed
 Por definición, el lenguaje asociado al no terminal $S$ es el lenguaje generado por $G_{0, 1, d}$. A continuación se completa la demostración del teorema \ref{thm:repeatlang-pmcfg} mostrando que dicho lenguaje coincide exactamente con el lenguaje $\repeatlang$.
 
 
-\paragraph{Demostración del teorema \ref{thm:repeatlang-pmcfg}} La demostración es una aplicación directa lemas \ref{lemma:la}, \ref{lem:lc} y \ref{lem:ls}.
+\paragraph{Demostración del teorema \ref{thm:repeatlang-pmcfg}} La demostración es una aplicación directa de los lemas \ref{lemma:la}, \ref{lem:lc} y \ref{lem:ls}.
 
 Por el lema \ref{lemma:la} se tiene que el lenguaje asociado al no terminal $A$ es el de las tuplas de la forma $(wd, \eword)$ con $w \in \binalph^*$, con este resultado y aplicando el lema \ref{lem:lc} se tiene que el lenguaje asociado al no terminal $C$ es el de las tuplas de la forma $(wd, (wd)^n)$ $w \in \binalph^*$ y $n \geq 1$. Finalmente, aplicando el lema \ref{lem:ls} se tiene que el lenguaje generado por $G_{0, 1, d}$ es el de las cadenas de la forma $(wd)^n$ con $w \in \binalph^*$ y $n \geq 1$, es decir, exactamente el lenguaje $\repeatlang$. Por lo tanto, $L(G_{0, 1, d}) = \repeatlang$. \qed
 
@@ -310,7 +310,7 @@ Esto demuestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. A
 \section{Resultados sobre la intersección entre pMCFG y lenguajes regulares}
 \label{sec:wplus-results}
 
-El teorema \ref{thm:repeatlang-pmcfg} muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. Además en el capítulo \ref{ch:pmcfg} se demuestra que decidir si el lenguaje generado por una pMCFG es vacío es decidible en tiempo polinomial. Aunque en la literatura consultada no se ha encontrado ningún algoritmo que determine la intersección entre una pMCFG y un lenguaje regular el teorema siguiente muestra que determinar dicha intersección es NP-duro.
+El teorema \ref{thm:repeatlang-pmcfg} muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. Además en el capítulo \ref{ch:pmcfg} se demuestra que decidir si el lenguaje generado por una pMCFG es vacío es decidible en tiempo polinomial. Aunque en la literatura consultada no se ha encontrado ningún algoritmo correcto que determine la intersección entre una pMCFG y un lenguaje regular el teorema siguiente muestra que determinar dicha intersección es NP-duro.
 
 \begin{theorem}
     \label{thm:pmcfg-int-reg}
