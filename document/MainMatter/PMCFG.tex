@@ -1,18 +1,18 @@
 \chapter{Gramáticas libres de contexto múltiple paralelas}
 \label{ch:pmcfg}
 
-La gramáticas libres de contexto múltiples paralelas (pMCFG) \cite{Seki1991OnMC} fueron introducidas en 1991 por Seki et al. como una generalización de las gramáticas libres de contexto (CFG). Estas fueron desarrolladas con el objetivo de proporcionar un formalismo gramatical capaz de generar lenguajes que no pueden ser generados por CFG, pero que aún mantienen ciertas de sus propiedades, como la decidibilidad del problema del vacío.
+La gramáticas libres de contexto múltiple paralelas (pMCFG) \cite{Seki1991OnMC} fueron introducidas en 1991 por Seki et al. como una generalización de las gramáticas libres de contexto (CFG). Estas fueron desarrolladas con el objetivo de proporcionar un formalismo gramatical capaz de generar lenguajes que no pueden ser generados por CFG, pero que aún mantienen ciertas de sus propiedades, como la decidibilidad del problema del vacío.
 
-Las gramáticas libres de contexto múltiples paralelas se utilizan en el capítulo \ref{ch:w-plus} para construir una gramática que genere el lenguaje de las interpretaciones de fórmulas booleanas.
+Las gramáticas libres de contexto múltiple paralelas se utilizan en el capítulo \ref{ch:w-plus} para construir una gramática que genere el lenguaje de las interpretaciones de fórmulas booleanas.
 
-En la sección \ref{sec:definitions} se presentan las definiciones formales de las pMCFG y de las gramáticas libres de contexto múltiples (MCFG), que son un caso particular de las pMCFG. En la sección \ref{sec:emptiness} se muestra un algoritmo para resolver el problema del vacío de las pMCFG y se analiza su complejidad. En la sección \ref{sec:pmcfg-intersection} se expone el algoritmo para determinar la intersección de una MCFG con un lenguaje regular, se analiza su complejidad y se demuestra que dicho algoritmo no es aplicable a las pMCFG.
+En la sección \ref{sec:definitions} se presentan las definiciones formales de las pMCFG y de las gramáticas libres de contexto múltiple (MCFG), que son un caso particular de las pMCFG. En la sección \ref{sec:emptiness} se muestra un algoritmo para resolver el problema del vacío de las pMCFG y se analiza su complejidad. En la sección \ref{sec:pmcfg-intersection} se expone el algoritmo para determinar la intersección de una MCFG con un lenguaje regular, se analiza su complejidad y se demuestra que dicho algoritmo no es aplicable a las pMCFG.
 
-A continuación se introducen las gramáticas libres de contexto múltiples paralelas.
+A continuación se introducen las gramáticas libres de contexto múltiple paralelas.
 
 \section{Definiciones}
 \label{sec:definitions}
 
-Las gramáticas libres de contexto múltiples (MCFG) y libres de contexto múltiples paralelas (pMCFG) son generalizaciones de las gramáticas libres de contexto (CFG) que permiten la generación de una familia de lenguajes más amplia que estas, pero más reducida que la de los lenguajes dependientes del contexto \cite{Seki1991OnMC}. La idea de ambos formalismos es extender las CFG de forma tal que los símbolos no terminales puedan generar tuplas de cadenas en lugar de una sola cadena \cite{Seki1991OnMC}.
+Las gramáticas libres de contexto múltiple (MCFG) y libres de contexto múltiple paralelas (pMCFG) son generalizaciones de las gramáticas libres de contexto (CFG) que permiten la generación de una familia de lenguajes más amplia que estas, pero más reducida que la de los lenguajes dependientes del contexto \cite{Seki1991OnMC}. La idea de ambos formalismos es extender las CFG de forma tal que los símbolos no terminales puedan generar tuplas de cadenas en lugar de una sola cadena \cite{Seki1991OnMC}.
 
 Estas gramáticas contienen reglas de producción capaces de especificar cómo combinar tuplas de cadenas para generar nuevas tuplas, mediante la aplicación de una función intermedia que reordena y concatena las cadenas generadas por los símbolos no terminales.
 
@@ -72,7 +72,7 @@ En la figura \ref{fig:reorder-fn} se muestran ejemplos de funciones de reordenam
 
 La función $f$ de la figura \ref{fig:reorder-fn} no es lineal, mientras que las funciones $g$ y $h$ sí lo son.
 
-A partir de las funciones de reordenamiento se definen las gramáticas libres de contexto múltiples paralelas.
+A partir de las funciones de reordenamiento se definen las gramáticas libres de contexto múltiple paralelas.
 
 \begin{definition}
     Una gramática libre de contexto múltiple paralela (pMCFG) es una tupla $G = (N, T, F, P, S)$ donde:
@@ -176,9 +176,9 @@ La pMCFG $G_1$ del ejemplo \ref{fig:pmcfg-example} genera el lenguaje $\{a^{2^n}
     \label{fig:pmcfg-example}
 \end{figure}
 
-En \cite{Seki1991OnMC} se definen las gramáticas libres de contexto múltiples (MCFG) las cuales son un caso particular de las pMCFG, en las que se restringe el tipo de funciones de reordenamiento permitidas a funciones lineales. Este formalismo es de interés para este trabajo, pues en \cite{Seki1991OnMC} se presenta un método para construir la intersección de una MCFG con un lenguaje regular el cual se propone también para pMCFG. Este método se expone en la sección \ref{sec:pmcfg-intersection} y se demuestra que no es aplicable para las pMCFG.
+En \cite{Seki1991OnMC} se definen las gramáticas libres de contexto múltiple (MCFG) las cuales son un caso particular de las pMCFG, en las que se restringe el tipo de funciones de reordenamiento permitidas a funciones lineales. Este formalismo es de interés para este trabajo, pues en \cite{Seki1991OnMC} se presenta un método para construir la intersección de una MCFG con un lenguaje regular el cual se propone también para pMCFG. Este método se expone en la sección \ref{sec:pmcfg-intersection} y se demuestra que no es aplicable para las pMCFG.
 
-A continuación se definen formalmente las gramáticas libres de contexto múltiples.
+A continuación se definen formalmente las gramáticas libres de contexto múltiple.
 
 \begin{definition}
     Una gramática libre de contexto múltiple (MCFG) es una tupla $G = (N, T, F, P, S)$ donde:
@@ -457,7 +457,7 @@ Sea $\mathcal{A} = (\{q_0, q_1, q_2\}, T, \delta, q_0, \{q_2\})$ con función de
     \item $\delta(q_1, a) = q_2$
 \end{itemize}
 
-Este autómata reconoce el lenguaje $\{aa\}$, por lo tanto $L(\mathcal{A}) = \{aa\}$. En la figura \ref{fig:dfa-example} se muestra la representación gráfica del autómata $\mathcal{A}$. 
+Este autómata reconoce el lenguaje $\{aa\}$, por lo tanto $L(\mathcal{A}) = \{aa\}$. En la figura \ref{fig:dfa-example-2} se muestra la representación gráfica del autómata $\mathcal{A}$. 
 
 \begin{figure}[t]
     \centering
@@ -472,7 +472,7 @@ Este autómata reconoce el lenguaje $\{aa\}$, por lo tanto $L(\mathcal{A}) = \{a
         \end{tikzpicture}
     \end{otherlanguage}
     \caption{DFA $\mathcal{A}$ que reconoce el lenguaje $\{aa\}$.}
-    \label{fig:dfa-example}
+    \label{fig:dfa-example-2}
 \end{figure}
 
 Se tiene que la cadena $aa$ pertenece a $L(G_{aa}) \cap L(\mathcal{A})$, por tanto al efectuar la construcción del teorema \ref{thm:mcfg-reg} para hallar la intersección, la gramática obtenida debería ser capaz de reconocer $aa$.

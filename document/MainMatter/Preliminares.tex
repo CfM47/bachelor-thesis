@@ -94,7 +94,7 @@ Con el objetivo de describir lenguajes se introducen las gramáticas formales. A
 	\end{itemize}
 \end{definition}
 
-Una derivación en una gramática consiste en seleccionar una regla de producción $\alpha \gder \beta$ y sustituir una ocurrencia de $\alpha$ en una cadena $w \in (N \cup T)^*$ por $\beta$ \cite{automataTheory}.
+Una derivación en una gramática consiste en seleccionar una regla de producción $\alpha \gprod \beta$ y sustituir una ocurrencia de $\alpha$ en una cadena $w \in (N \cup T)^*$ por $\beta$ \cite{automataTheory}.
 
 Una cadena $w \in T^*$ se puede generar por una gramática $G$ si existe una secuencia de derivaciones que comienza con el símbolo inicial $S$ y termina con la cadena $w$. El lenguaje generado por $G$ es el conjunto de todas las cadenas $w \in T^*$ que puede generar $G$.
 
@@ -137,7 +137,11 @@ $$
 
 Algunos ejemplos de cadenas que pertenecen a $\repeatlang$ son $0d$, $1d$, $00d$, $10d$, $110d$, $0d0d$, $1d1d$, $00d00d00d00d$, $10d10d$ y $110d110d$.
 
-Si se toma un caso particular de $\repeatlang$, al cual se le llama $\repeatlang^n = \{(wd)^n \suchthat w \in \binalph\}$ se cumple que $\repeatlang^1$ es un lenguaje regular, mientras que $\repeatlang^k$ para $k > 1$ es un lenguaje dependiente del contexto \cite{automataTheory}.
+Si se toma un caso particular de $\repeatlang$, al cual se le llama 
+$$
+\repeatlang^n = \{(wd)^n \suchthat w \in \binalph\}
+$$ 
+se cumple que $\repeatlang^1$ es un lenguaje regular, mientras que $\repeatlang^k$ para $k > 1$ es un lenguaje dependiente del contexto \cite{automataTheory}.
 
 Los lenguajes regulares están relacionados con los autómatas finitos, los cuales se junto con el lenguaje dependiente del contexto $\repeatlang$ se utilizan en el capítulo \ref{ch:el-teorema} para construir el lenguaje de las interpretaciones que satisfacen una fórmula booleana dada. En la siguiente sección se definen los autómatas finitos.
 
@@ -178,25 +182,25 @@ Para describir cómo un DFA procesa una cadena de entrada, se define la función
 El autómata finito determinista acepta una cadena $w$ si al aplicar la función de transición extendida al estado inicial $q_0$ y a la cadena $w$, se llega a un estado de aceptación. El lenguaje reconocido por un DFA es el conjunto de todas las cadenas que el autómata acepta.
 
 \begin{figure}[t]
-	\label(){fig:dfa-example}
+	\centering
     \begin{otherlanguage}{english}
-        \centering
         \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
 
             % Estados falsos
             \node[state, initial] (q0) {$q_0$};
             \node[state] (q1) [right=of q0] {$q_1$};
             \node[state, accepting] (q2) [right=of q1] {$q_2$};
-
+			
             \path[->]
 
             (q0) edge node {a} (q1)
             (q1) edge node {a} (q2);
-
+			
         \end{tikzpicture}
-
+		
     \end{otherlanguage}
 	\caption{Autómata finito determinista que reconoce el lenguaje $\{aa\}$.}
+	\label{fig:dfa-example}
 \end{figure}
 
 

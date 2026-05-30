@@ -589,7 +589,7 @@ A continuación se demuestra que el lenguaje $\indlang(F) \cap \repeatlang$ es e
 
 \begin{theorem}
     \label{thm:lv-intersection}
-    Para toda fórmula $F$, sean:
+    Para toda fórmula $F$ con $n$ variables y $m$ cláusulas, sean:
     \begin{itemize}
         \item $\satlang(F)$ es el lenguaje de todas las interpretaciones que satisfacen a la fórmula $F$,
         \item $\indlang(F)$ es el lenguaje de las cadenas $w_1d w_2d \ldots d w_md$, donde $w_i$ representa a una interpretación $v_i$ que satisface a la cláusula $C_i$, y
@@ -676,20 +676,17 @@ En consecuencia, al menos uno de estos problemas debe ser NP-duro:
 
 Luego, para cualquier formalismo que genere el lenguaje $\repeatlang$ y sea cerrado bajo intersección con lenguajes regulares, la construcción de dicha intersección o el problema del vacío asociado son NP-duros. \qed
 
-% yo creo que no hace falta decir que la intersección tiene que ser polinomial, el teorema dice que o el vacío es NP-duro o la intersección lo es
-Este teorema establece que para cualquier formalismo que cumpla las propiedades mencionadas, resolver el problema del vacío es NP-duro o intersectar un lenguaje generado por dicho formalismo con un lenguaje regular es problema NP-duro
-
 Una restricción importante que debe tener el formalismo $G$ para que el teorema \ref{thm:el-teorema} se cumpla que es la representación de $\repeatlang$ como lenguaje generado por $G$ sea $O(1)$. Puesto que el hecho de que la reducción anterior sea polinomial depende de que el tamaño de la representación del lenguaje $\repeatlang$ a partir del formalismo $G$ no dependa de la fórmula booleana $F$.
 
 En este trabajo, al igual que en \cite{RCGSAT}, se conjetura que el lenguaje $\repeatlang$, tiene tamaño $O(1)$ en cualquiera de sus representaciones.
 
-En la literatura consultada para este trabajo aparecen tres formalismos capaces de generar el lenguaje $\repeatlang$: las gramáticas de índice global \cite{globalIndexLanguages}, las gramáticas de concatenación de rango \cite{propertiesRCGBib}, las gramáticas libres de contexto múltiples paralelas (pMCFG) \cite{Seki1991OnMC}. En todos los casos la gramática que genera el lenguaje $\repeatlang$ tiene tamaño $O(1)$.
+En la literatura consultada para este trabajo aparecen tres formalismos capaces de generar el lenguaje $\repeatlang$: las gramáticas de índice global \cite{globalIndexLanguages}, las gramáticas de concatenación de rango \cite{propertiesRCGBib} y las gramáticas libres de contexto múltiple paralelas (pMCFG) \cite{Seki1991OnMC}. En todos los casos la gramática que genera el lenguaje $\repeatlang$ tiene tamaño $O(1)$.
 
 
 En el caso de las gramáticas de índice global, aplicando el teorema \ref{thm:el-teorema}, el problema de intersección con lenguajes regulares es NP-duro, aun cuando en \cite{globalIndexLanguages} se sugiere que este problema pueda ser resuelto en tiempo polinomial. Por otro lado, las gramáticas de concatenación de rango son cerradas bajo intersección con lenguajes regulares, pero el problema del vacío es indecidible, a menos que se cumplan ciertas restricciones, en cuyo caso no generan el lenguaje $\repeatlang$ \cite{propertiesRCGBib}.
 
-De acuerdo con la literatura consultada para este trabajo, las gramáticas libres de contexto múltiples paralelas satisfacen simultáneamente todas las propiedades requeridas: generan el lenguaje $\repeatlang$ con representaciones de tamaño constante, son cerradas bajo intersección con lenguajes regulares y poseen problema del vacío decidible en tiempo polinomial. Teniéndose estas propiedades, de acuerdo con el teorema \ref{thm:el-teorema}, sería posible resolver SAT en tiempo polinomial, representando $\repeatlang$ con dicho formalismo.
+De acuerdo con la literatura consultada para este trabajo, las gramáticas libres de contexto múltiple paralelas satisfacen simultáneamente todas las propiedades requeridas: generan el lenguaje $\repeatlang$ con representaciones de tamaño constante, son cerradas bajo intersección con lenguajes regulares y poseen problema del vacío decidible en tiempo polinomial. Teniéndose estas propiedades, de acuerdo con el teorema \ref{thm:el-teorema}, sería posible resolver SAT en tiempo polinomial, representando $\repeatlang$ con dicho formalismo.
 
-Desafortunadamente, el procedimiento para determinar la intersección de una pMCFG con un lenguaje regular reportado por la literatura es incorrecto. En \cite{Seki1991OnMC} se propone un algoritmo para resolver el problema para las gramáticas libres de contexto múltiples (MCFG), un caso particular de las pMCFG, y propone que este algoritmo pueda ser utilizado para las pMCFG. Sin embargo como se muestra en el próximo capítulo mediante un contraejemplo, dicho algoritmo no es correcto para las pMCFG, y, como se demuestra en el capítulo \ref{ch:w-plus} determinar la intersección de una pMCFG con un lenguaje regular resulta ser un problema NP-duro.
+Desafortunadamente, el procedimiento para determinar la intersección de una pMCFG con un lenguaje regular reportado por la literatura es incorrecto. En \cite{Seki1991OnMC} se propone un algoritmo para resolver el problema para las gramáticas libres de contexto múltiple (MCFG), un caso particular de las pMCFG, y propone que este algoritmo pueda ser utilizado para las pMCFG. Sin embargo como se muestra en el próximo capítulo mediante un contraejemplo, dicho algoritmo no es correcto para las pMCFG, y, como se demuestra en el capítulo \ref{ch:w-plus} determinar la intersección de una pMCFG con un lenguaje regular resulta ser un problema NP-duro.
 
-En el siguiente capítulo se presentan las gramáticas libres de contexto múltiples paralelas.
+En el siguiente capítulo se presentan las gramáticas libres de contexto múltiple paralelas.
