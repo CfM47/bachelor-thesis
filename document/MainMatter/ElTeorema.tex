@@ -50,7 +50,7 @@ $$
 $$
 
 
-Como para cada interpretación $v$ existe una y solo una cadena asociada en $\satlang(F)$, entonces el lenguaje $\satlang(F)$ es vacío si y solo si no existe una interpretación que haga verdadera a $F$. 
+Como para cada interpretación $v$ existe una y solo una cadena asociada en $\satlang(F)$, entonces el lenguaje $\satlang(F)$ es vacío si y solo si no existe una interpretación que haga verdadera a $F$.
 
 Para decidir si existe una interpretación que haga verdadera a $F$ basta con decidir si el lenguaje $\satlang(F)$ es vacío o no. Por tanto, se puede reducir el problema SAT para una fórmula $F$ a decidir si el lenguaje $\satlang(F)$ es vacío o no.
 
@@ -94,16 +94,16 @@ Las transiciones entre los estados solo existen entre estados de la forma $(q_f,
 
 \begin{itemize}
     \item Un estado de la forma $(q_t, i)$ representa que luego de leer $i$ símbolos de la cadena, se ha leído el valor de una variable cuyo literal asociado en la cláusula es verdadero, por lo tanto, sin importar los símbolos restantes, la cláusula seguirá siendo verdadera. Luego, se tiene la transición
-    $$
-    \delta((q_t, i), a) = (q_t, i+1) \text{ para cualquier símbolo } a \in \binalph.
-    $$
+          $$
+              \delta((q_t, i), a) = (q_t, i+1) \text{ para cualquier símbolo } a \in \binalph.
+          $$
     \item Por otro lado un estado de la forma $(q_f, i)$ representa que luego de leer $i$ símbolos de la cadena, no se ha leído el valor de una variable cuyo literal asociado en la cláusula sea verdadero, por lo tanto, para que la cláusula sea verdadera, el siguiente símbolo leído debe ser tal que el literal asociado a la variable $x_{i+1}$ en la cláusula evalúe verdadero. Si la variable $x_{i+1}$ no aparece en la cláusula, o aparece pero el símbolo leído hace que el literal asociado evalúe falso, entonces la cláusula seguirá siendo falsa. Por lo tanto se tiene la transición
-    $$
-    \delta((q_f, i), a) = \begin{cases}
-                      (q_t, i+1) & \text{si } (x_{i+1} \in C \land a = 1) \lor (\neg x_{i+1} \in C \land a = 0) \\
-                      (q_f, i+1) & \text{en otro caso}
-                  \end{cases}
-    $$
+          $$
+              \delta((q_f, i), a) = \begin{cases}
+                  (q_t, i+1) & \text{si } (x_{i+1} \in C \land a = 1) \lor (\neg x_{i+1} \in C \land a = 0) \\
+                  (q_f, i+1) & \text{en otro caso}
+              \end{cases}
+          $$
 \end{itemize}
 
 % ----------- figura de autómata cláusula -----------
@@ -147,9 +147,10 @@ Las transiciones entre los estados solo existen entre estados de la forma $(q_f,
 
         \end{tikzpicture}
 
-        \caption{Autómata cláusula asociado a la cláusula $C = (x_1 \lor \neg x_2)$ de una fórmula con variables $X = \{x_1, x_2, x_3\}$.}
-        \label{fig:clause_automaton}
     \end{otherlanguage}
+
+    \caption{Autómata cláusula asociado a la cláusula $C = (x_1 \lor \neg x_3)$ de una fórmula con variables $X = \{x_1, x_2, x_3\}$.}
+    \label{fig:clause_automaton}
 \end{figure}
 
 % ---------------------------------------------------
@@ -162,34 +163,34 @@ A continuación se define formalmente el autómata cláusula.
     Para una cláusula $C$ de una fórmula $F$ con $n$ variables, se define el autómata cláusula $\automata_C = (Q, \binalph, \delta, (q_f, 0), F)$ donde:
     \begin{itemize}
         \item $Q = \{(q_f, i), (q_t, i) \suchthat i \in \{0, \ldots, n\}\}$
-        % el autómata (q_t, 0) es verdad que no tiene sentido que exista en la práctica, pero es más fácil definir el autómata así y ayuda a que no se tenga que considerar ese caso especial en las demostraciones prefiero tenerlo ahí si no es de vida o muerte :D
+              % el autómata (q_t, 0) es verdad que no tiene sentido que exista en la práctica, pero es más fácil definir el autómata así y ayuda a que no se tenga que considerar ese caso especial en las demostraciones prefiero tenerlo ahí si no es de vida o muerte :D
         \item $(q_f, 0)$ es el estado inicial
         \item $\delta$ es la función de transición definida para todo $i \in \{0, \ldots, n-1\}$ y $a \in \{0, 1\}$ por:
-        $$
-        \begin{aligned}
-            \delta((q_t, i), a)
-            &= (q_t, i+1), \\
-            \delta((q_f, i), a)
-            &=
-            \begin{cases}
-                (q_t, i+1)
-                & \text{si } (x_{i+1} \in C \land a = 1)
-                \lor (\neg x_{i+1} \in C \land a = 0), \\
-                (q_f, i+1)
-                & \text{en otro caso}.
-            \end{cases}
-        \end{aligned}
-        $$
+              $$
+                  \begin{aligned}
+                      \delta((q_t, i), a)
+                       & = (q_t, i+1), \\
+                      \delta((q_f, i), a)
+                       & =
+                      \begin{cases}
+                          (q_t, i+1)
+                           & \text{si } (x_{i+1} \in C \land a = 1)
+                          \lor (\neg x_{i+1} \in C \land a = 0),    \\
+                          (q_f, i+1)
+                           & \text{en otro caso}.
+                      \end{cases}
+                  \end{aligned}
+              $$
         \item $F = \{(q_t, n)\}$
     \end{itemize}
-    
+
 \end{definition}
 
 Para una fórmula con $n$ variables, el autómata $\automata_C$ tendrá $2(n + 1) = O(n)$ estados: $n+1$ de la forma $(q_f, i)$ y $n+1$ de la forma $(q_t, i)$, con $i \in \{0, \ldots, n\}$.
 
-A continuación se demostrará que el lenguaje que reconoce el autómata $\aut{C}$ es exactamente el lenguaje 
+A continuación se demostrará que el lenguaje que reconoce el autómata $\aut{C}$ es exactamente el lenguaje
 $$
-\clauselang{C} = \{ w \suchthat w \text{ codifica a una interpretación que satisface la cláusula } C \}.
+    \clauselang{C} = \{ w \suchthat w \text{ codifica a una interpretación que satisface la cláusula } C \}.
 $$
 Para ello, primero se demostrará el siguiente lema que describe la propiedad mantenida por el autómata luego de leer $k$ variables.
 
@@ -202,7 +203,7 @@ Para ello, primero se demostrará el siguiente lema que describe la propiedad ma
 
 \begin{equation}
     \label{eq:ac-implies}
-    \extran((q_f, 0), a_1 \ldots a_k) = (q_t, k) \implies \exists i \in \{1, \ldots, k \} \text{ con } (a_i = 1 \land x_i \in C) \lor (a_i = 0 \land \neg x_i \in C).    
+    \extran((q_f, 0), a_1 \ldots a_k) = (q_t, k) \implies \exists i \in \{1, \ldots, k \} \text{ con } (a_i = 1 \land x_i \in C) \lor (a_i = 0 \land \neg x_i \in C).
 \end{equation}
 
 
@@ -224,7 +225,7 @@ A continuación se demuestra la implicación recíproca: si existe una variable 
 
 \begin{equation}
     \label{eq:ac-implied-by}
-    \exists i \in \{1, \ldots, k \} \text{ con } (a_i = 1 \land x_i \in C) \lor (a_i = 0 \land \neg x_i \in C) \implies \extran((q_f, 0), a_1 \ldots a_k) = (q_t, k).    
+    \exists i \in \{1, \ldots, k \} \text{ con } (a_i = 1 \land x_i \in C) \lor (a_i = 0 \land \neg x_i \in C) \implies \extran((q_f, 0), a_1 \ldots a_k) = (q_t, k).
 \end{equation}
 
 
@@ -232,7 +233,7 @@ Se demostrará por inducción sobre $k$.
 
 \subparagraph{Caso base} Para $k = 1$ se cumple que $x_1 \in C$ y $a_1 = 1$ o $\neg x_1 \in C$ y $a_1 = 0$, entonces por la definición de la función de transición se tiene que $\delta((q_f, 0), a_1) = (q_t, 1)$, por lo tanto $\extran((q_f, 0), a_1) = (q_t, 1)$ y se cumple la afirmación.
 
-\subparagraph{Paso inductivo} Supóngase que la afirmación se cumple para $k$: existe una variable $x_i$ de $C$ con $i \leq k+1$ tal que el literal asociado en $C$ es verdadero. 
+\subparagraph{Paso inductivo} Supóngase que la afirmación se cumple para $k$: existe una variable $x_i$ de $C$ con $i \leq k+1$ tal que el literal asociado en $C$ es verdadero.
 
 Se tienen dos casos: existe un literal $x_j$ con $j \leq k$ tal que el literal asociado a la variable $x_j$ en $C$ es verdadero, o solo el literal asociado a la variable $x_{k+1}$ en $C$ es verdadero.
 
@@ -247,30 +248,30 @@ Se tienen dos casos: existe un literal $x_j$ con $j \leq k$ tal que el literal a
           $$
           y por lo tanto se cumple la afirmación.
     \item En el segundo caso, solo el literal asociado a $x_{k+1}$ en $C$ es verdadero. Esto significa que:
-        $$
-            (a_{k+1}=1 \land x_{k+1}\in C)
-            \lor
-            (a_{k+1}=0 \land \neg x_{k+1}\in C).
-        $$
-        Entonces, por definición de \(\delta\) se tiene que
-        $$
-            \delta((q_f,k),a_{k+1})=(q_t,k+1)
-        $$
-        Como para todo $i \leq k$ el literal asociado a $x_i$ en $C$ es falso, por la implicación \ref{eq:ac-implies} ya demostrada, se tiene que
-        $$
-            \extran((q_f, 0), a_1 \ldots a_k) \neq (q_t, k).
-        $$
-        Dado que luego de leer $k$ símbolos el autómata no se encuentra en un estado verdadero, se tiene que
-        $$
-            \extran((q_f, 0), a_1 \ldots a_k) = (q_f, k).
-        $$
+          $$
+              (a_{k+1}=1 \land x_{k+1}\in C)
+              \lor
+              (a_{k+1}=0 \land \neg x_{k+1}\in C).
+          $$
+          Entonces, por definición de \(\delta\) se tiene que
+          $$
+              \delta((q_f,k),a_{k+1})=(q_t,k+1)
+          $$
+          Como para todo $i \leq k$ el literal asociado a $x_i$ en $C$ es falso, por la implicación \ref{eq:ac-implies} ya demostrada, se tiene que
+          $$
+              \extran((q_f, 0), a_1 \ldots a_k) \neq (q_t, k).
+          $$
+          Dado que luego de leer $k$ símbolos el autómata no se encuentra en un estado verdadero, se tiene que
+          $$
+              \extran((q_f, 0), a_1 \ldots a_k) = (q_f, k).
+          $$
 
 
-        Por tanto,
-        $$
-            \extran((q_f, 0),a_1\ldots a_{k+1})=(q_t,k+1).
-        $$
-        Con esto se cumple la afirmación.
+          Por tanto,
+          $$
+              \extran((q_f, 0),a_1\ldots a_{k+1})=(q_t,k+1).
+          $$
+          Con esto se cumple la afirmación.
 \end{itemize}
 
 Luego de demostrar ambas implicaciones se concluye que para todo $k \in \{1, \ldots, n\}$ se cumple que luego de leer $k$ símbolos el autómata se encuentra en un estado verdadero si y solo si existe una variable $x_i$ de $C$ con $i \leq k$ tal que el literal asociado en $C$ es verdadero. \qed
@@ -283,7 +284,7 @@ Ahora se procederá a enunciar y demostrar el teorema que establece la equivalen
     Sean $C$ una cláusula de una fórmula con variables $X = \{x_1, \ldots, x_n\}$, $\aut{C}$ el autómata cláusula asociado a $C$ y $L_C$ el lenguaje de las cadenas que representan a las interpretaciones que satisfacen a $C$. Se cumple que $L_C = L(\aut{C})$.
 \end{theorem}
 
-\paragraph{Demostración} 
+\paragraph{Demostración}
 Para demostrar que $\clauselang{C} = L(\aut{C})$ se deben demostrar dos inclusiones: primero se demostrará que $\clauselang{C} \subseteq L(\aut{C})$ y luego que $L(\aut{C}) \subseteq \clauselang{C}$.
 
 \subparagraph{$\clauselang{C} \subseteq L(\aut{C})$:}
@@ -296,9 +297,9 @@ Supóngase que $w \in \clauselang{C}$, entonces $w = a_{1} \ldots a_{n}$ represe
 
 \hfill
 
-Supóngase que $w \in L(\aut{C})$, entonces $\extran((q_f, 0), w) = (q_t, n)$, por el lema \ref{lem:ac} con $k = n$ se cumple que existe un literal $t$ de $C$ tal que $(t)_v = 1$, luego $(C)_v = 1$ y $w$ representa a una interpretación $v$ tal que $(C)_v = 1$, por tanto $w \in \clauselang{C}$. 
+Supóngase que $w \in L(\aut{C})$, entonces $\extran((q_f, 0), w) = (q_t, n)$, por el lema \ref{lem:ac} con $k = n$ se cumple que existe un literal $t$ de $C$ tal que $(t)_v = 1$, luego $(C)_v = 1$ y $w$ representa a una interpretación $v$ tal que $(C)_v = 1$, por tanto $w \in \clauselang{C}$.
 
-Como se tiene que $\clauselang{C} \subseteq L(\aut{C}) \text{ y } L(\aut{C}) \subseteq \clauselang{C}$, entonces 
+Como se tiene que $\clauselang{C} \subseteq L(\aut{C}) \text{ y } L(\aut{C}) \subseteq \clauselang{C}$, entonces
 
 $$
     \clauselang{C} = L(\aut{C}).
@@ -309,13 +310,13 @@ A continuación se describirá la construcción del autómata que reconoce el le
 
 \subsection{Autómata fórmula}
 
-Dada la fórmula $F$ con cláusulas $C_1, \ldots, C_m$, se tienen autómatas $\aut{\Ci}$ que reconocen el lenguaje $\clauselang{C_i}$ para cada cláusula $C_i$ de la fórmula, bajo la suposición en la que se permite que cada cláusula se satisfaga por una interpretación distinta. Para construir el autómata que reconoce el lenguaje 
+Dada la fórmula $F$ con cláusulas $C_1, \ldots, C_m$, se tienen autómatas $\aut{\Ci}$ que reconocen el lenguaje $\clauselang{C_i}$ para cada cláusula $C_i$ de la fórmula, bajo la suposición en la que se permite que cada cláusula se satisfaga por una interpretación distinta. Para construir el autómata que reconoce el lenguaje
 
 $$
     \indlang(F) = \{ w_1 d \ldots  w_m d \suchthat w_i \text{ codifica una interpretación que satisface la cláusula } \Ci\}.
 $$
 
-se necesita concatenar los autómatas $\aut{\Ci}$ para cada cláusula $C_i$ de la fórmula, pero antes es necesario modificar estos autómatas para que reconozcan las cadenas que representan a una interpretación que satisface a la cláusula con el símbolo separador $d$ al final. De esta forma, para cada cláusula $C_i$ el autómata resultante reconocerá las cadenas de la forma $w_id$, donde $w_i$ representa a una interpretación que satisface a la cláusula $C_i$. 
+se necesita concatenar los autómatas $\aut{\Ci}$ para cada cláusula $C_i$ de la fórmula, pero antes es necesario modificar estos autómatas para que reconozcan las cadenas que representan a una interpretación que satisface a la cláusula con el símbolo separador $d$ al final. De esta forma, para cada cláusula $C_i$ el autómata resultante reconocerá las cadenas de la forma $w_id$, donde $w_i$ representa a una interpretación que satisface a la cláusula $C_i$.
 
 Primero se construye un autómata que reconozca el lenguaje $\clauselang{C}$ con los separadores de cláusulas: el lenguaje $L_{Cd} = \{(wd) \suchthat w \in \clauselang{C}\}$. Para esto basta con modificar el autómata $\aut{C}$ para que si está en el estado de aceptación reconozca la cadena $d$ después de haber leído una cadena de $\clauselang{C}$.
 
@@ -365,10 +366,10 @@ Primero se construye un autómata que reconozca el lenguaje $\clauselang{C}$ con
             (qt3) edge node {d} (qd)
             ;
         \end{tikzpicture}
-
-        \caption{Autómata cláusula con separador asociado a la cláusula $C = (x_1 \lor \neg x_2)$ de una fórmula con variables $X = \{x_1, x_2, x_3\}$.}
-        \label{fig:clause_automaton_d}
     \end{otherlanguage}
+
+    \caption{Autómata cláusula con separador asociado a la cláusula $C = (x_1 \lor \neg x_3)$ de una fórmula con variables $X = \{x_1, x_2, x_3\}$.}
+    \label{fig:clause_automaton_d}
 \end{figure}
 
 % ---------------------------------------------------
@@ -400,9 +401,9 @@ Los autómatas $\daut{Ci}$ para cada cláusula $C_i$ reconocen el lenguaje de la
 \begin{theorem}
     \label{thm:dautomata}
     Sea una cláusula $C_i$ de una fórmula con variables $X = \{x_1, \ldots, x_n\}$, $\daut{Ci}$ el autómata cláusula con separador asociado a $C_i$ y el lenguaje $\clauselang{C_i}$ de las cadenas que representan a las interpretaciones que satisfacen a la cláusula $C_i$.
-    Se cumple que 
+    Se cumple que
     $$
-    L(\daut{Ci}) = \{(wd) \suchthat w \in \clauselang{C_i}\}.
+        L(\daut{Ci}) = \{(wd) \suchthat w \in \clauselang{C_i}\}.
     $$
 \end{theorem}
 
@@ -529,9 +530,9 @@ A continuación se define formalmente el autómata fórmula asociado a una fórm
             \end{tikzpicture}
 
         }
-        \caption{Autómata fórmula asociado a la fórmula $F  = (x_1 \lor \neg x_2) \land (\neg x_1 \lor x_3)$.}
-        \label{fig:formula_automaton}
     \end{otherlanguage}
+    \caption{Autómata fórmula asociado a la fórmula $F  = (x_1 \lor \neg x_3) \land (\neg x_1 \lor x_2)$.}
+    \label{fig:formula_automaton}
 \end{figure}
 
 % ---------------------------------------------------
@@ -553,7 +554,7 @@ Dado que los lenguajes regulares son aquellos que pueden ser reconocidos por un 
 
 Las cadenas del lenguaje $\indlang(F)$ no necesariamente corresponden a la representación extendida de una interpretación que satisface a la fórmula $F$, ya que cada cláusula de la fórmula se puede satisfacer por una interpretación diferente.
 
-Por ejemplo, dada la fórmula $F = (x_1 \lor \neg x_2) \land (\neg x_1 \lor x_3)$, la cadena $101d001d$ pertenece a $\indlang(F)$ pero no representa una interpretación $F$. Esto se debe a que $101$ y $001$ son cadenas que representan dos interpretaciones diferentes que satisfacen a cada cláusula de la fórmula $F$. 
+Por ejemplo, dada la fórmula $F = (x_1 \lor \neg x_2) \land (\neg x_1 \lor x_3)$, la cadena $101d001d$ pertenece a $\indlang(F)$ pero no representa una interpretación $F$. Esto se debe a que $101$ y $001$ son cadenas que representan dos interpretaciones diferentes que satisfacen a cada cláusula de la fórmula $F$.
 
 En la siguiente sección se demostrará como obtener el lenguaje $\satlang(F)$ de todas las interpretaciones que satisfacen a la fórmula $F$ a partir de intersectar el lenguaje $\indlang(F)$ con el lenguaje $\repeatlang$ que obliga a que las interpretaciones sean las mismas para todas las cláusulas de la fórmula.
 
@@ -566,7 +567,7 @@ Dada una fórmula en forma normal conjuntiva
 $$
     F = C_1 \land C_2 \land \ldots \land C_m,
 $$
-el lenguaje $\indlang(F)$ es el lenguaje de las cadenas $w_1d w_2d \ldots d w_md$, donde $w_i$ representa a una interpretación $v_i$ que satisface a la cláusula $C_i$. Dado que es posible que existan $i, j \leq m$ tales que $w_i \neq w_j$, las cadenas de $\indlang(F)$ no necesariamente están asociadas a una interpretación que satisface la formula $F$. 
+el lenguaje $\indlang(F)$ es el lenguaje de las cadenas $w_1d w_2d \ldots d w_md$, donde $w_i$ representa a una interpretación $v_i$ que satisface a la cláusula $C_i$. Dado que es posible que existan $i, j \leq m$ tales que $w_i \neq w_j$, las cadenas de $\indlang(F)$ no necesariamente están asociadas a una interpretación que satisface la formula $F$.
 
 Para obtener el lenguaje $\satlang(F)$ de todas las interpretaciones que satisfacen a la fórmula $F$, es necesario imponer la restricción de que las interpretaciones $v_i$ asociadas a cada cláusula $C_i$ sean iguales. Para ello se intersectará el lenguaje $\indlang(F)$ con el lenguaje $\repeatlang$. Este lenguaje se define a continuación.
 
@@ -645,7 +646,7 @@ Por tanto las cadenas separadas por el símbolo $d$ son iguales a $w$, esto es, 
     w_1 = w_2 = \ldots = w_m = w,
 $$
 
-al ser $w$ la cadena que representa a una interpretación $v$, entonces $w_i$ representa a la misma interpretación $v$ para todo $i \leq m$. 
+al ser $w$ la cadena que representa a una interpretación $v$, entonces $w_i$ representa a la misma interpretación $v$ para todo $i \leq m$.
 
 Por lo tanto, existe una interpretación $v$ tal que $v_i = v$ para todo $i \leq m$ que satisface todas las cláusulas de la fórmula, y por tanto satisface la fórmula. Luego $\alpha = (wd)^m \in \satlang(F)$ con $(F)_v = 1$, por tanto $\alpha \in \satlang(F)$. Luego $\indlang(F) \cap \repeatlang \subseteq \satlang(F)$.
 
@@ -660,13 +661,13 @@ Una consecuencia directa del teorema \ref{thm:lv-intersection} es el siguiente r
 
 \subparagraph{Demostración} Supóngase que existe un formalismo $G$ que genera el lenguaje $\repeatlang$ y es cerrado bajo intersección con lenguajes regulares. Se demostrará que el problema de decidir si la intersección de un lenguaje generado por dicho formalismo con un lenguaje regular es vacía es NP-duro. Para ello, se reducirá el problema SAT a dicho problema.
 
-Sea $F$ una fórmula booleana con $n$ variables y $m$ cláusulas. 
+Sea $F$ una fórmula booleana con $n$ variables y $m$ cláusulas.
 
 Se construye el autómata $\aut{F}$ que reconoce el lenguaje $\indlang(F)$. Luego se construye el lenguaje $\repeatlang$ a partir del formalismo $G$. Dado que $G$ es cerrado bajo intersección con lenguajes regulares, entonces se puede construir el lenguaje $\indlang(F) \cap \repeatlang$ a partir de la intersección de $\indlang(F)$ y $\repeatlang$.
 
 Por el teorema \ref{thm:lv-intersection} se tiene que $\satlang(F) = \indlang(F) \cap \repeatlang$, por lo tanto decidir si existe una interpretación que hace verdadera a $F$ es equivalente a decidir si el lenguaje $\indlang(F) \cap \repeatlang$ es vacío o no.
 
-La construcción del autómata $\aut{F}$ es polinomial en el tamaño de la fórmula $F$, ya que $\aut{F}$ tiene $O(n)$ estados, donde $n$ es el número de variables de $F$. Por tanto, SAT se reduce al problema de obtener la intersección de un lenguaje regular con un lenguaje generado por el formalismo $G$ y decidir si el resultado es vacío.
+La construcción del autómata $\aut{F}$ es polinomial en el tamaño de la fórmula $F$, ya que $\aut{F}$ tiene $O(mn)$ estados, donde $m$ es la cantidad de cláusulas y $n$ es el número de variables de $F$. Por tanto, SAT se reduce al problema de obtener la intersección de un lenguaje regular con un lenguaje generado por el formalismo $G$ y decidir si el resultado es vacío.
 
 En consecuencia, al menos uno de estos problemas debe ser NP-duro:
 \begin{itemize}

@@ -6,7 +6,7 @@ En este capítulo se presentan las definiciones que se utilizan en el resto del 
 \section{Teoría de lenguajes}
 \label{sec:languages}
 
-En esta sección se definen conceptos fundamentales teoría de lenguajes y formalismos para describir y reconocer lenguajes que servirán de base para el contenido de los capítulos y secciones posteriores. 
+En esta sección se definen conceptos fundamentales teoría de lenguajes y formalismos para describir y reconocer lenguajes que servirán de base para el contenido de los capítulos y secciones posteriores.
 
 \subsection{Conceptos, operaciones y problemas relacionados con lenguajes}
 
@@ -54,18 +54,18 @@ Si se aplica la concatenación de manera repetida sobre una misma cadena, se obt
 	\textbf{Paso inductivo:} $w^n = w w^{\,n-1}$, $n > 0$.
 \end{definition}
 
-Por ejemplo, sea el alfabeto $\alphabet = \{0, 1\}$. Algunas cadenas sobre este alfabeto son $0$, $1$, $10$, $1101$ y $\eword$. El conjunto de todas las cadenas que terminan en $0$ es un lenguaje sobre $\alphabet$, al que pertenecen las cadenas $0$, $10$, $1100$, $1010$ y no pertenecen las cadenas $1$, $1101$ y $\eword$. 
+Por ejemplo, sea el alfabeto $\alphabet = \{0, 1\}$. Algunas cadenas sobre este alfabeto son $0$, $1$, $10$, $1101$ y $\eword$. El conjunto de todas las cadenas que terminan en $0$ es un lenguaje sobre $\alphabet$, al que pertenecen las cadenas $0$, $10$, $1100$, $1010$ y no pertenecen las cadenas $1$, $1101$ y $\eword$.
 
-Al ser los lenguajes conjuntos de cadenas, es posible definir sobre ellos operaciones de conjuntos como unión, intersección y complemento \cite{automataTheory}. 
+Al ser los lenguajes conjuntos de cadenas, es posible definir sobre ellos operaciones de conjuntos como unión, intersección y complemento \cite{automataTheory}.
 
 Para este trabajo, es de particular interés el \lquoti problema del vacío\rquoti, el cual consiste en determinar si un lenguaje dado contiene alguna cadena o no.
 \begin{definition}
 	El problema del vacío consiste en determinar, para un lenguaje dado $L$, si $L = \emptyset$.
 \end{definition}
 
-En el capítulo \ref{ch:el-teorema} se reduce el problema de la satisfacibilidad booleana a determinar si el lenguaje de las interpretaciones que satisfacen una fórmula codificadas como cadenas es vacío o no. El problema de la satisfacibilidad booleana se define en la sección \ref{sec:sat}. 
+En el capítulo \ref{ch:el-teorema} se reduce el problema de la satisfacibilidad booleana a determinar si el lenguaje de las interpretaciones que satisfacen una fórmula codificadas como cadenas es vacío o no. El problema de la satisfacibilidad booleana se define en la sección \ref{sec:sat}.
 
-En la siguiente sección se introducen las gramáticas y la jerarquía de Chomsky, que las clasifica en diferentes tipos. Estas servirán de base para definir en el capítulo \ref{ch:pmcfg} las gramáticas libres de contexto múltiple paralelas, las cuales se utilizarán en el capítulo \ref{ch:w-plus} para generar el lenguaje de las interpretaciones formulas booleanas. 
+En la siguiente sección se introducen las gramáticas y la jerarquía de Chomsky, que las clasifica en diferentes tipos. Estas servirán de base para definir en el capítulo \ref{ch:pmcfg} las gramáticas libres de contexto múltiple paralelas, las cuales se utilizarán en el capítulo \ref{ch:w-plus} para generar el lenguaje de las interpretaciones formulas booleanas.
 
 \subsection{Gramáticas y Jerarquía de Chomsky}
 \label{sec:grammars}
@@ -96,6 +96,28 @@ Con el objetivo de describir lenguajes se introducen las gramáticas formales. A
 
 Una derivación en una gramática consiste en seleccionar una regla de producción $\alpha \gprod \beta$ y sustituir una ocurrencia de $\alpha$ en una cadena $w \in (N \cup T)^*$ por $\beta$ \cite{automataTheory}.
 
+\begin{definition}
+	Sean $x,y \in (N \cup T)^*$. Se dice que $x$ deriva directamente en $y$ si existen $x_1, x_2 \in (N \cup T)^*$ y una regla $\alpha \gprod \beta$ en $P$ tales que
+	$$
+		x = x_1 \alpha x_2 \quad \text{y} \quad y = x_1 \beta x_2.
+	$$
+	Esta relación se denota por $x \gder y$.
+\end{definition}
+
+La derivación directa permite sustituir una cadena por otra según una regla de producción. A partir de esta operación se define la derivación en varios pasos.
+
+\begin{definition}
+	Sean $x,y \in (N \cup T)^*$. Se dice que $x$ deriva en $y$ si existe una secuencia de cadenas
+	$$
+		x = w_0, w_1, \dots, w_n = y,
+	$$
+	tal que $w_i \gder w_{i+1}$ para todo $0 \leq i < n$.
+
+	Si $n \geq 1$, esta relación se denota por $x \gderp y$.
+
+	Si $n \geq 0$, esta relación se denota por $x \gderz y$.
+\end{definition}
+
 Una cadena $w \in T^*$ se puede generar por una gramática $G$ si existe una secuencia de derivaciones que comienza con el símbolo inicial $S$ y termina con la cadena $w$. El lenguaje generado por $G$ es el conjunto de todas las cadenas $w \in T^*$ que puede generar $G$.
 
 \begin{definition}
@@ -108,19 +130,19 @@ Una cadena $w \in T^*$ se puede generar por una gramática $G$ si existe una sec
 La jerarquía de Chomsky \cite{hunter2020chomsky} clasifica las gramáticas en diferentes tipos según la forma de sus reglas de producción. Cada tipo de gramática es un subconjunto estricto del tipo anterior:
 
 \begin{itemize}
-	\item Las gramáticas tipo-0, también conocidas como gramáticas irrestrictas, son las más generales. Sus reglas no tienen restricciones (son de la forma $\alpha \gprod \beta$ donde $\alpha \in (N \cup T)^* - T^*$ y $\beta \in (N \cup T)^*$). El conjunto de lenguajes que generan se denomina lenguajes recursivamente enumerables (RE).
+	\item Las gramáticas tipo-0, también conocidas como gramáticas irrestrictas (UG), son las más generales. Sus reglas no tienen restricciones (son de la forma $\alpha \gprod \beta$ donde $\alpha \in (N \cup T)^* - T^*$ y $\beta \in (N \cup T)^*$). El conjunto de lenguajes que generan se denomina lenguajes recursivamente enumerables (RE).
 
-	\item En las gramáticas de tipo-1, o gramáticas dependientes del contexto (CS), las reglas de producción son de la forma $\alpha A \gamma \gprod \alpha \beta \gamma$, donde $A \in N$, $\alpha, \beta, \gamma \in (N \cup T)^*$, y $|\beta| \geq 1$. Estas generan los lenguajes dependientes del contexto (CS).
+	\item En las gramáticas de tipo-1, o gramáticas dependientes del contexto (CSG), las reglas de producción son de la forma $\alpha A \gamma \gprod \alpha \beta \gamma$, donde $A \in N$, $\alpha, \beta, \gamma \in (N \cup T)^*$, y $|\beta| \geq 1$. Estas generan los lenguajes dependientes del contexto.
 
 	\item Las gramáticas de tipo-2, o gramáticas libres de contexto (CFG), son muy utilizadas en la construcción de compiladores \cite{automataTheory}. Sus reglas de producción son de la forma $A \gprod \beta$, donde $A \in N$ y $\beta \in (N \cup T)^*$. Estas generan los lenguajes libres de contexto (CFL por sus siglas en inglés).
 
-	\item Finalmente, las gramáticas de tipo-3, o gramáticas regulares, son gramáticas con reglas de producción de la forma $A \gprod aB$ o $A \gprod a$, donde $A, B \in N$ y $a \in T$. Estas gramáticas generan los lenguajes regulares (REG).
+	\item Finalmente, las gramáticas de tipo-3, o gramáticas regulares (REG), son gramáticas con reglas de producción de la forma $A \gprod aB$ o $A \gprod a$, donde $A, B \in N$ y $a \in T$. Estas gramáticas generan los lenguajes regulares.
 \end{itemize}
 
 \begin{definition}
 	Sea $X \in \{\re, \csen, \cfg, \reg\}$ una clase de gramáticas, la familia de lenguajes generados por $X$ se define como:
 	$$
-		\mathcal{L}(X) = \{L(G) \suchthat G \text{ es una gramática de tipo } X\}.
+		\mathcal{L}(X) = \{L(G) \suchthat G \text{ es una gramática de la clase } X\}.
 	$$
 \end{definition}
 
@@ -137,10 +159,10 @@ $$
 
 Algunos ejemplos de cadenas que pertenecen a $\repeatlang$ son $0d$, $1d$, $00d$, $10d$, $110d$, $0d0d$, $1d1d$, $00d00d00d00d$, $10d10d$ y $110d110d$.
 
-Si se toma un caso particular de $\repeatlang$, al cual se le llama 
+Si se toma un caso particular de $\repeatlang$, al cual se le llama
 $$
-\repeatlang^n = \{(wd)^n \suchthat w \in \binalph\}
-$$ 
+	\repeatlang^n = \{(wd)^n \suchthat w \in \binalph\}
+$$
 se cumple que $\repeatlang^1$ es un lenguaje regular, mientras que $\repeatlang^k$ para $k > 1$ es un lenguaje dependiente del contexto \cite{automataTheory}.
 
 Los lenguajes regulares están relacionados con los autómatas finitos, los cuales se junto con el lenguaje dependiente del contexto $\repeatlang$ se utilizan en el capítulo \ref{ch:el-teorema} para construir el lenguaje de las interpretaciones que satisfacen una fórmula booleana dada. En la siguiente sección se definen los autómatas finitos.
@@ -183,22 +205,22 @@ El autómata finito determinista acepta una cadena $w$ si al aplicar la función
 
 \begin{figure}[t]
 	\centering
-    \begin{otherlanguage}{english}
-        \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
+	\begin{otherlanguage}{english}
+		\begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
 
-            % Estados falsos
-            \node[state, initial] (q0) {$q_0$};
-            \node[state] (q1) [right=of q0] {$q_1$};
-            \node[state, accepting] (q2) [right=of q1] {$q_2$};
-			
-            \path[->]
+			% Estados falsos
+			\node[state, initial] (q0) {$q_0$};
+			\node[state] (q1) [right=of q0] {$q_1$};
+			\node[state, accepting] (q2) [right=of q1] {$q_2$};
 
-            (q0) edge node {a} (q1)
-            (q1) edge node {a} (q2);
-			
-        \end{tikzpicture}
-		
-    \end{otherlanguage}
+			\path[->]
+
+			(q0) edge node {a} (q1)
+			(q1) edge node {a} (q2);
+
+		\end{tikzpicture}
+
+	\end{otherlanguage}
 	\caption{Autómata finito determinista que reconoce el lenguaje $\{aa\}$.}
 	\label{fig:dfa-example}
 \end{figure}
