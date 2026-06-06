@@ -427,9 +427,10 @@ A continuación se define formalmente el autómata fórmula asociado a una fórm
         \daut{Ci} = (Q_i, \{0, 1, d\}, \delta_i, (q_{fi}, 0), (q_{di}))
     $$
     el autómata cláusula con separador asociado a cada cláusula $C_i$ de la fórmula $F$.
-    Se define el autómata fórmula asociado a $F$ como
+
+    Se define el autómata fórmula $\aut{F}$ asociado a $F$ como el autómata finito determinista resultante de eliminar el indeterminismo del autómata
     $$
-        \aut{F} = (Q, \{0, 1, d\}, \delta, (q_{f1}, 0), \{q_{dm}\})
+        \mathcal{N}_F = (Q, \{0, 1, d\}, \delta, (q_{f1}, 0), \{q_{dm}\})
     $$ donde:
     \begin{itemize}
         \item $Q = \bigcup_{i=1}^{m} Q_i$
