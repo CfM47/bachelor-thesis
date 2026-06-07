@@ -3,7 +3,7 @@
 
 En esta sección se propone una gramática libre de contexto múltiple paralela (pMCFG) que genera el lenguaje de las interpretaciones de fórmulas booleanas codificadas como cadenas binarias separadas por el símbolo $d$. Esta gramática se utilizará junto con el teorema \ref{thm:el-teorema} del capítulo \ref{ch:el-teorema} para demostrar que cualquier algoritmo que construya la intersección de una pMCFG con un lenguaje regular no puede ser polinomial a menos que P = NP.
 
-En la sección \ref{sec:repeatlang-pmcfg} se presenta la gramática pMCFG que genera el lenguaje de las interpretaciones de fórmulas booleanas codificadas como cadenas binarias separadas por el símbolo $d$, se explica su funcionamiento y se demuestra formalmente que esta genera el lenguaje $\repeatlang$. En la sección \ref{sec:wplus-results} se utiliza esta gramática para demostrar que si las pMCFG fueran cerradas bajo intersección con lenguajes regulares, hallar la intersección entre una pMCFG y un lenguaje regular es un problema NP-duro.
+En la sección \ref{sec:repeatlang-pmcfg} se presenta la gramática pMCFG que genera el lenguaje de las interpretaciones de fórmulas booleanas codificadas como cadenas binarias separadas por el símbolo $d$, se explica su funcionamiento y se demuestra formalmente que esta genera el lenguaje $\repeatlang$. En la sección \ref{sec:wplus-results} se utiliza esta gramática para demostrar que no existe un algoritmo polinomial para construir una pMCFG que genere la intersección de una pMCFG con un lenguaje regular a menos que P=NP.
 
 A continuación se muestra que el lenguaje $\repeatlang$ puede ser descrito por una pMCFG.
 
@@ -30,23 +30,23 @@ Para ello se define la gramática pMCFG $\repeatgramm$ de la figura \ref{fig:rep
 
     \begin{minipage}{0.45\textwidth}
         \begin{align*}
-            S &\gprod res(C) \\
-            C &\gprod copy(C) \\
-            C &\gprod copy(A) \\
-            A &\gprod f_0(A) \\
-            A &\gprod f_1(A) \\
-            A &\gprod g()
+            S & \gprod res(C)  \\
+            C & \gprod copy(C) \\
+            C & \gprod copy(A) \\
+            A & \gprod f_0(A)  \\
+            A & \gprod f_1(A)  \\
+            A & \gprod g()
         \end{align*}
     \end{minipage}
     \hfill
     \begin{minipage}{0.45\textwidth}
         \begin{align*}
-            res[(x,y)]   &= (y) \\
-            copy[(x,y)] &= (x,xy) \\
+            res[(x,y)]  & = (y)        \\
+            copy[(x,y)] & = (x,xy)     \\
             \\
-            f_0[(x,y)]  &= (0x,y) \\
-            f_1[(x,y)]  &= (1x,y) \\
-            g()         &= (d,\eword)
+            f_0[(x,y)]  & = (0x,y)     \\
+            f_1[(x,y)]  & = (1x,y)     \\
+            g()         & = (d,\eword)
         \end{align*}
 
     \end{minipage}
@@ -70,48 +70,48 @@ El comportamiento de la gramática puede describirse de la siguiente forma:
 Para ilustrar el funcionamiento de la gramática $\repeatgramm$, se demostrará que $010d010d \in L(\repeatgramm)$:
 
 \begin{enumerate}
-    \item $(d, \eword) \in L(A)$ porque 
-    \begin{itemize}
-        \item $g() = (d, \eword)$
-        \item y existe la producción $A \gprod g()$.
-    \end{itemize}
+    \item $(d, \eword) \in L(A)$ porque
+          \begin{itemize}
+              \item $g() = (d, \eword)$
+              \item y existe la producción $A \gprod g()$.
+          \end{itemize}
 
-    \item $(0d, \eword) \in L(A)$ porque 
-    \begin{itemize}
-        \item $(d, \eword) \in L(A)$,
-        \item $f_0[(d, \eword)] = (0d, \eword)$
-        \item y existe la producción $A \gprod f_0(A)$.
-    \end{itemize}
+    \item $(0d, \eword) \in L(A)$ porque
+          \begin{itemize}
+              \item $(d, \eword) \in L(A)$,
+              \item $f_0[(d, \eword)] = (0d, \eword)$
+              \item y existe la producción $A \gprod f_0(A)$.
+          \end{itemize}
     \item $(10d, \eword) \in L(A)$ porque
-    \begin{itemize}
-        \item $(0d, \eword) \in L(A)$, 
-        \item $f_1[(0d, \eword)] = (10d, \eword)$ 
-        \item y existe la producción $A \gprod f_1(A)$.
-    \end{itemize}
+          \begin{itemize}
+              \item $(0d, \eword) \in L(A)$,
+              \item $f_1[(0d, \eword)] = (10d, \eword)$
+              \item y existe la producción $A \gprod f_1(A)$.
+          \end{itemize}
     \item $(010d, \eword) \in L(A)$ porque
-    \begin{itemize}
-        \item $(10d, \eword) \in L(A)$,
-        \item $f_0[(10d, \eword)] = (010d, \eword)$.
-        \item y existe la producción $A \gprod f_0(A)$.
-    \end{itemize}
-    \item $(010d, 010d) \in L(C)$ porque 
-    \begin{itemize}
-        \item $(010d, \eword) \in L(A)$,
-        \item $copy[(010d, \eword)] = (010d, 010d)$ 
-        \item y existe la producción $C \gprod copy(A)$.
-    \end{itemize}
-    \item $(010d, 010d010d) \in L(C)$ porque 
-    \begin{itemize}
-        \item $(010d, 010d) \in L(C)$, 
-        \item $copy[(010d, 010d)] = (010d, 010d010d)$ 
-        \item y existe la producción $C \gprod copy(C)$.
-    \end{itemize}
-    \item $(010d010d) \in L(S)$ porque 
-    \begin{itemize}
-        \item $(010d, 010d010d) \in L(C)$, 
-        \item $res[(010d, 010d010d)] = (010d010d)$ 
-        \item y existe la producción $S \gprod res(C)$.
-    \end{itemize}
+          \begin{itemize}
+              \item $(10d, \eword) \in L(A)$,
+              \item $f_0[(10d, \eword)] = (010d, \eword)$.
+              \item y existe la producción $A \gprod f_0(A)$.
+          \end{itemize}
+    \item $(010d, 010d) \in L(C)$ porque
+          \begin{itemize}
+              \item $(010d, \eword) \in L(A)$,
+              \item $copy[(010d, \eword)] = (010d, 010d)$
+              \item y existe la producción $C \gprod copy(A)$.
+          \end{itemize}
+    \item $(010d, 010d010d) \in L(C)$ porque
+          \begin{itemize}
+              \item $(010d, 010d) \in L(C)$,
+              \item $copy[(010d, 010d)] = (010d, 010d010d)$
+              \item y existe la producción $C \gprod copy(C)$.
+          \end{itemize}
+    \item $(010d010d) \in L(S)$ porque
+          \begin{itemize}
+              \item $(010d, 010d010d) \in L(C)$,
+              \item $res[(010d, 010d010d)] = (010d010d)$
+              \item y existe la producción $S \gprod res(C)$.
+          \end{itemize}
     \item $010d010d \in L(\repeatgramm)$ porque $(010d010d) \in L(S)$ y $S$ es el símbolo inicial de $\repeatgramm$.
 \end{enumerate}
 
@@ -121,10 +121,10 @@ El la gramática $\repeatgramm$ genera exactamente el lenguaje $\repeatlang$. Es
 
 \begin{theorem}
     \label{thm:repeatlang-pmcfg}
-    Sean $\repeatgramm$ la gramática pMCFG definida en la figura \ref{fig:repeat-grammar} y $\repeatlang$ el lenguaje definido como 
+    Sean $\repeatgramm$ la gramática pMCFG definida en la figura \ref{fig:repeat-grammar} y $\repeatlang$ el lenguaje definido como
     $$
-    \{(wd)^n \suchthat w \in \binalph^*, n \geq 1\}
-    $$ 
+        \{(wd)^n \suchthat w \in \binalph^*, n \geq 1\}
+    $$
     Se cumple que $L(\repeatgramm) = \repeatlang$.
 \end{theorem}
 
@@ -162,13 +162,13 @@ $$
 
 \subparagraph{Caso base} $|w| = 0$. Se tiene que $w = \eword$, luego $w d = d$ y $(d, \eword) \in L(A)$ ya que $A \gprod g()$.
 
-\subparagraph{Paso inductivo} Supóngase que para todo $w' \in \binalph^*$ con $|w'| = k$ se cumple que $(w' d, \eword) \in L(A)$. 
+\subparagraph{Paso inductivo} Supóngase que para todo $w' \in \binalph^*$ con $|w'| = k$ se cumple que $(w' d, \eword) \in L(A)$.
 
 Entonces, para cualquier cadena de la forma $aw'd$ se tiene que $(a w' d, \eword) \in L(A)$  con $a \in \binalph$, ya que $(w' d, \eword) \in L(A)$, $f_a[(w' d, \eword)] = (aw'd, \eword) $ y se tiene la regla $A \gprod f_a(A)$. Luego $(w d, \eword) \in L(A)$ para todo $w \in \binalph^*$.
 
-A continuación se demostrará que 
+A continuación se demostrará que
 $$
-L(A) \subseteq \{ (w d, \eword) \suchthat w \in \binalph^* \}
+    L(A) \subseteq \{ (w d, \eword) \suchthat w \in \binalph^* \}
 $$
 
 Por definición, $L(A)$ es el menor conjunto de tuplas en $(T^*)^2$ que cumple las siguientes condiciones:
@@ -187,8 +187,8 @@ En efecto, $\{ (w d, \eword) \suchthat w \in \binalph^* \}$ cumple las condicion
 
 Al ser $L(A)$ el menor conjunto que cumple las condiciones anteriores, entonces necesariamente $L(A) \subseteq \{ (w d, \eword) \suchthat w \in \binalph^* \}$.
 
-Finalmente, como se tiene 
-$$\{ (w d, \eword) \suchthat w \in \binalph^* \} \subseteq L(A) \quad \text{y} \quad L(A) \subseteq \{ (w d, \eword) \suchthat w \in \binalph^* \},$$ 
+Finalmente, como se tiene
+$$\{ (w d, \eword) \suchthat w \in \binalph^* \} \subseteq L(A) \quad \text{y} \quad L(A) \subseteq \{ (w d, \eword) \suchthat w \in \binalph^* \},$$
 entonces $L(A) = \{ (w d, \eword) \suchthat w \in \binalph^* \}$. \qed
 
 A continuación se caracteriza el lenguaje asociado al no terminal $C$.
@@ -247,16 +247,16 @@ Por definición, $L(C)$ es el menor conjunto de tuplas en $(T^*)^2$ que cumple l
 
 El conjunto $\{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}$ cumple las condiciones anteriores:
 \begin{itemize}
-    \item Si $(x, y) \in L(A)$ entonces por el lema \ref{lemma:la} 
-    $$
-    (x, y) = (x, \eword),
-    $$
-    por tanto,
-    $$copy[(x, y)] = copy[(x, \eword)] = (x, x) \in \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}.$$
+    \item Si $(x, y) \in L(A)$ entonces por el lema \ref{lemma:la}
+          $$
+              (x, y) = (x, \eword),
+          $$
+          por tanto,
+          $$copy[(x, y)] = copy[(x, \eword)] = (x, x) \in \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}.$$
     \item Si $(x, y) \in \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}$ entonces $$
-    (x, y) = (x, x^k) \quad \text{para algun } k \geq 1,
-    $$ 
-    luego $copy[(x, y)] = copy[(x, x^{k})] = (x, x^{k+1}) \in \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}$.
+              (x, y) = (x, x^k) \quad \text{para algun } k \geq 1,
+          $$
+          luego $copy[(x, y)] = copy[(x, x^{k})] = (x, x^{k+1}) \in \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}$.
 \end{itemize}
 
 Al ser $L(C)$ el menor conjunto que cumple las condiciones anteriores, entonces necesariamente $L(C) \subseteq \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}$.
@@ -305,22 +305,29 @@ Por definición, el lenguaje asociado al no terminal $S$ es el lenguaje generado
 Por el lema \ref{lemma:la} se tiene que el lenguaje asociado al no terminal $A$ es el de las tuplas de la forma $(wd, \eword)$ con $w \in \binalph^*$, con este resultado y aplicando el lema \ref{lem:lc} se tiene que el lenguaje asociado al no terminal $C$ es el de las tuplas de la forma $(wd, (wd)^n)$ $w \in \binalph^*$ y $n \geq 1$. Finalmente, aplicando el lema \ref{lem:ls} se tiene que el lenguaje generado por $G_{0, 1, d}$ es el de las cadenas de la forma $(wd)^n$ con $w \in \binalph^*$ y $n \geq 1$, es decir, exactamente el lenguaje $\repeatlang$. Por lo tanto, $L(G_{0, 1, d}) = \repeatlang$. \qed
 
 
-Esto demuestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. Además se tiene que se puede decidir si una pMCFG es vacía en tiempo polinomial mediante el algoritmo expuesto en el capítulo \ref{ch:pmcfg}. En la siguiente sección se muestra que estas propiedades implican que si las pMCFG fueran cerradas bajo intersección con lenguajes regulares, entonces determinar la intersección entre una pMCFG y un lenguaje regular sería un problema NP-duro.
+Esto demuestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. Además se tiene que se puede decidir si una pMCFG es vacía en tiempo polinomial mediante el algoritmo expuesto en el capítulo \ref{ch:pmcfg}. En la siguiente sección se muestra que estas propiedades implican que no existe un algoritmo polinomial para determinar una pMCFG que represente la intersección de una pMCFG con un lenguaje regular a menos que P=NP.
 
 \section{Resultados sobre la intersección entre pMCFG y lenguajes regulares}
 \label{sec:wplus-results}
 
-El teorema \ref{thm:repeatlang-pmcfg} muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. Además en el capítulo \ref{ch:pmcfg} se demuestra que decidir si el lenguaje generado por una pMCFG es vacío es decidible en tiempo polinomial. Aunque en la literatura consultada no se ha encontrado ningún algoritmo correcto que determine la intersección entre una pMCFG y un lenguaje regular el teorema siguiente muestra que determinar dicha intersección es NP-duro.
+El teorema \ref{thm:repeatlang-pmcfg} muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. Además en el capítulo \ref{ch:pmcfg} se demuestra que decidir si el lenguaje generado por una pMCFG es vacío es decidible en tiempo polinomial. Aunque en la literatura consultada no se ha encontrado ningún algoritmo correcto que para obtener una pMCFG que represente la intersección entre una pMCFG y un lenguaje regular, el teorema siguiente muestra que no existe algoritmo polinomial para ello a menos que P=NP.
 
 \begin{theorem}
     \label{thm:pmcfg-int-reg}
-    Si las pMCFG fueran cerradas bajo intersección con lenguajes regulares, entonces determinar la intersección entre una pMCFG y un lenguaje regular es NP-duro.
+    No existe un algoritmo polinomial para construir dado una pMCFG $G$ y un DFA $\aut{}$, una pMCFG $G'$ tal que $L(G')=L(G) \cap L(\aut{})$, a menos que P=NP.
 \end{theorem}
 
-\paragraph{Demostración} Sean $R$ un lenguaje regular y $G$ una pMCFG. Suponiendo que las pMCFG son cerradas bajo intersección con lenguajes regulares se tiene que existe una pMCFG $G'$ tal que $L(G') = L(G) \cap R$. Aplicando los teoremas \ref{thm:repeatlang-pmcfg} y \ref{thm:el-teorema} se tiene que decidir si $L(G') = \emptyset$ es un problema NP-duro. Por el teorema \ref{thm:empty-pmcfg} se tiene que decidir si $L(G')$ es vacío es decidible en tiempo polinomial con respecto al tamaño de $G'$. Por lo tanto determinar $G' = L(G) \cap R$ es un problema NP-duro. \qed
+\paragraph{Demostración}
+Supóngase que tal algoritmo existe. Por el teorema \ref{thm:repeatlang-pmcfg}, existe una pMCFG $\repeatgramm$ de tamaño constante tal que $L(\repeatgramm) = \repeatlang$.
 
-El teorema anterior describe una consecuencia de la construcción presentada en esta sección, la cual muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. En la literatura consultada solo se encontró el algoritmo propuesto en \cite{Seki1991OnMC} para determinar la intersección entre una MCFG el cual también se propone para las pMCFG. Sin embargo este algoritmo no es aplicable para las pMCFG, como se demuestra en el capítulo \ref{ch:pmcfg} 
+Por el teorema \ref{thm:empty-pmcfg}, existe un algoritmo polinomial para determinar si el lenguaje generado por una pMCFG dada es vacío.
 
-El teorema anterior demuestra que dicho algoritmo no puede ser polinomial a menos que P = NP, lo que podría explicar la ausencia de dicho algoritmo en la literatura. Sin embargo, el teorema \ref{thm:pmcfg-int-reg} no descarta la existencia de un algoritmo no polinomial para determinar la intersección entre una pMCFG y un lenguaje regular, lo cual se propone como sugerencia para futuras investigaciones.
+Sin embargo, por el teorema \ref{thm:el-teorema}, no pueden existir simultáneamente un algoritmo polinomial que construya la intersección de una pMCFG con un lenguaje regular (produciendo otra pMCFG) y un algoritmo polinomial que decida el vacío de una pMCFG, a menos que P = NP.
+
+Por lo tanto, no puede existir un algoritmo polinomial que, dada una pMCFG $G$ y un DFA $\aut{}$, construya una pMCFG $G'$ con $L(G') = L(G) \cap L(\aut{})$, a menos que P=NP. \qed
+
+El teorema anterior describe una consecuencia de la construcción presentada en esta sección, la cual muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. En la literatura consultada solo se encontró el algoritmo propuesto en \cite{Seki1991OnMC} para determinar la intersección entre una MCFG el cual también se propone para las pMCFG. Sin embargo este algoritmo no es aplicable para las pMCFG, como se demuestra en el capítulo \ref{ch:pmcfg}
+
+El teorema anterior demuestra que dicho algoritmo no puede ser polinomial a menos que P=NP, lo que podría explicar la ausencia de dicho algoritmo en la literatura. Sin embargo, el teorema \ref{thm:pmcfg-int-reg} no descarta la existencia de un algoritmo no polinomial para determinar la intersección entre una pMCFG y un lenguaje regular, lo cual se propone como sugerencia para futuras investigaciones.
 
 En el siguiente capítulo se presentan las conclusiones y recomendaciones del trabajo.
