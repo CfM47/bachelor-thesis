@@ -326,8 +326,8 @@ Sin embargo, por el teorema \ref{thm:el-teorema}, no pueden existir simultáneam
 
 Por lo tanto, no puede existir un algoritmo polinomial que, dada una pMCFG $G$ y un DFA $\aut{}$, construya una pMCFG $G'$ con $L(G') = L(G) \cap L(\aut{})$, a menos que P=NP. \qed
 
-El teorema anterior describe una consecuencia de la construcción presentada en esta sección, la cual muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. En la literatura consultada solo se encontró el algoritmo propuesto en \cite{Seki1991OnMC} para determinar la intersección entre una MCFG el cual también se propone para las pMCFG. Sin embargo este algoritmo no es aplicable para las pMCFG, como se demuestra en el capítulo \ref{ch:pmcfg}
+El teorema anterior describe una consecuencia de la construcción presentada en esta sección, la cual muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. En la literatura consultada solo se encontró el algoritmo propuesto en \cite{Seki1991OnMC} para intersectar una MCFG con un lenguaje regular, el cual también se propone para las pMCFG. Sin embargo este algoritmo no es aplicable para las pMCFG, como se demuestra en el capítulo \ref{ch:pmcfg}.
 
-El teorema anterior demuestra que dicho algoritmo no puede ser polinomial a menos que P=NP, lo que podría explicar la ausencia de dicho algoritmo en la literatura. Sin embargo, el teorema \ref{thm:pmcfg-int-reg} no descarta la existencia de un algoritmo no polinomial para determinar la intersección entre una pMCFG y un lenguaje regular, lo cual se propone como sugerencia para futuras investigaciones.
+El teorema anterior demuestra que dicho algoritmo no puede ser polinomial a menos que P=NP, lo que podría explicar la ausencia de dicho algoritmo en la literatura. Sin embargo, el teorema \ref{thm:pmcfg-int-reg} no descarta la existencia de un algoritmo no polinomial para determinar una representación de la intersección entre una pMCFG y un lenguaje regular, lo cual se propone como sugerencia para futuras investigaciones.
 
 En el siguiente capítulo se presentan las conclusiones y recomendaciones del trabajo.
