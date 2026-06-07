@@ -237,6 +237,18 @@ En la figura \ref{fig:dfa-example} se muestra un DFA que reconoce el lenguaje $\
 
 En \cite{automataTheory} se demuestra que los lenguajes reconocidos por DFAs son exactamente los lenguajes regulares.
 
+Los conjuntos o familias de lenguajes pueden ser cerrados o no bajo ciertas operaciones. A continuación se define qué significa que una familia de lenguajes sea cerrada bajo intersección con lenguajes regulares.
+
+\begin{definition}
+	Una familia de lenguajes $\mathcal{C}$ es cerrada bajo intersección con lenguajes regulares si para todo lenguaje $L \in \mathcal{C}$ y para todo lenguaje regular $R$, se tiene que $L \cap R \in \mathcal{C}$.
+\end{definition}
+
+La definición anterior garantiza que el lenguaje resultante pertenezca a la familia, pero no dice nada sobre cómo obtener una representación de $L \cap R$ a partir de representaciones de $L$ y $R$. La siguiente definición introduce la noción de intersección efectiva con lenguajes regulares.
+
+\begin{definition}
+	Un formalismo $\mathcal{F}$ que genera una familia de lenguajes $\mathcal{C}$ es efectivamente cerrado bajo intersección con lenguajes regulares si existe un algoritmo que, dada una representación en $\mathcal{F}$ de un lenguaje $L \in \mathcal{C}$ y un DFA que reconoce un lenguaje regular $R$, construye una representación en $\mathcal{F}$ de $L \cap R$.
+\end{definition}
+
 En el contexto de la teoría de lenguajes formales, resulta necesario analizar el costo computacional de las operaciones y problemas asociados a lenguajes. Para medir este costo se utiliza la teoría de la complejidad computacional. A continuación se introducen nociones básicas de complejidad computacional que serán útiles para dicho análisis.
 
 \section{Complejidad computacional}
