@@ -244,10 +244,10 @@ La teoría de la complejidad computacional clasifica problemas en función de lo
 
 \subsection{Notación asintótica}
 
-La notación asintótica se usa para describir el comportamiento de una función $f(n)$, donde $n$ es el tamaño de la entrada. A continuación se define la notación $O$ (grande):
+La notación asintótica se usa para describir el comportamiento de una función $f(n)$, donde $n$ es el tamaño de la entrada. A continuación se define la notación $O$ (grande) \cite{Cormen2009IntroductionTA}:
 
 \begin{definition}
-	Sea $f(n)$ y $g(n)$ dos funciones de $n$. Se dice que $f(n) = O(g(n))$ si existen constantes positivas $c$ y $n_0$ tales que:
+	Sean $f(n)$ y $g(n)$ dos funciones de $n$. Se dice que $f(n) = O(g(n))$ si existen constantes positivas $c$ y $n_0$ tales que:
 
 	$$
 		f(n) \leq c \cdot g(n) \quad \text{para todo $n \geq n_0$}.
@@ -256,29 +256,88 @@ La notación asintótica se usa para describir el comportamiento de una función
 
 Esta notación se utiliza para describir el límite superior del crecimiento de una función, lo cual se usa para analizar la eficiencia de algoritmos y la complejidad de problemas computacionales.
 
-Se dice que un algoritmo requiere una cantidad de tiempo polinomial si puede ejecutarse en una complejidad de $O(n^k)$ donde $n$ es el tamaño de la entrada del algoritmo y $k$ es una constante. La complejidad de un problema es la complejidad del algoritmo más eficiente que lo resuelve en el peor caso.
+Algunos casos especiales utilizados son:
+\begin{itemize}
+	\item Cuando $f(n) = O(1)$, se dice que $f(n)$ es constante.
+	\item Cuando $f(n) = O(n^k)$, para alguna constante $k \geq 0$ se dice que $f(n)$ es polinomial.
+	\item Cuando $f(n) = O(c^n)$, para alguna constante $c > 1$ se dice que $f(n)$ es exponencial.
+\end{itemize}
 
-En dependencia de los recursos computacionales necesarios para resolverlos, los problemas se agrupan en diferentes clases de complejidad. A continuación se presentan algunas de estas, las cuales clasifican problemas de decisión.
+Estas categorías de funciones se utilizan para delimitar los algoritmos eficientes (polinomiales) de los ineficientes (exponenciales) y para clasificar problemas según la dificultad de resolverlos. En la siguiente sección se introducen los conceptos de problema y reducción polinomial, este último como una manera de comparar problemas según su dificultad.
+
+\subsection{Problemas y su dificultad}
+
+En la ciencia de la computación se entiende por problema a un conjunto de instancias, cada una de las cuales requiere una solución. A continuación se define formalmente este concepto.
+
+\begin{definition}
+	Un problema es una relación binaria $\problem \subseteq I \times S$ donde $I$ es el conjunto de instancias del problema y $S$ es el conjunto de soluciones posibles.
+
+	Si el conjunto de soluciones $S$ es $\{0, 1\}$, donde $1$ representa una respuesta afirmativa y $0$ una respuesta negativa, entonces se dice que el problema es un problema de decisión.
+\end{definition}
+
+Por algoritmo se entiende, de manera informal, un procedimiento efectivo que, dada una instancia de un problema, produce una solución en un número finito de pasos \cite{Cormen2009IntroductionTA}. Se dice entonces que un algoritmo resuelve un problema $\problem$ si para cada instancia $i \in I$, el algoritmo produce una solución $s \in S$ tal que $(i, s) \in \problem$ \cite{Cormen2009IntroductionTA}.
+
+Para clasificar los algoritmos según su eficiencia es necesario medir el número de pasos que realizan en función del tamaño de la instancia recibida.
+
+\begin{definition}
+	Un algoritmo que resuelve un problema $\problem$ es un algoritmo polinomial si existe una constante $k \geq 0$ tal que, para toda instancia $i \in I$ de tamaño $n$, el algoritmo produce una solución en tiempo $O(n^k)$ \cite{Cormen2009IntroductionTA}.
+\end{definition}
+
+En la definición anterior, el tamaño $n$ de una instancia se refiere a una medida natural de la cantidad de información que la describe, especificada al introducir el tipo de objeto correspondiente. Cuando una instancia esté formada por varios objetos, su tamaño es la suma de los tamaños de sus componentes. En general, se denota por $|i|$ el tamaño de la instancia $i$.
+
+En varios puntos de este trabajo se analizará la complejidad respecto a una parte específica de la entrada, manteniendo otra fija.
+
+% aquí quiero ejemplos de esto que no sean de gramáticas, una funcion con dos variables y sea polinomial respecto a una de ellas y exponencial respecto a la otra.
+
+A partir de la definición de algoritmo polinomial puede definirse cuándo una función es eficientemente computable.
+
+\begin{definition}
+	Se dice que una función $f: X \to Y$ es computable en tiempo polinomial si existe un algoritmo polinomial que, dado cualquier $x \in X$, produce $f(x)$.
+\end{definition}
+
+Las funciones computables en tiempo polinomial servirán para formalizar la idea de reducir un problema a otro. Sin embargo, conviene introducir una segunda manera de caracterizar la dificultad de un problema, la cual se basa en verificar soluciones propuestas.
+
+\begin{definition}
+	Sea $\problem$ un problema de decisión sobre un conjunto de instancias $I$. Un verificador polinomial $V$ para $\problem$ es un algoritmo que recibe pares $(i, c)$ donde $i \in I$ y $c$ es un objeto auxiliar llamado certificado. El verificador $V$ debe cumplir además que:
+	\begin{itemize}
+		\item $V$ se ejecuta en tiempo polinomial respecto al tamaño de $i$.
+		\item Existe una constante $k \geq 0$ tal que para toda instancia $i \in I$, se tiene que $(i, 1) \in \problem$ si y solo si existe un certificado $c$ con $|c| = O(|i|^k)$ tal que $V(i, c) = 1$.
+	\end{itemize}
+\end{definition}
+
+Para comparar la dificultad de resolver diferentes problemas, se introduce el concepto de reducción polinomial, que formaliza la idea de que un problema es al menos tan difícil como otro.
+
+\begin{definition}
+	Sean $\problem_1$ y $\problem_2$ dos problemas de decisión sobre conjuntos de instancias $I_1$ e $I_2$ respectivamente. Una reducción polinomial de $\problem_1$ a $\problem_2$ es una función $f: I_1 \to I_2$  computable en tiempo polinomial tal que
+	$$
+		(i, 1) \in \problem_1 \text{ si y solo si } (f(i), 1) \in \problem_2.
+	$$
+
+	Si existe una reducción polinomial de $\problem_1$ a $\problem_2$, se dice que $\problem_1$ se reduce polinomialmente a $\problem_2$ y se denota por $\problem_1 \leq_p \problem_2$.
+\end{definition}
+
+Las nociones de algoritmo polinomial, verificador y reducción permiten definir las clases de complejidad que se utilizarán en el resto del trabajo.
 
 \subsection{Clases de problemas}
 
 Los problemas de decisión se agrupan en diferentes clases según los recursos computacionales necesarios para resolverlos. A continuación se definen las clases de complejidad que se utilizarán a lo largo de este trabajo:
 
 \begin{definition}{(Clase P)}
-	La clase de complejidad P es el conjunto de problemas de decisión que pueden resolverse en tiempo polinomial \cite{automataTheory}.
+	La clase de complejidad P es el conjunto de problemas de decisión para los cuales existe un algoritmo polinomial que los resuelve \cite{Cormen2009IntroductionTA}.
 \end{definition}
 
 \begin{definition}{(Clase NP)}
-	La clase de complejidad NP es el conjunto de problemas de decisión para los cuales una solución propuesta puede ser verificada en tiempo polinomial \cite{automataTheory}.
-\end{definition}
-
-\begin{definition}({Clase NP-completo})
-	Un problema de decisión es NP-completo si pertenece a NP y además es tan difícil como cualquier otro problema en NP. Esto significa que cualquier problema en NP puede ser reducido a él en tiempo polinomial \cite{automataTheory}.
+	La clase de complejidad NP es el conjunto de problemas de decisión para los cuales existe un verificador polinomial \cite{Cormen2009IntroductionTA}.
 \end{definition}
 
 \begin{definition}({Clase NP-duro})
-	Un problema de decisión es NP-duro si es tan difícil como cualquier otro problema en NP pero no necesariamente pertenece a NP \cite{automataTheory}.
+	Un problema de decisión $\problem_1$ es NP-duro si para todo problema de decisión $\problem_2 \in \text{NP}$, se tiene que $\problem_2 \leq_p \problem_1$ \cite{Cormen2009IntroductionTA}.
 \end{definition}
+
+\begin{definition}({Clase NP-completo})
+	Un problema de decisión es NP-completo si pertenece a NP y es NP-duro \cite{Cormen2009IntroductionTA}.
+\end{definition}
+
 
 Determinar si P es igual a NP es uno de los problemas abiertos más famosos en la ciencia de la computación. P es un subconjunto de NP, pero hasta la fecha no se sabe si esta inclusión es estricta o si ambos conjuntos son iguales \cite{automataTheory}.
 
