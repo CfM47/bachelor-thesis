@@ -146,6 +146,8 @@ La jerarquía de Chomsky \cite{hunter2020chomsky} clasifica las gramáticas en d
 	$$
 \end{definition}
 
+El esquema anterior ilustra una situación más general. En este trabajo, por \lquoti formalismo\rquoti\; se entenderá, de manera informal, un conjunto de objetos matemáticos finitos, junto con la regla que asigna a cada uno al lenguaje que describe. La familia de lenguajes asociada al formalismo es el conjunto de todos los lenguajes así descritos. Por ejemplo, cada clase de gramáticas en la jerarquía de Chomsky es un formalismo, y los autómatas finitos deterministas, definidos en la sección \ref{sec:automata}, son otro.
+
 La jerarquía de Chomsky establece que:
 $$
 	\mathcal{L}(\reg) \subset \mathcal{L}(\cfg) \subset \mathcal{L}(\csen) \subset \mathcal{L}(\re).
@@ -246,7 +248,7 @@ Los conjuntos o familias de lenguajes pueden ser cerrados o no bajo ciertas oper
 La definición anterior garantiza que el lenguaje resultante pertenezca a la familia, pero no dice nada sobre cómo obtener una representación de $L \cap R$ a partir de representaciones de $L$ y $R$. La siguiente definición introduce la noción de intersección efectiva con lenguajes regulares.
 
 \begin{definition}
-	Un formalismo $\mathcal{F}$ que genera una familia de lenguajes $\mathcal{C}$ es efectivamente cerrado bajo intersección con lenguajes regulares si existe un algoritmo que, dada una representación en $\mathcal{F}$ de un lenguaje $L \in \mathcal{C}$ y un DFA que reconoce un lenguaje regular $R$, construye una representación en $\mathcal{F}$ de $L \cap R$.
+	Un formalismo $\formalism$ que genera una familia de lenguajes $\mathcal{C}$ es efectivamente cerrado bajo intersección con lenguajes regulares si existe un algoritmo que, dada una representación en $\formalism$ de un lenguaje $L \in \mathcal{C}$ y un DFA que reconoce un lenguaje regular $R$, construye una representación en $\formalism$ de $L \cap R$.
 \end{definition}
 
 En el contexto de la teoría de lenguajes formales, resulta necesario analizar el costo computacional de las operaciones y problemas asociados a lenguajes. Para medir este costo se utiliza la teoría de la complejidad computacional. A continuación se introducen nociones básicas de complejidad computacional que serán útiles para dicho análisis.

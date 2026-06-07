@@ -461,7 +461,7 @@ A continuación se define formalmente el autómata fórmula asociado a una fórm
                 \node[state] (qt13) [above=2cm of qf13] {$(q_{t1},3)$};
 
                 % Estado d
-                \node[state] (qd1) [right=2cm of qt13] {$q_{d1}$};
+                % \node[state] (qd1) [right=2cm of qt13] {$q_{d1}$};
 
                 % ------------------------------
 
@@ -503,10 +503,10 @@ A continuación se define formalmente el autómata fórmula asociado a una fórm
                 (qt12) edge node {0,1} (qt13)
 
                 % Transición para d
-                (qt13) edge node {d} (qd1)
+                (qt13) edge node {d} (qf20)
 
                 % Transición entre cláusulas
-                (qd1) edge node {$\eword$} (qf20)
+                % (qd1) edge node {$\eword$} (qf20)
 
                 % Transiciones de la segunda cláusula
                 % Desde qf0
@@ -532,7 +532,7 @@ A continuación se define formalmente el autómata fórmula asociado a una fórm
 
         }
     \end{otherlanguage}
-    \caption{Autómata fórmula asociado a la fórmula $F  = (x_1 \lor \neg x_3) \land (\neg x_1 \lor x_2)$.}
+    \caption{Autómata finito determinista asociado a la fórmula $F  = (x_1 \lor \neg x_3) \land (\neg x_1 \lor x_2)$.}
     \label{fig:formula_automaton}
 \end{figure}
 
@@ -657,28 +657,39 @@ Una consecuencia directa del teorema \ref{thm:lv-intersection} es el siguiente r
 
 \begin{theorem}
     \label{thm:el-teorema}
-    Para cualquier formalismo G que genere el lenguaje $\repeatlang$ y sea cerrado bajo intersección con lenguajes regulares, la construcción de la intersección con lenguajes regulares o el problema de vacío es NP-duro.
+    Sea $\formalism$ un formalismo para el cual existe una representación $\repeatgramm$, de tamaño constante, tal que $L(\repeatgramm) = \repeatlang$. Supóngase además que el problema de construir efectivamente la intersección entre una representación de $\formalism$ y un DFA está definido. Entonces no pueden existir simultáneamente:
+    \begin{itemize}
+        \item un algoritmo polinomial para construir dado una representación $G$ del formalismo $\formalism$ y un DFA $\aut{}$ una representación finita del lenguaje $L(G) \cap L(\aut{})$ en el formalismo $\formalism$;
+        \item y un algoritmo polinomial para dado una representación $G$ del formalismo $\formalism$ determinar si el lenguaje $L(G)$ es vacío
+    \end{itemize}
+    a menos que P = NP.
 \end{theorem}
 
-\subparagraph{Demostración} Supóngase que existe un formalismo $G$ que genera el lenguaje $\repeatlang$ y es cerrado bajo intersección con lenguajes regulares. Se demostrará que el problema de decidir si la intersección de un lenguaje generado por dicho formalismo con un lenguaje regular es vacía es NP-duro. Para ello, se reducirá el problema SAT a dicho problema.
+\subparagraph{Demostración} Supóngase que existen simultáneamente ambos algoritmos.
 
-Sea $F$ una fórmula booleana con $n$ variables y $m$ cláusulas.
+Sea $F$ una fórmula booleana con $n$ variables y $m$ cláusulas. Se construye el autómata $\aut{F}$ que reconoce el lenguaje $\indlang(F)$.
 
-Se construye el autómata $\aut{F}$ que reconoce el lenguaje $\indlang(F)$. Luego se construye el lenguaje $\repeatlang$ a partir del formalismo $G$. Dado que $G$ es cerrado bajo intersección con lenguajes regulares, entonces se puede construir el lenguaje $\indlang(F) \cap \repeatlang$ a partir de la intersección de $\indlang(F)$ y $\repeatlang$.
 
-Por el teorema \ref{thm:lv-intersection} se tiene que $\satlang(F) = \indlang(F) \cap \repeatlang$, por lo tanto decidir si existe una interpretación que hace verdadera a $F$ es equivalente a decidir si el lenguaje $\indlang(F) \cap \repeatlang$ es vacío o no.
+Dado que existe un algoritmo polinomial para construir dado una representación del formalismo $\formalism$ y un DFA una representación del lenguaje intersección de estos en el formalismo $\formalism$, se tiene que el formalismo $\formalism$ es efectivamente cerrado bajo intersección con lenguajes regulares. Además se puede obtener una representación de dicha intersección en tiempo polinomial.
 
-La construcción del autómata $\aut{F}$ es polinomial en el tamaño de la fórmula $F$, ya que $\aut{F}$ tiene $O(mn)$ estados, donde $m$ es la cantidad de cláusulas y $n$ es el número de variables de $F$. Por tanto, SAT se reduce al problema de obtener la intersección de un lenguaje regular con un lenguaje generado por el formalismo $G$ y decidir si el resultado es vacío.
+Dado que se tiene la representación $\repeatgramm$ del lenguaje $\repeatlang$ en el formalismo $\formalism$. Es posible construir una representación del lenguaje
 
-En consecuencia, al menos uno de estos problemas debe ser NP-duro:
-\begin{itemize}
-    \item construir la intersección con un lenguaje regular, o
-    \item decidir si el lenguaje resultante es vacío.
-\end{itemize}
+\begin{equation}
+    \label{eq:lang-eq}
+    \indlang(F) \cap \repeatlang = L(\aut{F}) \cap L(\repeatgramm)
+\end{equation}
 
-Luego, para cualquier formalismo que genere el lenguaje $\repeatlang$ y sea cerrado bajo intersección con lenguajes regulares, la construcción de dicha intersección o el problema del vacío asociado son NP-duros. \qed
+en el formalismo $\formalism$ en tiempo polinomial.
 
-Una restricción importante que debe tener el formalismo $G$ para que el teorema \ref{thm:el-teorema} se cumpla que es la representación de $\repeatlang$ como lenguaje generado por $G$ sea $O(1)$. Puesto que el hecho de que la reducción anterior sea polinomial depende de que el tamaño de la representación del lenguaje $\repeatlang$ a partir del formalismo $G$ no dependa de la fórmula booleana $F$.
+Aplicando el teorema \ref{thm:lv-intersection} a la ecuación \ref{eq:lang-eq} se tiene que
+$$
+    \satlang(F) = L(\aut{F}) \cap L(\repeatgramm),
+$$
+por lo tanto decidir si existe una interpretación que hace verdadera a $F$ es equivalente a decidir si el lenguaje $L(\aut{F}) \cap L(\repeatgramm)$ es vacío o no.
+
+Por hipótesis, existe un algoritmo polinomial que determina si es vacía o no cualquier representación en el formalismo $\formalism$. Por tanto, es posible determinar si es vacío el lenguaje $L(\aut{F}) \cap L(\repeatgramm)$ en tiempo polinomial.
+
+La construcción del autómata $\aut{F}$ es polinomial en el tamaño de la fórmula $F$, ya que $\aut{F}$ tiene $O(mn)$ estados, donde $m$ es la cantidad de cláusulas y $n$ es el número de variables de $F$. Además es posible obtener una representación del lenguaje $L(\aut{F}) \cap L(\repeatgramm)$ en el formalismo $\formalism$ y determinar si es vacía en tiempo polinomial. Se tiene algoritmo que resuelve el problema SAT, lo cual no es posible a menos que P=NP. \qed
 
 En este trabajo, al igual que en \cite{RCGSAT}, se conjetura que el lenguaje $\repeatlang$, tiene tamaño $O(1)$ en cualquiera de sus representaciones.
 
