@@ -78,7 +78,7 @@ A partir de las funciones de reordenamiento se definen las gramáticas libres de
     Una gramática libre de contexto múltiple paralela (pMCFG) es una tupla $G = (N, T, F, P, S)$ donde:
 
     \begin{itemize}
-        \item $N$ es un conjunto finito de símbolos llamados símbolos no terminales, cada $A \in N$ tiene una dimensión asociada $dim(A) \geq 1$. Esta dimension se representa mediante $dim(A)$.
+        \item $N$ es un conjunto finito de símbolos llamados símbolos no terminales, cada $A \in N$ tiene una dimensión asociada $dim(A) \geq 1$. La función $dim: N \to \mathbb{N}_{\geq 1}$ es parte de la especificación de la gramática.
         \item $T$ es un conjunto finito de símbolos llamados terminales. Se cumple que $N \cap T = \emptyset$.
         \item $F$ es un conjunto finito de funciones de reordenamiento.
         \item $P$ es un conjunto finito de reglas de la forma $A_0 \to f(A_1, \ldots, A_k)$ con $k \geq 0, f \in F$ tal que $f: (T^*)^{dim(A_1)} \times \ldots \times (T^*)^{dim(A_k)} \to (T^*)^{dim(A_0)}$.
@@ -86,28 +86,30 @@ A partir de las funciones de reordenamiento se definen las gramáticas libres de
     \end{itemize}
 \end{definition}
 
-La dimensión de los no terminales está determinada por las reglas de producción en las que participan. En una regla de la forma
+Las reglas de producción deben ser compatibles con la asignación de dimensiones. En una regla de la forma
 $$
     A_0 \to f(A_1,\ldots,A_k),
 $$
-la función de reordenamiento
+con la función de reordenamiento
 $$
-    f : (T^*)^{dim(A_1)} \times \cdots \times (T^*)^{dim(A_k)}
-    \to (T^*)^{dim(A_0)}
+    f : (T^*)^{d_1} \times \cdots \times (T^*)^{d_k}
+    \to (T^*)^{d_0}
 $$
-impone que el símbolo $A_i$ genere exactamente $dim(A_i)$ componentes, mientras que $A_0$ genera $dim(A_0)$ componentes.
+debe cumplirse que $d_i = dim(A_i)$ para todo $i \in \{0, \dots, k\}$.
 
 Por ejemplo, si se tiene una función de reordenamiento
 $$
     f : (T^*)^2 \times (T^*)^1 \to (T^*)^3,
 $$
-entonces una regla
+y una regla
 $$
     A \to f(B,C)
 $$
-requiere que $dim(B)=2$, $dim(C)=1$ y $dim(A)=3$.
+se tiene que cumplir que $dim(B)=2$, $dim(C)=1$ y $dim(A)=3$.
 
 Los símbolos terminales corresponden a los símbolos ordinarios de las cadenas generadas por la gramática. Por ejemplo, si $T=\{a,b\}$, entonces las cadenas producidas por la gramática estarán formadas únicamente por símbolos $a$ y $b$.
+
+El caso en que se tiene $f : (T^*)^{d_1} \times \cdots \times (T^*)^{d_k} \to (T^*)^{d_0}$ con $d_0 = 0$, corresponde a funciones de reordenamiento de aridad cero. Su dominio es el producto vacío y producen directamente una tupla constante de cadenas de terminales.
 
 Asimismo, las funciones de reordenamiento especifican cómo combinar las componentes generadas por distintos no terminales. Por ejemplo, las funciones
 $$
@@ -124,6 +126,8 @@ $$
     \end{aligned}
 $$
 duplican una cadena y concatenan dos cadenas precedidas por el símbolo terminal $a$, respectivamente.
+
+
 
 En una pMCFG cada símbolo no terminal $A$ tiene asociado un conjunto $L(A)$ de tuplas de cadenas, construido aplicando las funciones de reordenamiento a tuplas previamente obtenidas a partir de las reglas de la pMCFG. El lenguaje generado por la pMCFG es el conjunto de cadenas que se pueden obtener a partir del símbolo inicial $S$ mediante este proceso.
 
