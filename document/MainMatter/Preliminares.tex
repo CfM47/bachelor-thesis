@@ -6,7 +6,7 @@ En este capítulo se presentan las definiciones que se utilizan en el resto del 
 \section{Teoría de lenguajes}
 \label{sec:languages}
 
-En esta sección se definen conceptos fundamentales teoría de lenguajes y formalismos para describir y reconocer lenguajes que servirán de base para el contenido de los capítulos y secciones posteriores.
+En esta sección se definen conceptos fundamentales de teoría de lenguajes y formalismos para describir y reconocer lenguajes que servirán de base para el contenido de los capítulos y secciones posteriores.
 
 \subsection{Conceptos, operaciones y problemas relacionados con lenguajes}
 
@@ -38,7 +38,7 @@ Con estos conceptos se puede definir un lenguaje.
 
 Se denota por $\allwords$ al lenguaje de todas las cadenas posibles sobre un alfabeto dado, y por $\allnewords$ al lenguaje de todas las cadenas no vacías.
 
-Entre cadenas se define la operación de concatenación, esta operación permite unir dos cadenas de manera secuencial.
+Entre cadenas se define la operación de concatenación. Esta operación permite unir dos cadenas de manera secuencial.
 
 \begin{definition}
 	Sean $x$ e $y$ dos cadenas. La concatenación de $x$ e $y$, denotada por $xy$, es la cadena formada por todos los símbolos de $x$ seguidos de todos los símbolos de $y$.
@@ -65,7 +65,7 @@ Para este trabajo, es de particular interés el \lquoti problema del vacío\rquo
 
 En el capítulo \ref{ch:el-teorema} se reduce el problema de la satisfacibilidad booleana a determinar si el lenguaje de las interpretaciones que satisfacen una fórmula codificadas como cadenas es vacío o no. El problema de la satisfacibilidad booleana se define en la sección \ref{sec:sat}.
 
-En la siguiente sección se introducen las gramáticas y la jerarquía de Chomsky, que las clasifica en diferentes tipos. Estas servirán de base para definir en el capítulo \ref{ch:pmcfg} las gramáticas libres de contexto múltiple paralelas, las cuales se utilizarán en el capítulo \ref{ch:w-plus} para generar el lenguaje de las interpretaciones formulas booleanas.
+En la siguiente sección se introducen las gramáticas y la jerarquía de Chomsky, que las clasifica en diferentes tipos. Estas servirán de base para definir en el capítulo \ref{ch:pmcfg} las gramáticas libres de contexto múltiple paralelas, las cuales se utilizarán en el capítulo \ref{ch:w-plus} para generar el lenguaje de las interpretaciones de fórmulas booleanas.
 
 \subsection{Gramáticas y Jerarquía de Chomsky}
 \label{sec:grammars}
@@ -140,13 +140,13 @@ La jerarquía de Chomsky \cite{hunter2020chomsky} clasifica las gramáticas en d
 \end{itemize}
 
 \begin{definition}
-	Sea $X \in \{\re, \csen, \cfg, \reg\}$ una clase de gramáticas, la familia de lenguajes generados por $X$ se define como:
+	Sea $X \in \{\re, \csen, \cfg, \reg\}$ una clase de gramáticas, la familia de lenguajes generada por $X$ se define como:
 	$$
 		\mathcal{L}(X) = \{L(G) \suchthat G \text{ es una gramática de la clase } X\}.
 	$$
 \end{definition}
 
-El esquema anterior ilustra una situación más general. En este trabajo, por \lquoti formalismo\rquoti\; se entenderá, de manera informal, un conjunto de objetos matemáticos finitos, junto con la regla que asigna a cada uno al lenguaje que describe. La familia de lenguajes asociada al formalismo es el conjunto de todos los lenguajes así descritos. Por ejemplo, cada clase de gramáticas en la jerarquía de Chomsky es un formalismo, y los autómatas finitos deterministas, definidos en la sección \ref{sec:automata}, son otro.
+El esquema anterior ilustra una situación más general. En este trabajo, por \lquoti formalismo\rquoti\; se entenderá, de manera informal, un conjunto de objetos matemáticos finitos, junto con la regla que asigna a cada uno el lenguaje que describe. La familia de lenguajes asociada al formalismo es el conjunto de todos los lenguajes así descritos. Por ejemplo, cada clase de gramáticas en la jerarquía de Chomsky es un formalismo, y los autómatas finitos deterministas, definidos en la sección \ref{sec:automata}, son otro.
 
 La jerarquía de Chomsky establece que:
 $$
@@ -163,11 +163,11 @@ Algunos ejemplos de cadenas que pertenecen a $\repeatlang$ son $0d$, $1d$, $00d$
 
 Si se toma un caso particular de $\repeatlang$, al cual se le llama
 $$
-	\repeatlang^n = \{(wd)^n \suchthat w \in \binalph\}
+	\repeatlang^n = \{(wd)^n \suchthat w \in \binalph^*\},
 $$
 se cumple que $\repeatlang^1$ es un lenguaje regular, mientras que $\repeatlang^k$ para $k > 1$ es un lenguaje dependiente del contexto \cite{automataTheory}.
 
-Los lenguajes regulares están relacionados con los autómatas finitos, los cuales se junto con el lenguaje dependiente del contexto $\repeatlang$ se utilizan en el capítulo \ref{ch:el-teorema} para construir el lenguaje de las interpretaciones que satisfacen una fórmula booleana dada. En la siguiente sección se definen los autómatas finitos.
+Los lenguajes regulares están relacionados con los autómatas finitos, los cuales junto con el lenguaje dependiente del contexto $\repeatlang$ se utilizan en el capítulo \ref{ch:el-teorema} para construir el lenguaje de las interpretaciones que satisfacen una fórmula booleana dada. En la siguiente sección se definen los autómatas finitos.
 
 \subsection{Lenguajes regulares y autómatas}
 \label{sec:automata}
@@ -205,7 +205,16 @@ Para describir cómo un DFA procesa una cadena de entrada, se define la función
 
 El autómata finito determinista acepta una cadena $w$ si al aplicar la función de transición extendida al estado inicial $q_0$ y a la cadena $w$, se llega a un estado de aceptación. El lenguaje reconocido por un DFA es el conjunto de todas las cadenas que el autómata acepta.
 
-\begin{figure}[t]
+\begin{definition}
+	El lenguaje reconocido por un DFA $\mathcal{A}$ se define como:
+	$$
+		L(\mathcal{A}) = \{w \in \alphabet^* \suchthat \hat{\delta}(q_0, w) \in F\}.
+	$$
+\end{definition}
+
+En la figura \ref{fig:dfa-example} se muestra un DFA que reconoce el lenguaje $\{aa\}$ sobre el alfabeto $\{a\}$. En la representación gráfica de los autómatas, la función de transición se representa con flechas. En este caso están representadas $\delta(q_0, a) = q_1$ y $\delta(q_1, a) = q_2$. El estado $q_2$ es el único estado de aceptación, por lo que el autómata acepta únicamente la cadena $aa$.
+
+\begin{figure}[h]
 	\centering
 	\begin{otherlanguage}{english}
 		\begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
@@ -226,16 +235,6 @@ El autómata finito determinista acepta una cadena $w$ si al aplicar la función
 	\caption{Autómata finito determinista que reconoce el lenguaje $\{aa\}$.}
 	\label{fig:dfa-example}
 \end{figure}
-
-
-\begin{definition}
-	El lenguaje reconocido por un DFA $\mathcal{A}$ se define como:
-	$$
-		L(\mathcal{A}) = \{w \in \alphabet^* \suchthat \hat{\delta}(q_0, w) \in F\}.
-	$$
-\end{definition}
-
-En la figura \ref{fig:dfa-example} se muestra un DFA que reconoce el lenguaje $\{aa\}$ sobre el alfabeto $\{a\}$. En la representación gráfica de los autómatas, La función de transición se representa con flechas. En este caso están representadas $\delta(q_0, a) = q_1$ y $\delta(q_1, a) = q_2$. El estado $q_2$ es el único estado de aceptación, por lo que el autómata acepta únicamente la cadena $aa$.
 
 En \cite{automataTheory} se demuestra que los lenguajes reconocidos por DFAs son exactamente los lenguajes regulares.
 
@@ -286,7 +285,7 @@ En la ciencia de la computación se entiende por problema a un conjunto de insta
 \begin{definition}
 	Un problema es una relación binaria $\problem \subseteq I \times S$ donde $I$ es el conjunto de instancias del problema y $S$ es el conjunto de soluciones posibles.
 
-	Si el conjunto de soluciones $S$ es $\{0, 1\}$, donde $1$ representa una respuesta afirmativa y $0$ una respuesta negativa, entonces se dice que el problema es un problema de decisión.
+	Si el conjunto de soluciones $S$ es $\{0, 1\}$, donde $1$ representa una respuesta afirmativa y $0$ una respuesta negativa, entonces se dice que este es un problema de decisión.
 \end{definition}
 
 Por algoritmo se entiende, de manera informal, un procedimiento efectivo que, dada una instancia de un problema, produce una solución en un número finito de pasos \cite{Cormen2009IntroductionTA}. Se dice entonces que un algoritmo resuelve un problema $\problem$ si para cada instancia $i \in I$, el algoritmo produce una solución $s \in S$ tal que $(i, s) \in \problem$ \cite{Cormen2009IntroductionTA}.
@@ -418,14 +417,14 @@ En consecuencia, SAT actúa como un problema representativo de la clase NP: reso
 
 \subsection{SAT desde la perspectiva de lenguajes formales}
 
-El problema SAT puede ser abordado desde la perspectiva de lenguajes formales. En la Facultad de Matemática y Computación de la Universidad de La Habana se han realizado varios trabajos \cite{aCFSAT, aSRCSAT, MSAT, RCGSAT}. Estos atacan el problema con teoría de lenguajes formales y buscan resolver instancias específicas en tiempo polinomial o demostrar que ciertas clases de lenguajes tienen problemas de decisión NP-duros mediante reducciones polinomiales de SAT.
+El problema SAT puede ser abordado desde la perspectiva de lenguajes formales. En la Facultad de Matemática y Computación de la Universidad de La Habana se han realizado varios trabajos \cite{aCFSAT, aSRCSAT, RCGSAT, MSAT}. Estos atacan el problema con teoría de lenguajes formales y buscan resolver instancias específicas en tiempo polinomial o demostrar que ciertas clases de lenguajes tienen problemas de decisión NP-duros mediante reducciones polinomiales de SAT.
 
 En estos trabajos se toman dos enfoques principales utilizando el problema del vacío o de la palabra en lenguajes respectivamente. En el primer caso, se construye el lenguaje de las interpretaciones verdaderas de una fórmula y se determina si este es vacío o no, en caso de no ser vacío implica que existe una interpretación verdadera y que la fórmula es satisfacible. En el segundo caso se construye el lenguaje de todas las fórmulas satisfacibles y se determina si la fórmula dada pertenece a ese lenguaje.
 
 En \cite{aCFSAT} primero se asume que todas las variables de la fórmula son distintas y se construye el lenguaje de las interpretaciones verdaderas de la fórmula bajo esa asunción. Se demuestra que dicho lenguaje es regular mediante la construcción de un autómata finito, el cual se denominó autómata booleano, que representa las reglas de la lógica proposicional en sus transiciones y sus estados representan un valor de verdad para la fórmula que se tiene hasta el momento. Por último se intersecta dicho autómata con un lenguaje libre del contexto que garantice que todas las instancias de la misma variable tengan el mismo valor de verdad, y se determina si el lenguaje resultante es vacío o no.
 
-En \cite{aSRCSAT} y \cite{MSAT} se generaliza la idea anterior y se exploran otros formalismos generadores de lenguajes y se analizan soluciones dadas de intersectar el autómata booleano con estos. En \cite{MSAT} además se introduce la idea de utilizar una variante del lenguaje \textit{Copy} para garantizar que todas las instancias de la misma variable tengan el mismo valor de verdad.
+En \cite{aSRCSAT} y \cite{MSAT} se generaliza la idea anterior. En ambos trabajos se exploran otros formalismos generadores de lenguajes y se analizan soluciones dadas de intersectar el autómata booleano con estos. En \cite{MSAT} además se introduce la idea de utilizar una variante del lenguaje \textit{Copy} para garantizar que todas las instancias de la misma variable tengan el mismo valor de verdad.
 
 En \cite{RCGSAT} se resuelve SAT mediante el enfoque del problema de la palabra. Se construye el lenguaje de las fórmulas satisfacibles mediante una transducción de una variante del lenguaje \textit{Copy}, y además se propone una formalismo que reconoce este lenguaje. Como resultado se demuestra que el problema de la palabra para todos los formalismos que generen la variante del lenguaje \textit{Copy} y sean cerrados bajo transducción finita es NP-duro.
 
-En el siguiente capítulo se propone un método para resolver SAT mediante el enfoque del problema del vacío, el cual no depende del orden de las variables de la fórmula. Este se basa en la construcción del lenguaje de interpretaciones que satisfacen una fórmula y determinando si este es vacío o no.
+En el siguiente capítulo se propone un método para resolver SAT mediante el enfoque del problema del vacío, el cual no depende del orden de las variables de la fórmula. Este se basa en la construcción del lenguaje de interpretaciones que satisfacen una fórmula y determinar si este es vacío o no.

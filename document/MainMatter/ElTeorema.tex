@@ -72,7 +72,7 @@ Para construir dicho autómata se construirá primero un autómata $\automata_C$
 
 
 \subsection{Automata cláusula}
-En esta sección se construye el autómata $\automata_C$ que reconoce el lenguaje de las cadenas que representan a las interpretaciones que satisfacen a una cláusula $C$ de una fórmula $n$ variables $X= \{x_1, \ldots, x_n\}$. Se denotará a este lenguaje $\clauselang{C}$ y se define como sigue:
+En esta sección se construye el autómata $\automata_C$ que reconoce el lenguaje de las cadenas que representan a las interpretaciones que satisfacen a una cláusula $C$ de una fórmula de $n$ variables $X= \{x_1, \ldots, x_n\}$. Se denotará a este lenguaje $\clauselang{C}$ y se define como sigue:
 $$
     \clauselang{C} = \{ w \suchthat w \text{ representa a una interpretación que satisface la cláusula } C \}
 $$
@@ -80,8 +80,8 @@ $$
 Para una fórmula con $n$ variables, los estados del autómata $\aut{C}$ son de la forma $(q_f, i)$ o $(q_t, i)$, donde $i \in \{0, \ldots, n\}$. Estos estados representan la información de si luego de leer los $i$ primeros símbolos de la cadena, ya se encontró un literal de la cláusula que evalúa verdadero o no.
 
 \begin{itemize}
-    \item Un estado de la forma $(q_f, i)$ representan que luego de leer $i$ símbolos de la cadena no se ha leído el valor de una variable $x_j$ con $1 \leq j \leq i$ cuyo literal asociado en la cláusula sea verdadero.
-    \item Un estado de la forma $(q_t, i)$ representan que luego de leer $i$ símbolos de la cadena, ya se ha leído el valor de una variable $x_j$ con $1 \leq j \leq i$ cuyo literal asociado en la cláusula es verdadero.
+    \item Un estado de la forma $(q_f, i)$ representa que luego de leer $i$ símbolos de la cadena no se ha leído el valor de una variable $x_j$ con $1 \leq j \leq i$ cuyo literal asociado en la cláusula sea verdadero.
+    \item Un estado de la forma $(q_t, i)$ representa que luego de leer $i$ símbolos de la cadena, ya se ha leído el valor de una variable $x_j$ con $1 \leq j \leq i$ cuyo literal asociado en la cláusula es verdadero.
 \end{itemize}
 
 Por ejemplo, un estado $(q_f, 2)$ representa que luego de leer los valores de las dos primeras variables de la interpretación, no se ha leído el valor de ninguna variable cuyo literal asociado en la cláusula evalúe verdadero bajo dicha interpretación. En cambio un estado $(q_t, 7)$ significa que luego de leer los valores de las primeras 7 variables de la interpretación, se ha leído el valor de una variable cuyo literal asociado en la cláusula evalúa verdadero bajo dicha interpretación.
@@ -90,7 +90,7 @@ El estado inicial del autómata será $(q_f, 0)$, pues al no haber leído ningú
 
 El estado de aceptación del autómata será $(q_t, n)$, y significa que luego de leer los $n$ símbolos de la cadena, se ha leído el valor de una variable cuyo literal asociado en la cláusula es verdadero, por lo tanto la cláusula es verdadera.
 
-Las transiciones entre los estados solo existen entre estados de la forma $(q_f, i)$ o $(q_t, i)$ y estados de la forma $(q_f, i+1)$ o $(q_t, i+1)$.
+Las transiciones solo existen entre estados de la forma $(q_f, i)$ o $(q_t, i)$ y estados de la forma $(q_f, i+1)$ o $(q_t, i+1)$.
 
 \begin{itemize}
     \item Un estado de la forma $(q_t, i)$ representa que luego de leer $i$ símbolos de la cadena, se ha leído el valor de una variable cuyo literal asociado en la cláusula es verdadero, por lo tanto, sin importar los símbolos restantes, la cláusula seguirá siendo verdadera. Luego, se tiene la transición
@@ -242,7 +242,7 @@ Se tienen dos casos: existe un literal $x_j$ con $j \leq k$ tal que el literal a
           $$
               \extran((q_f, 0), a_1 \ldots a_k) = (q_t, k).
           $$
-          Como $\extran ((q_t, k), a_{k+1}) = (q_t, k+1)$, para todo $a_{k+1} \in \binalph$ concluye que
+          Como $\extran ((q_t, k), a_{k+1}) = (q_t, k+1)$, para todo $a_{k+1} \in \binalph$ se concluye que
           $$
               \extran((q_f, 0), a_1 \ldots a_{k+1}) = (q_t, k+1),
           $$
@@ -659,8 +659,8 @@ Una consecuencia directa del teorema \ref{thm:lv-intersection} es el siguiente r
     \label{thm:el-teorema}
     Sea $\formalism$ un formalismo para el cual existe una representación $\repeatgramm$, de tamaño constante, tal que $L(\repeatgramm) = \repeatlang$. Supóngase además que el problema de construir efectivamente la intersección entre una representación de $\formalism$ y un DFA está definido. Entonces no pueden existir simultáneamente:
     \begin{itemize}
-        \item un algoritmo polinomial para construir dado una representación $G$ del formalismo $\formalism$ y un DFA $\aut{}$ una representación finita del lenguaje $L(G) \cap L(\aut{})$ en el formalismo $\formalism$;
-        \item y un algoritmo polinomial para dado una representación $G$ del formalismo $\formalism$ determinar si el lenguaje $L(G)$ es vacío
+        \item un algoritmo polinomial para construir, dada una representación $G$ del formalismo $\formalism$ y un DFA $\aut{}$, una representación finita del lenguaje $L(G) \cap L(\aut{})$ en el formalismo $\formalism$;
+        \item y un algoritmo polinomial para dada una representación $G$ del formalismo $\formalism$ determinar si el lenguaje $L(G)$ es vacío
     \end{itemize}
     a menos que P = NP.
 \end{theorem}
@@ -700,6 +700,6 @@ En el caso de las gramáticas de índice global, aplicando el teorema \ref{thm:e
 
 De acuerdo con la literatura consultada para este trabajo, las gramáticas libres de contexto múltiple paralelas satisfacen simultáneamente todas las propiedades requeridas: generan el lenguaje $\repeatlang$ con representaciones de tamaño constante, son cerradas bajo intersección con lenguajes regulares y poseen problema del vacío decidible en tiempo polinomial. Teniéndose estas propiedades, de acuerdo con el teorema \ref{thm:el-teorema}, sería posible resolver SAT en tiempo polinomial, representando $\repeatlang$ con dicho formalismo.
 
-Desafortunadamente, el procedimiento para determinar la intersección de una pMCFG con un lenguaje regular reportado por la literatura es incorrecto. En \cite{Seki1991OnMC} se propone un algoritmo para resolver el problema para las gramáticas libres de contexto múltiple (MCFG), un caso particular de las pMCFG, y propone que este algoritmo pueda ser utilizado para las pMCFG. Sin embargo como se muestra en el próximo capítulo mediante un contraejemplo, dicho algoritmo no es correcto para las pMCFG, y, como se demuestra en el capítulo \ref{ch:w-plus} no existe un algoritmo polinomial para obtener una pMCFG que represente dicha intersección a menos que P=NP.
+Desafortunadamente, el procedimiento para determinar la intersección de una pMCFG con un lenguaje regular reportado por la literatura es incorrecto. En \cite{Seki1991OnMC} se propone un algoritmo para resolver el problema para las gramáticas libres de contexto múltiple (MCFG), un caso particular de las pMCFG, y se propone que este algoritmo pueda ser utilizado para las pMCFG. Sin embargo como se muestra en el próximo capítulo mediante un contraejemplo, dicho algoritmo no es correcto para las pMCFG, y, como se demuestra en el capítulo \ref{ch:w-plus} no existe un algoritmo polinomial para obtener una pMCFG que represente dicha intersección a menos que P=NP.
 
 En el siguiente capítulo se presentan las gramáticas libres de contexto múltiple paralelas.

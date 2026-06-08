@@ -16,7 +16,7 @@ Las gramáticas libres de contexto múltiple (MCFG) y libres de contexto múltip
 
 Estas gramáticas contienen reglas de producción capaces de especificar cómo combinar tuplas de cadenas para generar nuevas tuplas, mediante la aplicación de una función intermedia que reordena y concatena las cadenas generadas por los símbolos no terminales.
 
-En una CFG, una producción permite convertir una cadena de terminales y no terminales en otra. Por ejemplo la producción $A \to aB$ permite convertir la cadena $abAbb$ en la cadena $abaBbb$. En el caso de las pMCFG es posible convertir tuplas en tuplas, por ejemplo, la tupla $(aaa, bbb, ccc)$ se pudiera convertir en la tupla $(ccca, bbba, aaac)$. Para ello se utilizan funciones de reordenamiento. Estas se definen a continuación.
+En una CFG, una producción permite convertir una cadena de terminales y no terminales en otra. Por ejemplo la producción $A \to aB$ permite convertir la cadena $abAbb$ en la cadena $abaBbb$. En el caso de las pMCFG es posible convertir una tupla de cadenas de terminales en otras, por ejemplo, la tupla $(aaa, bbb, ccc)$ se pudiera convertir en la tupla $(ccca, bbba, aaac)$. Para ello se utilizan funciones de reordenamiento. Estas se definen a continuación.
 
 \begin{definition}
     Sea $T$ un alfabeto. Una función $f$ es una función de reordenamiento sobre $T$ si existen un entero $k \geq 0$ y enteros $d_0, d_1, \ldots, d_k \geq 0$ tales que
@@ -201,7 +201,7 @@ A continuación se definen formalmente las gramáticas libres de contexto múlti
 
 En el ejemplo de la figura \ref{fig:pmcfg-example} de la página \pageref{fig:pmcfg-example}, la pMCFG $G_1$ no es una MCFG ya que la función $f$ no es lineal.
 
-En la figura \ref{fig:pmcfg-example-2} se muestra la pMCFG $G_2$ que genera el lenguaje $\{www \suchthat w \in \{0, 1\}^+\}$ \cite{ParsingBeyCFG}. Dado que Las funciones $f_1, f_2, f_3, f_4, f_5$ son lineales se tiene que $G_2$ es una MCFG. Para ilustrar este hecho se demostrará que la cadena $010101 \in L(G_2)$:
+En la figura \ref{fig:pmcfg-example-2} se muestra la pMCFG $G_2$ que genera el lenguaje $\{www \suchthat w \in \{0, 1\}^+\}$ \cite{ParsingBeyCFG}. Dado que las funciones $f_1, f_2, f_3, f_4, f_5$ son lineales se tiene que $G_2$ es una MCFG. Para ilustrar este hecho se demostrará que la cadena $010101 \in L(G_2)$:
 \begin{itemize}
     \item $(1, 1, 1) \in L(A)$ porque existe la producción $A \to f_5()$ y $f_5() = (1, 1, 1)$.
     \item $(01, 01, 01) \in L(A)$ porque $(1, 1, 1) \in L(A)$, $f_2[(1, 1, 1)] = (01, 01, 01)$ y existe la producción $A \to f_2(A)$.
@@ -360,7 +360,7 @@ Formalmente, la construcción garantiza la siguiente propiedad:
 
 donde $\extran$ es la función de transición extendida del DFA y $\vec w = (w_1, \ldots, w_d)$.
 
-Por cada regla $A_0 \to f(A_1, \dots, A_k)$ de $G$ se agrega un conjunto de reglas a en $G'$, una por cada elección de de estados para $A_0, A_1, \ldots, A_k$ que sea consistente con $f$.
+Por cada regla $A_0 \to f(A_1, \dots, A_k)$ de $G$ se agrega un conjunto de reglas en $G'$, una por cada elección de estados para $A_0, A_1, \ldots, A_k$ que sea consistente con $f$.
 
 Para precisar qué significa \lquoti consistente\rquoti, considérese una regla $A_0 \to f(A_1, \dots, A_k)$ y una elección de no-terminales enriquecidos del lado derecho:
 $$
@@ -456,7 +456,7 @@ Dada la definición de $L(G_{aa})$, se tiene que:
     \item $aa \in L(G_{aa})$ porque $(aa) \in L(S)$.
 \end{itemize}
 
-Luego lo tanto $aa \in L(G_{aa})$.
+Luego por tanto $aa \in L(G_{aa})$.
 
 Sea $\mathcal{A} = (\{q_0, q_1, q_2\}, T, \delta, q_0, \{q_2\})$ con función de transición $\delta$ definida como:
 \begin{itemize}

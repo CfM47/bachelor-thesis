@@ -117,7 +117,7 @@ Para ilustrar el funcionamiento de la gramática $\repeatgramm$, se demostrará 
 
 En los primeros 4 pasos se tiene la cadena $wd = 010d$ en la primera componente de la tupla. Luego, se acumula ese resultado en la segunda componente en los siguientes 2 pasos aplicando la función $copy$. Finalmente, se aplica la función $res$ para extraer la cadena acumulada resultante. Como $(010d010d) \in L(S)$ entonces $010d010d \in L(\repeatgramm)$.
 
-El la gramática $\repeatgramm$ genera exactamente el lenguaje $\repeatlang$. Este resultado se presenta en el siguiente teorema.
+La gramática $\repeatgramm$ genera exactamente el lenguaje $\repeatlang$. Este resultado se presenta en el siguiente teorema.
 
 \begin{theorem}
     \label{thm:repeatlang-pmcfg}
@@ -310,7 +310,7 @@ Esto demuestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. A
 \section{Resultados sobre la intersección entre pMCFG y lenguajes regulares}
 \label{sec:wplus-results}
 
-El teorema \ref{thm:repeatlang-pmcfg} muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. Además en el capítulo \ref{ch:pmcfg} se demuestra que decidir si el lenguaje generado por una pMCFG es vacío es decidible en tiempo polinomial. Aunque en la literatura consultada no se ha encontrado ningún algoritmo correcto que para obtener una pMCFG que represente la intersección entre una pMCFG y un lenguaje regular, el teorema siguiente muestra que no existe algoritmo polinomial para ello a menos que P=NP.
+El teorema \ref{thm:repeatlang-pmcfg} muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. Además en el capítulo \ref{ch:pmcfg} se demuestra que determinar si el lenguaje generado por una pMCFG es vacío, es decidible en tiempo polinomial. Aunque en la literatura consultada no se ha encontrado ningún algoritmo correcto para obtener una pMCFG que represente la intersección entre una pMCFG y un lenguaje regular, el teorema siguiente muestra que no existe algoritmo polinomial para ello a menos que P=NP.
 
 \begin{theorem}
     \label{thm:pmcfg-int-reg}
