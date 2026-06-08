@@ -1,9 +1,9 @@
 \begin{conclusionsAndRecomendations}
     En este trabajo se presentó una estrategia para resolver el problema de la satisfacibilidad booleana (SAT) utilizando teoría de lenguajes formales. La solución propuesta se basa en codificar las interpretaciones de una fórmula como cadenas sobre el alfabeto $\{0, 1, d\}$ y definiendo el lenguaje $\satlang(F)$ de las interpretaciones que satisfacen a una fórmula dada $F$. A partir de este lenguaje, se puede determinar si $F$ es satisfacible analizando si $\satlang(F)$ es vacío o no.
 
-    Además de definir el lenguaje $\satlang(F)$ se propuso una manera de construirlo mediante la intersección de una autómata finito determinista con el lenguaje $\repeatlang$. Esta construcción implica que para cualquier formalismo que genere el lenguaje $\repeatlang$ y sea cerrado bajo intersección con lenguajes regulares, se tiene que construir esta intersección o el problema del vacío son problemas NP-duros. Esto, tomando como cierta la conjetura de que cualquier formalismo que genere $\repeatlang$ tiene tamaño $O(1)$ en su representación.
+    Además de definir el lenguaje $\satlang(F)$ se propuso una manera de construirlo mediante la intersección de una autómata finito determinista con el lenguaje $\repeatlang$. Esta construcción implica que para cualquier formalismo que posea una representación constante del lenguaje $\repeatlang$ no existen simultáneamente un algoritmo polinomial para decidir si una representación en el formalismo es vacía y otro para construir una representación de la intersección con un lenguaje regular en el mismo formalismo.
 
-    En el capítulo \ref{ch:pmcfg} se demostró mediante un contraejemplo que el algoritmo reportado por la literatura para construir la intersección de una pMCFG con un lenguaje regular es incorrecto. Finalmente en el capítulo \ref{ch:w-plus} se demuestra que de ser cerradas las pMCFG bajo intersección con lenguajes regulares determinar dicha intersección es un problema NP-duro, lo que implica que no existe un algoritmo polinomial para construir esta intersección a menos que P=NP.
+    En el capítulo \ref{ch:pmcfg} se demostró mediante un contraejemplo que el algoritmo reportado por la literatura para intersectar una pMCFG con un lenguaje regular es incorrecto. Finalmente en el capítulo \ref{ch:w-plus} se demuestra que de ser efectivamente cerradas las pMCFG bajo intersección con lenguajes regulares no existe un algoritmo polinomial para obtener una representación de esta intersección a menos que P=NP.
 
     La estrategia presentada constituye una forma general para resolver el problema SAT ya que no depende del orden de las variables. Este acercamiento puede contribuir a nuevas formas de abordar el problema de la satisfacibilidad booleana y otros problemas relacionados en la teoría de la complejidad y la teoría de lenguajes formales.
 
@@ -12,7 +12,7 @@
     \begin{itemize}
         \item Buscar formalismos que generen el lenguaje $\repeatlang$ y sean cerrados bajo intersección con lenguajes regulares. Analizar el problema del vacío para el formalismo que se obtiene luego de la intersección. En la literatura consultada para la realización de este trabajo se encontraron las gramáticas de índice global \cite{globalIndexLanguages}, las cuales cumplen las propiedades anteriores.
         \item Demostrar que cualquier formalismo que genere el lenguaje $\repeatlang$ tiene tamaño $O(1)$ en su representación.
-        \item Demostrar que las gramáticas libres de contexto múltiple son cerradas bajo intersección con lenguajes regulares.
+        \item Demostrar que las gramáticas libres de contexto múltiple paralelas son cerradas bajo intersección con lenguajes regulares.
         \item Analizar la construcción efectuada para construir $\satlang(F)$ en el capítulo \ref{ch:el-teorema} para el caso en el que la fórmula $F$ es una fórmula 3-CNF. En este caso, cada cláusula tiene exactamente tres literales, lo que podría simplificar la construcción y permitir obtener resultados más específicos sobre la complejidad de la construcción.
     \end{itemize}
 \end{conclusionsAndRecomendations}

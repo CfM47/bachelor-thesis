@@ -1,12 +1,12 @@
 \chapter{Preliminares}
 \label{ch:preliminares}
 
-En este capítulo se presentan las definiciones que se utilizan en el resto del trabajo. Se introducen alfabetos, cadenas y lenguajes, así como operaciones y problemas de decisión asociados a lenguajes formales. Posteriormente se presentan las gramáticas formales y los autómatas finitos. Finalmente, se introducen nociones de complejidad computacional y el problema de satisfacibilidad booleana. Estas nociones serán de utilidad para analizar el uso del problema del vacío en lenguajes formales para atacar el problema de la satisfacibilidad booleana. % despues de esta ultima oracion siento que me van a corregir con varios ¿y esto que es? >:( pero no se como hablar del objetivo de mi tesis sin hacer un poco de spoiler
+En este capítulo se presentan las definiciones que se utilizan en el resto del trabajo. Se introducen alfabetos, cadenas y lenguajes, así como operaciones y problemas de decisión asociados a lenguajes formales. Posteriormente se presentan las gramáticas formales y los autómatas finitos. Finalmente, se introducen nociones de complejidad computacional y el problema de satisfacibilidad booleana. Estas nociones serán de utilidad para analizar el uso del problema del vacío en lenguajes formales para atacar el problema de la satisfacibilidad booleana.
 
 \section{Teoría de lenguajes}
 \label{sec:languages}
 
-En esta sección se definen conceptos fundamentales teoría de lenguajes y formalismos para describir y reconocer lenguajes que servirán de base para el contenido de los capítulos y secciones posteriores. 
+En esta sección se definen conceptos fundamentales de teoría de lenguajes y formalismos para describir y reconocer lenguajes que servirán de base para el contenido de los capítulos y secciones posteriores.
 
 \subsection{Conceptos, operaciones y problemas relacionados con lenguajes}
 
@@ -38,7 +38,7 @@ Con estos conceptos se puede definir un lenguaje.
 
 Se denota por $\allwords$ al lenguaje de todas las cadenas posibles sobre un alfabeto dado, y por $\allnewords$ al lenguaje de todas las cadenas no vacías.
 
-Entre cadenas se define la operación de concatenación, esta operación permite unir dos cadenas de manera secuencial.
+Entre cadenas se define la operación de concatenación. Esta operación permite unir dos cadenas de manera secuencial.
 
 \begin{definition}
 	Sean $x$ e $y$ dos cadenas. La concatenación de $x$ e $y$, denotada por $xy$, es la cadena formada por todos los símbolos de $x$ seguidos de todos los símbolos de $y$.
@@ -54,18 +54,18 @@ Si se aplica la concatenación de manera repetida sobre una misma cadena, se obt
 	\textbf{Paso inductivo:} $w^n = w w^{\,n-1}$, $n > 0$.
 \end{definition}
 
-Por ejemplo, sea el alfabeto $\alphabet = \{0, 1\}$. Algunas cadenas sobre este alfabeto son $0$, $1$, $10$, $1101$ y $\eword$. El conjunto de todas las cadenas que terminan en $0$ es un lenguaje sobre $\alphabet$, al que pertenecen las cadenas $0$, $10$, $1100$, $1010$ y no pertenecen las cadenas $1$, $1101$ y $\eword$. 
+Por ejemplo, sea el alfabeto $\alphabet = \{0, 1\}$. Algunas cadenas sobre este alfabeto son $0$, $1$, $10$, $1101$ y $\eword$. El conjunto de todas las cadenas que terminan en $0$ es un lenguaje sobre $\alphabet$, al que pertenecen las cadenas $0$, $10$, $1100$, $1010$ y no pertenecen las cadenas $1$, $1101$ y $\eword$.
 
-Al ser los lenguajes conjuntos de cadenas, es posible definir sobre ellos operaciones de conjuntos como unión, intersección y complemento \cite{automataTheory}. 
+Al ser los lenguajes conjuntos de cadenas, es posible definir sobre ellos operaciones de conjuntos como unión, intersección y complemento \cite{automataTheory}.
 
 Para este trabajo, es de particular interés el \lquoti problema del vacío\rquoti, el cual consiste en determinar si un lenguaje dado contiene alguna cadena o no.
 \begin{definition}
 	El problema del vacío consiste en determinar, para un lenguaje dado $L$, si $L = \emptyset$.
 \end{definition}
 
-En el capítulo \ref{ch:el-teorema} se reduce el problema de la satisfacibilidad booleana a determinar si el lenguaje de las interpretaciones que satisfacen una fórmula codificadas como cadenas es vacío o no. El problema de la satisfacibilidad booleana se define en la sección \ref{sec:sat}. 
+En el capítulo \ref{ch:el-teorema} se reduce el problema de la satisfacibilidad booleana a determinar si el lenguaje de las interpretaciones que satisfacen una fórmula codificadas como cadenas es vacío o no. El problema de la satisfacibilidad booleana se define en la sección \ref{sec:sat}.
 
-En la siguiente sección se introducen las gramáticas y la jerarquía de Chomsky, que las clasifica en diferentes tipos. Estas servirán de base para definir en el capítulo \ref{ch:pmcfg} las gramáticas libres de contexto múltiple paralelas, las cuales se utilizarán en el capítulo \ref{ch:w-plus} para generar el lenguaje de las interpretaciones formulas booleanas. 
+En la siguiente sección se introducen las gramáticas y la jerarquía de Chomsky, que las clasifica en diferentes tipos. Estas servirán de base para definir en el capítulo \ref{ch:pmcfg} las gramáticas libres de contexto múltiple paralelas, las cuales se utilizarán en el capítulo \ref{ch:w-plus} para generar el lenguaje de las interpretaciones de fórmulas booleanas.
 
 \subsection{Gramáticas y Jerarquía de Chomsky}
 \label{sec:grammars}
@@ -96,6 +96,28 @@ Con el objetivo de describir lenguajes se introducen las gramáticas formales. A
 
 Una derivación en una gramática consiste en seleccionar una regla de producción $\alpha \gprod \beta$ y sustituir una ocurrencia de $\alpha$ en una cadena $w \in (N \cup T)^*$ por $\beta$ \cite{automataTheory}.
 
+\begin{definition}
+	Sean $x,y \in (N \cup T)^*$. Se dice que $x$ deriva directamente en $y$ si existen $x_1, x_2 \in (N \cup T)^*$ y una regla $\alpha \gprod \beta$ en $P$ tales que
+	$$
+		x = x_1 \alpha x_2 \quad \text{y} \quad y = x_1 \beta x_2.
+	$$
+	Esta relación se denota por $x \gder y$.
+\end{definition}
+
+La derivación directa permite sustituir una cadena por otra según una regla de producción. A partir de esta operación se define la derivación en varios pasos.
+
+\begin{definition}
+	Sean $x,y \in (N \cup T)^*$. Se dice que $x$ deriva en $y$ si existe una secuencia de cadenas
+	$$
+		x = w_0, w_1, \dots, w_n = y,
+	$$
+	tal que $w_i \gder w_{i+1}$ para todo $0 \leq i < n$.
+
+	Si $n \geq 1$, esta relación se denota por $x \gderp y$.
+
+	Si $n \geq 0$, esta relación se denota por $x \gderz y$.
+\end{definition}
+
 Una cadena $w \in T^*$ se puede generar por una gramática $G$ si existe una secuencia de derivaciones que comienza con el símbolo inicial $S$ y termina con la cadena $w$. El lenguaje generado por $G$ es el conjunto de todas las cadenas $w \in T^*$ que puede generar $G$.
 
 \begin{definition}
@@ -108,21 +130,23 @@ Una cadena $w \in T^*$ se puede generar por una gramática $G$ si existe una sec
 La jerarquía de Chomsky \cite{hunter2020chomsky} clasifica las gramáticas en diferentes tipos según la forma de sus reglas de producción. Cada tipo de gramática es un subconjunto estricto del tipo anterior:
 
 \begin{itemize}
-	\item Las gramáticas tipo-0, también conocidas como gramáticas irrestrictas, son las más generales. Sus reglas no tienen restricciones (son de la forma $\alpha \gprod \beta$ donde $\alpha \in (N \cup T)^* - T^*$ y $\beta \in (N \cup T)^*$). El conjunto de lenguajes que generan se denomina lenguajes recursivamente enumerables (RE).
+	\item Las gramáticas tipo-0, también conocidas como gramáticas irrestrictas (UG), son las más generales. Sus reglas no tienen restricciones (son de la forma $\alpha \gprod \beta$ donde $\alpha \in (N \cup T)^* - T^*$ y $\beta \in (N \cup T)^*$). El conjunto de lenguajes que generan se denomina lenguajes recursivamente enumerables (RE).
 
-	\item En las gramáticas de tipo-1, o gramáticas dependientes del contexto (CS), las reglas de producción son de la forma $\alpha A \gamma \gprod \alpha \beta \gamma$, donde $A \in N$, $\alpha, \beta, \gamma \in (N \cup T)^*$, y $|\beta| \geq 1$. Estas generan los lenguajes dependientes del contexto (CS).
+	\item En las gramáticas de tipo-1, o gramáticas dependientes del contexto (CSG), las reglas de producción son de la forma $\alpha A \gamma \gprod \alpha \beta \gamma$, donde $A \in N$, $\alpha, \beta, \gamma \in (N \cup T)^*$, y $|\beta| \geq 1$. Estas generan los lenguajes dependientes del contexto.
 
 	\item Las gramáticas de tipo-2, o gramáticas libres de contexto (CFG), son muy utilizadas en la construcción de compiladores \cite{automataTheory}. Sus reglas de producción son de la forma $A \gprod \beta$, donde $A \in N$ y $\beta \in (N \cup T)^*$. Estas generan los lenguajes libres de contexto (CFL por sus siglas en inglés).
 
-	\item Finalmente, las gramáticas de tipo-3, o gramáticas regulares, son gramáticas con reglas de producción de la forma $A \gprod aB$ o $A \gprod a$, donde $A, B \in N$ y $a \in T$. Estas gramáticas generan los lenguajes regulares (REG).
+	\item Finalmente, las gramáticas de tipo-3, o gramáticas regulares (REG), son gramáticas con reglas de producción de la forma $A \gprod aB$ o $A \gprod a$, donde $A, B \in N$ y $a \in T$. Estas gramáticas generan los lenguajes regulares.
 \end{itemize}
 
 \begin{definition}
-	Sea $X \in \{\re, \csen, \cfg, \reg\}$ una clase de gramáticas, la familia de lenguajes generados por $X$ se define como:
+	Sea $X \in \{\re, \csen, \cfg, \reg\}$ una clase de gramáticas, la familia de lenguajes generada por $X$ se define como:
 	$$
-		\mathcal{L}(X) = \{L(G) \suchthat G \text{ es una gramática de tipo } X\}.
+		\mathcal{L}(X) = \{L(G) \suchthat G \text{ es una gramática de la clase } X\}.
 	$$
 \end{definition}
+
+El esquema anterior ilustra una situación más general. En este trabajo, por \lquoti formalismo\rquoti\; se entenderá, de manera informal, un conjunto de objetos matemáticos finitos, junto con la regla que asigna a cada uno el lenguaje que describe. La familia de lenguajes asociada al formalismo es el conjunto de todos los lenguajes así descritos. Por ejemplo, cada clase de gramáticas en la jerarquía de Chomsky es un formalismo, y los autómatas finitos deterministas, definidos en la sección \ref{sec:automata}, son otro.
 
 La jerarquía de Chomsky establece que:
 $$
@@ -137,13 +161,13 @@ $$
 
 Algunos ejemplos de cadenas que pertenecen a $\repeatlang$ son $0d$, $1d$, $00d$, $10d$, $110d$, $0d0d$, $1d1d$, $00d00d00d00d$, $10d10d$ y $110d110d$.
 
-Si se toma un caso particular de $\repeatlang$, al cual se le llama 
+Si se toma un caso particular de $\repeatlang$, al cual se le llama
 $$
-\repeatlang^n = \{(wd)^n \suchthat w \in \binalph\}
-$$ 
+	\repeatlang^n = \{(wd)^n \suchthat w \in \binalph^*\},
+$$
 se cumple que $\repeatlang^1$ es un lenguaje regular, mientras que $\repeatlang^k$ para $k > 1$ es un lenguaje dependiente del contexto \cite{automataTheory}.
 
-Los lenguajes regulares están relacionados con los autómatas finitos, los cuales se junto con el lenguaje dependiente del contexto $\repeatlang$ se utilizan en el capítulo \ref{ch:el-teorema} para construir el lenguaje de las interpretaciones que satisfacen una fórmula booleana dada. En la siguiente sección se definen los autómatas finitos.
+Los lenguajes regulares están relacionados con los autómatas finitos, los cuales junto con el lenguaje dependiente del contexto $\repeatlang$ se utilizan en el capítulo \ref{ch:el-teorema} para construir el lenguaje de las interpretaciones que satisfacen una fórmula booleana dada. En la siguiente sección se definen los autómatas finitos.
 
 \subsection{Lenguajes regulares y autómatas}
 \label{sec:automata}
@@ -181,29 +205,6 @@ Para describir cómo un DFA procesa una cadena de entrada, se define la función
 
 El autómata finito determinista acepta una cadena $w$ si al aplicar la función de transición extendida al estado inicial $q_0$ y a la cadena $w$, se llega a un estado de aceptación. El lenguaje reconocido por un DFA es el conjunto de todas las cadenas que el autómata acepta.
 
-\begin{figure}[t]
-	\centering
-    \begin{otherlanguage}{english}
-        \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
-
-            % Estados falsos
-            \node[state, initial] (q0) {$q_0$};
-            \node[state] (q1) [right=of q0] {$q_1$};
-            \node[state, accepting] (q2) [right=of q1] {$q_2$};
-			
-            \path[->]
-
-            (q0) edge node {a} (q1)
-            (q1) edge node {a} (q2);
-			
-        \end{tikzpicture}
-		
-    \end{otherlanguage}
-	\caption{Autómata finito determinista que reconoce el lenguaje $\{aa\}$.}
-	\label{fig:dfa-example}
-\end{figure}
-
-
 \begin{definition}
 	El lenguaje reconocido por un DFA $\mathcal{A}$ se define como:
 	$$
@@ -211,9 +212,43 @@ El autómata finito determinista acepta una cadena $w$ si al aplicar la función
 	$$
 \end{definition}
 
-En la figura \ref{fig:dfa-example} se muestra un DFA que reconoce el lenguaje $\{aa\}$ sobre el alfabeto $\{a\}$. En la representación gráfica de los autómatas, La función de transición se representa con flechas. En este caso están representadas $\delta(q_0, a) = q_1$ y $\delta(q_1, a) = q_2$. El estado $q_2$ es el único estado de aceptación, por lo que el autómata acepta únicamente la cadena $aa$.
+En la figura \ref{fig:dfa-example} se muestra un DFA que reconoce el lenguaje $\{aa\}$ sobre el alfabeto $\{a\}$. En la representación gráfica de los autómatas, la función de transición se representa con flechas. En este caso están representadas $\delta(q_0, a) = q_1$ y $\delta(q_1, a) = q_2$. El estado $q_2$ es el único estado de aceptación, por lo que el autómata acepta únicamente la cadena $aa$.
+
+\begin{figure}[h]
+	\centering
+	\begin{otherlanguage}{english}
+		\begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
+
+			% Estados falsos
+			\node[state, initial] (q0) {$q_0$};
+			\node[state] (q1) [right=of q0] {$q_1$};
+			\node[state, accepting] (q2) [right=of q1] {$q_2$};
+
+			\path[->]
+
+			(q0) edge node {a} (q1)
+			(q1) edge node {a} (q2);
+
+		\end{tikzpicture}
+
+	\end{otherlanguage}
+	\caption{Autómata finito determinista que reconoce el lenguaje $\{aa\}$.}
+	\label{fig:dfa-example}
+\end{figure}
 
 En \cite{automataTheory} se demuestra que los lenguajes reconocidos por DFAs son exactamente los lenguajes regulares.
+
+Los conjuntos o familias de lenguajes pueden ser cerrados o no bajo ciertas operaciones. A continuación se define qué significa que una familia de lenguajes sea cerrada bajo intersección con lenguajes regulares.
+
+\begin{definition}
+	Una familia de lenguajes $\mathcal{C}$ es cerrada bajo intersección con lenguajes regulares si para todo lenguaje $L \in \mathcal{C}$ y para todo lenguaje regular $R$, se tiene que $L \cap R \in \mathcal{C}$.
+\end{definition}
+
+La definición anterior garantiza que el lenguaje resultante pertenezca a la familia, pero no dice nada sobre cómo obtener una representación de $L \cap R$ a partir de representaciones de $L$ y $R$. La siguiente definición introduce la noción de intersección efectiva con lenguajes regulares.
+
+\begin{definition}
+	Un formalismo $\formalism$ que genera una familia de lenguajes $\mathcal{C}$ es efectivamente cerrado bajo intersección con lenguajes regulares si existe un algoritmo que, dada una representación en $\formalism$ de un lenguaje $L \in \mathcal{C}$ y un DFA que reconoce un lenguaje regular $R$, construye una representación en $\formalism$ de $L \cap R$.
+\end{definition}
 
 En el contexto de la teoría de lenguajes formales, resulta necesario analizar el costo computacional de las operaciones y problemas asociados a lenguajes. Para medir este costo se utiliza la teoría de la complejidad computacional. A continuación se introducen nociones básicas de complejidad computacional que serán útiles para dicho análisis.
 
@@ -222,10 +257,10 @@ La teoría de la complejidad computacional clasifica problemas en función de lo
 
 \subsection{Notación asintótica}
 
-La notación asintótica se usa para describir el comportamiento de una función $f(n)$, donde $n$ es el tamaño de la entrada. A continuación se define la notación $O$ (grande):
+La notación asintótica se usa para describir el comportamiento de una función $f(n)$, donde $n$ es el tamaño de la entrada. A continuación se define la notación $O$ (grande) \cite{Cormen2009IntroductionTA}:
 
 \begin{definition}
-	Sea $f(n)$ y $g(n)$ dos funciones de $n$. Se dice que $f(n) = O(g(n))$ si existen constantes positivas $c$ y $n_0$ tales que:
+	Sean $f(n)$ y $g(n)$ dos funciones de $n$. Se dice que $f(n) = O(g(n))$ si existen constantes positivas $c$ y $n_0$ tales que:
 
 	$$
 		f(n) \leq c \cdot g(n) \quad \text{para todo $n \geq n_0$}.
@@ -234,29 +269,88 @@ La notación asintótica se usa para describir el comportamiento de una función
 
 Esta notación se utiliza para describir el límite superior del crecimiento de una función, lo cual se usa para analizar la eficiencia de algoritmos y la complejidad de problemas computacionales.
 
-Se dice que un algoritmo requiere una cantidad de tiempo polinomial si puede ejecutarse en una complejidad de $O(n^k)$ donde $n$ es el tamaño de la entrada del algoritmo y $k$ es una constante. La complejidad de un problema es la complejidad del algoritmo más eficiente que lo resuelve en el peor caso.
+Algunos casos especiales utilizados son:
+\begin{itemize}
+	\item Cuando $f(n) = O(1)$, se dice que $f(n)$ es constante.
+	\item Cuando $f(n) = O(n^k)$, para alguna constante $k \geq 0$ se dice que $f(n)$ es polinomial.
+	\item Cuando $f(n) = O(c^n)$, para alguna constante $c > 1$ se dice que $f(n)$ es exponencial.
+\end{itemize}
 
-En dependencia de los recursos computacionales necesarios para resolverlos, los problemas se agrupan en diferentes clases de complejidad. A continuación se presentan algunas de estas, las cuales clasifican problemas de decisión.
+Estas categorías de funciones se utilizan para delimitar los algoritmos eficientes (polinomiales) de los ineficientes (exponenciales) y para clasificar problemas según la dificultad de resolverlos. En la siguiente sección se introducen los conceptos de problema y reducción polinomial, este último como una manera de comparar problemas según su dificultad.
+
+\subsection{Problemas y su dificultad}
+
+En la ciencia de la computación se entiende por problema a un conjunto de instancias, cada una de las cuales requiere una solución. A continuación se define formalmente este concepto.
+
+\begin{definition}
+	Un problema es una relación binaria $\problem \subseteq I \times S$ donde $I$ es el conjunto de instancias del problema y $S$ es el conjunto de soluciones posibles.
+
+	Si el conjunto de soluciones $S$ es $\{0, 1\}$, donde $1$ representa una respuesta afirmativa y $0$ una respuesta negativa, entonces se dice que este es un problema de decisión.
+\end{definition}
+
+Por algoritmo se entiende, de manera informal, un procedimiento efectivo que, dada una instancia de un problema, produce una solución en un número finito de pasos \cite{Cormen2009IntroductionTA}. Se dice entonces que un algoritmo resuelve un problema $\problem$ si para cada instancia $i \in I$, el algoritmo produce una solución $s \in S$ tal que $(i, s) \in \problem$ \cite{Cormen2009IntroductionTA}.
+
+Para clasificar los algoritmos según su eficiencia es necesario medir el número de pasos que realizan en función del tamaño de la instancia recibida.
+
+\begin{definition}
+	Un algoritmo que resuelve un problema $\problem$ es un algoritmo polinomial si existe una constante $k \geq 0$ tal que, para toda instancia $i \in I$ de tamaño $n$, el algoritmo produce una solución en tiempo $O(n^k)$ \cite{Cormen2009IntroductionTA}.
+\end{definition}
+
+En la definición anterior, el tamaño $n$ de una instancia se refiere a una medida natural de la cantidad de información que la describe, especificada al introducir el tipo de objeto correspondiente. Cuando una instancia esté formada por varios objetos, su tamaño es la suma de los tamaños de sus componentes. En general, se denota por $|i|$ el tamaño de la instancia $i$.
+
+En varios puntos de este trabajo se analizará la complejidad respecto a una parte específica de la entrada, manteniendo otra fija.
+
+% aquí quiero ejemplos de esto que no sean de gramáticas, una funcion con dos variables y sea polinomial respecto a una de ellas y exponencial respecto a la otra.
+
+A partir de la definición de algoritmo polinomial puede definirse cuándo una función es eficientemente computable.
+
+\begin{definition}
+	Se dice que una función $f: X \to Y$ es computable en tiempo polinomial si existe un algoritmo polinomial que, dado cualquier $x \in X$, produce $f(x)$.
+\end{definition}
+
+Las funciones computables en tiempo polinomial servirán para formalizar la idea de reducir un problema a otro. Sin embargo, conviene introducir una segunda manera de caracterizar la dificultad de un problema, la cual se basa en verificar soluciones propuestas.
+
+\begin{definition}
+	Sea $\problem$ un problema de decisión sobre un conjunto de instancias $I$. Un verificador polinomial $V$ para $\problem$ es un algoritmo que recibe pares $(i, c)$ donde $i \in I$ y $c$ es un objeto auxiliar llamado certificado. El verificador $V$ debe cumplir además que:
+	\begin{itemize}
+		\item $V$ se ejecuta en tiempo polinomial respecto al tamaño de $i$.
+		\item Existe una constante $k \geq 0$ tal que para toda instancia $i \in I$, se tiene que $(i, 1) \in \problem$ si y solo si existe un certificado $c$ con $|c| = O(|i|^k)$ tal que $V(i, c) = 1$.
+	\end{itemize}
+\end{definition}
+
+Para comparar la dificultad de resolver diferentes problemas, se introduce el concepto de reducción polinomial, que formaliza la idea de que un problema es al menos tan difícil como otro.
+
+\begin{definition}
+	Sean $\problem_1$ y $\problem_2$ dos problemas de decisión sobre conjuntos de instancias $I_1$ e $I_2$ respectivamente. Una reducción polinomial de $\problem_1$ a $\problem_2$ es una función $f: I_1 \to I_2$  computable en tiempo polinomial tal que
+	$$
+		(i, 1) \in \problem_1 \text{ si y solo si } (f(i), 1) \in \problem_2.
+	$$
+
+	Si existe una reducción polinomial de $\problem_1$ a $\problem_2$, se dice que $\problem_1$ se reduce polinomialmente a $\problem_2$ y se denota por $\problem_1 \leq_p \problem_2$.
+\end{definition}
+
+Las nociones de algoritmo polinomial, verificador y reducción permiten definir las clases de complejidad que se utilizarán en el resto del trabajo.
 
 \subsection{Clases de problemas}
 
 Los problemas de decisión se agrupan en diferentes clases según los recursos computacionales necesarios para resolverlos. A continuación se definen las clases de complejidad que se utilizarán a lo largo de este trabajo:
 
 \begin{definition}{(Clase P)}
-	La clase de complejidad P es el conjunto de problemas de decisión que pueden resolverse en tiempo polinomial \cite{automataTheory}.
+	La clase de complejidad P es el conjunto de problemas de decisión para los cuales existe un algoritmo polinomial que los resuelve \cite{Cormen2009IntroductionTA}.
 \end{definition}
 
 \begin{definition}{(Clase NP)}
-	La clase de complejidad NP es el conjunto de problemas de decisión para los cuales una solución propuesta puede ser verificada en tiempo polinomial \cite{automataTheory}.
-\end{definition}
-
-\begin{definition}({Clase NP-completo})
-	Un problema de decisión es NP-completo si pertenece a NP y además es tan difícil como cualquier otro problema en NP. Esto significa que cualquier problema en NP puede ser reducido a él en tiempo polinomial \cite{automataTheory}.
+	La clase de complejidad NP es el conjunto de problemas de decisión para los cuales existe un verificador polinomial \cite{Cormen2009IntroductionTA}.
 \end{definition}
 
 \begin{definition}({Clase NP-duro})
-	Un problema de decisión es NP-duro si es tan difícil como cualquier otro problema en NP pero no necesariamente pertenece a NP \cite{automataTheory}.
+	Un problema de decisión $\problem_1$ es NP-duro si para todo problema de decisión $\problem_2 \in \text{NP}$, se tiene que $\problem_2 \leq_p \problem_1$ \cite{Cormen2009IntroductionTA}.
 \end{definition}
+
+\begin{definition}({Clase NP-completo})
+	Un problema de decisión es NP-completo si pertenece a NP y es NP-duro \cite{Cormen2009IntroductionTA}.
+\end{definition}
+
 
 Determinar si P es igual a NP es uno de los problemas abiertos más famosos en la ciencia de la computación. P es un subconjunto de NP, pero hasta la fecha no se sabe si esta inclusión es estricta o si ambos conjuntos son iguales \cite{automataTheory}.
 
@@ -285,6 +379,8 @@ A continuación se definen los conceptos necesarios para formalizar el problema 
 \begin{definition}{(Cláusula)}
 	Una cláusula $C$ es una disyunción finita $t_1 \lor t_2 \lor \dots \lor t_k$ de literales $t_1, \ldots, t_k$.
 \end{definition}
+
+A lo largo de este trabajo se identificará una cláusula $C=t_1 \lor \cdots \lor t_k$ con el conjunto de sus literales $\{t_1,\ldots,t_k\}$ cuando resulte conveniente. En particular, se utilizará la notación $t \in C$ para indicar que el literal $t$ aparece en la cláusula $C$.
 
 \begin{definition}{(Fórmula en forma normal conjuntiva)}
 	Una fórmula booleana está en forma normal conjuntiva (CNF) si es una conjunción de cláusulas. Es decir, una fórmula $F$ está en CNF si se puede escribir como:
@@ -321,14 +417,14 @@ En consecuencia, SAT actúa como un problema representativo de la clase NP: reso
 
 \subsection{SAT desde la perspectiva de lenguajes formales}
 
-El problema SAT puede ser abordado desde la perspectiva de lenguajes formales. En la Facultad de Matemática y Computación de la Universidad de La Habana se han realizado varios trabajos \cite{aCFSAT, aSRCSAT, MSAT, RCGSAT}. Estos atacan el problema con teoría de lenguajes formales y buscan resolver instancias específicas en tiempo polinomial o demostrar que ciertas clases de lenguajes tienen problemas de decisión NP-duros mediante reducciones polinomiales de SAT.
+El problema SAT puede ser abordado desde la perspectiva de lenguajes formales. En la Facultad de Matemática y Computación de la Universidad de La Habana se han realizado varios trabajos \cite{aCFSAT, aSRCSAT, RCGSAT, MSAT}. Estos atacan el problema con teoría de lenguajes formales y buscan resolver instancias específicas en tiempo polinomial o demostrar que ciertas clases de lenguajes tienen problemas de decisión NP-duros mediante reducciones polinomiales de SAT.
 
 En estos trabajos se toman dos enfoques principales utilizando el problema del vacío o de la palabra en lenguajes respectivamente. En el primer caso, se construye el lenguaje de las interpretaciones verdaderas de una fórmula y se determina si este es vacío o no, en caso de no ser vacío implica que existe una interpretación verdadera y que la fórmula es satisfacible. En el segundo caso se construye el lenguaje de todas las fórmulas satisfacibles y se determina si la fórmula dada pertenece a ese lenguaje.
 
 En \cite{aCFSAT} primero se asume que todas las variables de la fórmula son distintas y se construye el lenguaje de las interpretaciones verdaderas de la fórmula bajo esa asunción. Se demuestra que dicho lenguaje es regular mediante la construcción de un autómata finito, el cual se denominó autómata booleano, que representa las reglas de la lógica proposicional en sus transiciones y sus estados representan un valor de verdad para la fórmula que se tiene hasta el momento. Por último se intersecta dicho autómata con un lenguaje libre del contexto que garantice que todas las instancias de la misma variable tengan el mismo valor de verdad, y se determina si el lenguaje resultante es vacío o no.
 
-En \cite{aSRCSAT} y \cite{MSAT} se generaliza la idea anterior y se exploran otros formalismos generadores de lenguajes y se analizan soluciones dadas de intersectar el autómata booleano con estos. En \cite{MSAT} además se introduce la idea de utilizar una variante del lenguaje \textit{Copy} para garantizar que todas las instancias de la misma variable tengan el mismo valor de verdad.
+En \cite{aSRCSAT} y \cite{MSAT} se generaliza la idea anterior. En ambos trabajos se exploran otros formalismos generadores de lenguajes y se analizan soluciones dadas de intersectar el autómata booleano con estos. En \cite{MSAT} además se introduce la idea de utilizar una variante del lenguaje \textit{Copy} para garantizar que todas las instancias de la misma variable tengan el mismo valor de verdad.
 
 En \cite{RCGSAT} se resuelve SAT mediante el enfoque del problema de la palabra. Se construye el lenguaje de las fórmulas satisfacibles mediante una transducción de una variante del lenguaje \textit{Copy}, y además se propone una formalismo que reconoce este lenguaje. Como resultado se demuestra que el problema de la palabra para todos los formalismos que generen la variante del lenguaje \textit{Copy} y sean cerrados bajo transducción finita es NP-duro.
 
-En el siguiente capítulo se propone un método para resolver SAT mediante el enfoque del problema del vacío, el cual no depende del orden de las variables de la fórmula. Este se basa en la construcción del lenguaje de interpretaciones que satisfacen una fórmula y determinando si este es vacío o no.
+En el siguiente capítulo se propone un método para resolver SAT mediante el enfoque del problema del vacío, el cual no depende del orden de las variables de la fórmula. Este se basa en la construcción del lenguaje de interpretaciones que satisfacen una fórmula y determinar si este es vacío o no.
