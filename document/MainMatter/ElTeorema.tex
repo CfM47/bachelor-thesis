@@ -1,16 +1,16 @@
 \chapter{SAT y el problema del vacío para la intersección con un lenguaje regular}
 \label{ch:el-teorema}
 
-En esta sección se presenta el lenguaje $\satlang(F)$ al cual pertenecen todas las interpretaciones que satisfacen a una fórmula $F$ y se muestra una forma de construirlo a partir de la intersección del lenguaje $\repeatlang$ con un autómata finito determinista. Esta construcción permite resolver el problema de la satisfacibilidad booleana (SAT) para una fórmula $F$ a través de la decisión de si el lenguaje $\satlang(F)$ es vacío o no.
+En esta sección se presenta el lenguaje $\satlang(F)$ al cual pertenecen todas las interpretaciones que satisfacen una fórmula $F$ y se muestra una forma de construirlo a partir de la intersección del lenguaje $\repeatlang$ con un autómata finito determinista. Esta construcción permite resolver el problema de la satisfacibilidad booleana (SAT) para una fórmula $F$ decidiendo si el lenguaje $\satlang(F)$ es vacío o no.
 
-El capítulo se estructura de la siguiente forma: en la sección \ref{sec:codification} se muestra cómo codificar las interpretaciones de una fórmula usando el alfabeto $\{0, 1, d\}$ y se define el lenguaje $\satlang(F)$. En la sección \ref{sec:automata-cnf} se relaja el problema de satisfacibilidad booleana para permitir que cada cláusula de la fórmula se satisfaga por una interpretación distinta, y se construye un autómata que reconoce el lenguaje de las cadenas que representan a las interpretaciones que satisfacen a cada cláusula de la fórmula. Finalmente, en la sección \ref{sec:intersec-wplus} se muestra cómo obtener el lenguaje $\satlang(F)$ a partir de la intersección del lenguaje reconocido por dicho autómata con el lenguaje $\repeatlang$. Por último, se demuestra que, a menos que P=NP, ningún formalismo capaz de representar $\repeatlang$ puede tener simultáneamente un algoritmo polinomial para decidir si es vacío y otro para construir una representación de la intersección con un lenguaje regular dentro del formalismo.
+El capítulo se estructura de la siguiente forma: en la sección \ref{sec:codification} se muestra cómo codificar las interpretaciones de una fórmula usando el alfabeto $\{0, 1, d\}$ y se define el lenguaje $\satlang(F)$. En la sección \ref{sec:automata-cnf} se relaja el problema de satisfacibilidad booleana para permitir que cada cláusula de la fórmula se satisfaga por una interpretación distinta, y se construye un autómata que reconoce el lenguaje de las cadenas que representan a las interpretaciones que satisfacen a cada cláusula de la fórmula. Finalmente, en la sección \ref{sec:intersec-wplus} se muestra cómo obtener el lenguaje $\satlang(F)$ a partir de la intersección del lenguaje reconocido por dicho autómata con el lenguaje $\repeatlang$. Por último, se demuestra que, a menos que \pnp, ningún formalismo capaz de representar $\repeatlang$ puede tener simultáneamente un algoritmo polinomial para decidir si es vacío y otro para construir una representación de la intersección con un lenguaje regular dentro del formalismo.
 
 A continuación se presenta cómo codificar una interpretación de una fórmula booleana como una cadena sobre el alfabeto $\{0, 1, d\}$.
 
 \section{Codificación de las interpretaciones de una fórmula booleana como cadenas}
 \label{sec:codification}
 
-Una formula booleana $F$, con $n$ variables $X = \{x_1, x_2, \ldots, x_n\}$ y $m$ cláusulas tiene la siguiente estructura:
+Una fórmula booleana $F$, con $n$ variables $X = \{x_1, x_2, \ldots, x_n\}$ y $m$ cláusulas tiene la siguiente estructura:
 $$
     F = C_1 \land C_2 \land \ldots \land C_m,
 $$
@@ -26,15 +26,15 @@ El problema de satisfacibilidad booleana (SAT) consiste en decidir si existe una
 
 Para representar las interpretaciones de $F$ como cadenas, se asignará a cada variable un símbolo binario: $0$ para falso y $1$ para verdadero. De esta forma, cada interpretación $v$ de las variables de $F$ se puede representar como una cadena de longitud $n$ sobre el alfabeto $\{0, 1\}$, donde el $i$-ésimo símbolo de la cadena representa el valor asignado a la variable $x_i$ por la interpretación $v$.
 
-Por ejemplo, si $X = \{x_1, x_2, x_3\}$ y una interpretación $v$ asigna $v(x_1) = 0$, $v(x_2) = 1$ y $v(x_3) = 0$, entonces la cadena que representa a esta interpretación sería 010.
+Por ejemplo, si $X = \{x_1, x_2, x_3\}$ y una interpretación $v$ asigna $v(x_1) = 0$, $v(x_2) = 1$ y $v(x_3) = 0$, entonces la cadena que representa a esta interpretación sería $010$.
 
-En este trabajo se propone resolver el problema de la satisfacibilidad booleana reduciéndolo a determinar si un lenguaje es vacío o no.
+En este trabajo se propone resolver el problema de la satisfacibilidad booleana reduciéndolo a decidir si un lenguaje es vacío o no.
 
 Para ello se codificarán las interpretaciones de la siguiente manera:
 \begin{enumerate}
     \item A cada interpretación $v$ se le asigna una cadena $w$ de longitud $n$ sobre el alfabeto $\{0, 1\}$, donde el $i$-ésimo símbolo de la cadena representa el valor asignado a la variable $x_i$ por la interpretación.
     \item Se introduce un nuevo símbolo $d$ que se utilizará como separador entre las cláusulas de la fórmula.
-    \item Se copia la cadena $w$ asociada a cada interpretación $v$ $m$ veces, una por cada cláusula de la fórmula, y se separan con el símbolo $d$.
+    \item Se copia la cadena $w$ asociada a cada interpretación $v$, $m$ veces, una por cada cláusula de la fórmula, y se separan con el símbolo $d$.
 \end{enumerate}
 
 De esta forma, a cada interpretación $v$ de las variables de $F$ se le asocia una cadena de la forma $(wd)^m$, donde $w$ es la cadena binaria que representa a la interpretación $v$ y $d$ es el símbolo separador.
@@ -50,11 +50,11 @@ $$
 $$
 
 
-Como para cada interpretación $v$ existe una y solo una cadena asociada en $\satlang(F)$, entonces el lenguaje $\satlang(F)$ es vacío si y solo si no existe una interpretación que haga verdadera a $F$.
+Como para cada interpretación $v$ existe una y solo una cadena asociada en $\satlang(F)$, entonces el lenguaje $\satlang(F)$ es vacío si y solo si no existe una interpretación que haga verdadera a la fórmula $F$.
 
 Para decidir si existe una interpretación que haga verdadera a $F$ basta con decidir si el lenguaje $\satlang(F)$ es vacío o no. Por tanto, se puede reducir el problema SAT para una fórmula $F$ a decidir si el lenguaje $\satlang(F)$ es vacío o no.
 
-En el resto del capítulo se describe como construir el lenguaje $\satlang(F)$. En la siguiente sección se presenta un autómata que reconoce el lenguaje de las cadenas que permiten que cada cláusula se satisfaga por una interpretación distinta. En la sección \ref{sec:intersec-wplus} se muestra como obtener el lenguaje $\satlang(F)$ a partir de la intersección del lenguaje reconocido por dicho autómata con el lenguaje $\repeatlang $.
+En el resto del capítulo se describe cómo construir el lenguaje $\satlang(F)$. En la siguiente sección se presenta un autómata que reconoce el lenguaje de las cadenas que permiten que cada cláusula se satisfaga por una interpretación distinta. En la sección \ref{sec:intersec-wplus} se muestra cómo obtener el lenguaje $\satlang(F)$ a partir de la intersección del lenguaje reconocido por dicho autómata con el lenguaje $\repeatlang $.
 
 \section{Autómata para el lenguaje $\indlang(F)$}
 \label{sec:automata-cnf}
@@ -68,7 +68,7 @@ $$
 y se construye un autómata $\aut{F}$ que lo reconoce. Más adelante, en la sección \ref{sec:intersec-wplus}, al intersectar este lenguaje con $\repeatlang$ se recuperará la restricción de que todas las cláusulas compartan la misma interpretación.
 
 
-Para construir dicho autómata se construirá primero un autómata $\automata_C$ para cada cláusula de la fórmula, y luego estos se concatenarán para obtener el autómata que reconoce el lenguaje $\indlang(F)$. A continuación se describe la construcción del autómata para cada cláusula de la fórmula.
+Para construir dicho autómata se construirá primero un autómata $\automata_C$ para cada cláusula de la fórmula, y luego se concatenarán para obtener el autómata que reconoce el lenguaje $\indlang(F)$. A continuación se describe la construcción del autómata para cada cláusula de la fórmula.
 
 
 \subsection{Automata cláusula}
@@ -568,7 +568,7 @@ Dada una fórmula en forma normal conjuntiva
 $$
     F = C_1 \land C_2 \land \ldots \land C_m,
 $$
-el lenguaje $\indlang(F)$ es el lenguaje de las cadenas $w_1d w_2d \ldots d w_md$, donde $w_i$ representa a una interpretación $v_i$ que satisface a la cláusula $C_i$. Dado que es posible que existan $i, j \leq m$ tales que $w_i \neq w_j$, las cadenas de $\indlang(F)$ no necesariamente están asociadas a una interpretación que satisface la formula $F$.
+el lenguaje $\indlang(F)$ es el lenguaje de las cadenas $w_1d w_2d \ldots d w_md$, donde $w_i$ representa a una interpretación $v_i$ que satisface a la cláusula $C_i$. Dado que es posible que existan $i, j \leq m$ tales que $w_i \neq w_j$, las cadenas de $\indlang(F)$ no necesariamente están asociadas a una interpretación que satisface la fórmula $F$.
 
 Para obtener el lenguaje $\satlang(F)$ de todas las interpretaciones que satisfacen a la fórmula $F$, es necesario imponer la restricción de que las interpretaciones $v_i$ asociadas a cada cláusula $C_i$ sean iguales. Para ello se intersectará el lenguaje $\indlang(F)$ con el lenguaje $\repeatlang$. Este lenguaje se define a continuación.
 
@@ -583,7 +583,7 @@ Para obtener el lenguaje $\satlang(F)$ de todas las interpretaciones que satisfa
 
 
 
-El lenguaje $\repeatlang$ obliga a que las cadenas que representan a las interpretaciones asociadas a cada cláusula sean iguales.
+El lenguaje $\repeatlang$ obliga a que las cadenas que representan las interpretaciones asociadas a cada cláusula sean iguales.
 
 Por ejemplo, las cadenas $101d101d101d$, $101d101d$ y $101d$ pertenecen a $\repeatlang$, mientras que las cadenas $101d100d$ y $101d100d101d$ no pertenecen a $\repeatlang$.
 
@@ -689,17 +689,17 @@ por lo tanto decidir si existe una interpretación que hace verdadera a $F$ es e
 
 Por hipótesis, existe un algoritmo polinomial que determina si es vacía o no cualquier representación en el formalismo $\formalism$. Por tanto, es posible determinar si es vacío el lenguaje $L(\aut{F}) \cap L(\repeatgramm)$ en tiempo polinomial.
 
-La construcción del autómata $\aut{F}$ es polinomial en el tamaño de la fórmula $F$, ya que $\aut{F}$ tiene $O(mn)$ estados, donde $m$ es la cantidad de cláusulas y $n$ es el número de variables de $F$. Además es posible obtener una representación del lenguaje $L(\aut{F}) \cap L(\repeatgramm)$ en el formalismo $\formalism$ y determinar si es vacía en tiempo polinomial. Se tiene algoritmo que resuelve el problema SAT, lo cual no es posible a menos que P=NP. \qed
+La construcción del autómata $\aut{F}$ es polinomial en el tamaño de la fórmula $F$, ya que $\aut{F}$ tiene $O(mn)$ estados, donde $m$ es la cantidad de cláusulas y $n$ es el número de variables de $F$. Además es posible obtener una representación del lenguaje $L(\aut{F}) \cap L(\repeatgramm)$ en el formalismo $\formalism$ y determinar si es vacía en tiempo polinomial. Por tanto, se tiene un algoritmo polinomial que resuelve el problema SAT, lo cual no es posible a menos que \pnp. \qed
 
-En este trabajo, al igual que en \cite{RCGSAT}, se conjetura que el lenguaje $\repeatlang$, tiene tamaño $O(1)$ en cualquiera de sus representaciones.
+En este trabajo, al igual que en \cite{RCGSAT}, se conjetura que el lenguaje $\repeatlang$ tiene tamaño $O(1)$ en cualquiera de sus representaciones.
 
 En la literatura consultada para este trabajo aparecen tres formalismos capaces de generar el lenguaje $\repeatlang$: las gramáticas de índice global \cite{globalIndexLanguages}, las gramáticas de concatenación de rango \cite{propertiesRCGBib} y las gramáticas libres de contexto múltiple paralelas (pMCFG) \cite{Seki1991OnMC}. En todos los casos la gramática que genera el lenguaje $\repeatlang$ tiene tamaño $O(1)$.
 
 
-En el caso de las gramáticas de índice global, aplicando el teorema \ref{thm:el-teorema}, no existe algoritmo polinomial para construir una representación de la intersección con lenguajes regulares a menos que P=NP, aun cuando en \cite{globalIndexLanguages} se sugiere que este problema pueda ser resuelto en tiempo polinomial. Por otro lado, las gramáticas de concatenación de rango son cerradas bajo intersección con lenguajes regulares, pero el problema del vacío es indecidible, a menos que se cumplan ciertas restricciones, en cuyo caso no generan el lenguaje $\repeatlang$ \cite{propertiesRCGBib}.
+En el caso de las gramáticas de índice global, aplicando el teorema \ref{thm:el-teorema}, no existe algoritmo polinomial para construir una representación de la intersección con lenguajes regulares a menos que \pnp, aun cuando en \cite{globalIndexLanguages} se sugiere que este problema pueda ser resuelto en tiempo polinomial. Por otro lado, las gramáticas de concatenación de rango son cerradas bajo intersección con lenguajes regulares, pero el problema del vacío es indecidible, a menos que se cumplan ciertas restricciones, en cuyo caso no generan el lenguaje $\repeatlang$ \cite{propertiesRCGBib}.
 
 De acuerdo con la literatura consultada para este trabajo, las gramáticas libres de contexto múltiple paralelas satisfacen simultáneamente todas las propiedades requeridas: generan el lenguaje $\repeatlang$ con representaciones de tamaño constante, son cerradas bajo intersección con lenguajes regulares y poseen problema del vacío decidible en tiempo polinomial. Teniéndose estas propiedades, de acuerdo con el teorema \ref{thm:el-teorema}, sería posible resolver SAT en tiempo polinomial, representando $\repeatlang$ con dicho formalismo.
 
-Desafortunadamente, el procedimiento para determinar la intersección de una pMCFG con un lenguaje regular reportado por la literatura es incorrecto. En \cite{Seki1991OnMC} se propone un algoritmo para resolver el problema para las gramáticas libres de contexto múltiple (MCFG), un caso particular de las pMCFG, y se propone que este algoritmo pueda ser utilizado para las pMCFG. Sin embargo como se muestra en el próximo capítulo mediante un contraejemplo, dicho algoritmo no es correcto para las pMCFG, y, como se demuestra en el capítulo \ref{ch:w-plus} no existe un algoritmo polinomial para obtener una pMCFG que represente dicha intersección a menos que P=NP.
+Desafortunadamente, el procedimiento para determinar la intersección de una pMCFG con un lenguaje regular reportado por la literatura es incorrecto. En \cite{Seki1991OnMC} se propone un algoritmo para resolver el problema para las gramáticas libres de contexto múltiple (MCFG), un caso particular de las pMCFG, y se propone que este algoritmo pueda ser utilizado para las pMCFG. Sin embargo como se muestra en el próximo capítulo mediante un contraejemplo, dicho algoritmo no es correcto para las pMCFG, y, como se demuestra en el capítulo \ref{ch:w-plus} no existe un algoritmo polinomial para obtener una pMCFG que represente dicha intersección a menos que \pnp.
 
 En el siguiente capítulo se presentan las gramáticas libres de contexto múltiple paralelas.

@@ -3,7 +3,7 @@
 
 En esta sección se propone una gramática libre de contexto múltiple paralela (pMCFG) que genera el lenguaje de las interpretaciones de fórmulas booleanas codificadas como cadenas binarias separadas por el símbolo $d$. Esta gramática se utilizará junto con el teorema \ref{thm:el-teorema} del capítulo \ref{ch:el-teorema} para demostrar que cualquier algoritmo que construya la intersección de una pMCFG con un lenguaje regular no puede ser polinomial a menos que P = NP.
 
-En la sección \ref{sec:repeatlang-pmcfg} se presenta la gramática pMCFG que genera el lenguaje de las interpretaciones de fórmulas booleanas codificadas como cadenas binarias separadas por el símbolo $d$, se explica su funcionamiento y se demuestra formalmente que esta genera el lenguaje $\repeatlang$. En la sección \ref{sec:wplus-results} se utiliza esta gramática para demostrar que no existe un algoritmo polinomial para construir una pMCFG que genere la intersección de una pMCFG con un lenguaje regular a menos que P=NP.
+En la sección \ref{sec:repeatlang-pmcfg} se presenta la gramática pMCFG que genera el lenguaje de las interpretaciones de fórmulas booleanas codificadas como cadenas binarias separadas por el símbolo $d$, se explica su funcionamiento y se demuestra formalmente que esta genera el lenguaje $\repeatlang$. En la sección \ref{sec:wplus-results} se utiliza esta gramática para demostrar que no existe un algoritmo polinomial para construir una pMCFG que genere la intersección de una pMCFG con un lenguaje regular a menos que \pnp.
 
 A continuación se muestra que el lenguaje $\repeatlang$ puede ser descrito por una pMCFG.
 
@@ -226,7 +226,7 @@ $$
     copy[(x, y)] = copy[(x, \eword)] = (x, x) \in L(C).
 $$
 
-\subparagraph{Paso Inductivo} Para $n = k$  se cumple por hipótesis de inducción que $(x, x^k) \in L(C)$ con $(x, y) \in L(A)$. Como se tiene que $C \to copy(A)$ entonces
+\subparagraph{Paso inductivo} Para $n = k$  se cumple por hipótesis de inducción que $(x, x^k) \in L(C)$ con $(x, y) \in L(A)$. Como se tiene que $C \to copy(A)$ entonces
 $$
     copy[(x, x^k)] = (x, xx^k) = (x, x^{k+1}) \in L(C).
 $$
@@ -254,14 +254,14 @@ El conjunto $\{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}$ cumple las condic
           por tanto,
           $$copy[(x, y)] = copy[(x, \eword)] = (x, x) \in \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}.$$
     \item Si $(x, y) \in \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}$ entonces $$
-              (x, y) = (x, x^k) \quad \text{para algun } k \geq 1,
+              (x, y) = (x, x^k) \quad \text{para algún } k \geq 1,
           $$
           luego $copy[(x, y)] = copy[(x, x^{k})] = (x, x^{k+1}) \in \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}$.
 \end{itemize}
 
 Al ser $L(C)$ el menor conjunto que cumple las condiciones anteriores, entonces necesariamente $L(C) \subseteq \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}$.
 
-Como se tienen las inclusiones
+Como se tiene las inclusiones
 $$    \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\} \subseteq L(C) \quad\text{y} \quad L(C) \subseteq \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\},$$ entonces $L(C) = \{(x, x^n) \suchthat (x, y) \in L(A), n \geq 1\}$. \qed
 
 En la siguiente sección se caracterizará el lenguaje generado por el símbolo inicial $S$, es decir, el lenguaje generado por la gramática $G_{0, 1, d}$ y se demostrará que coincide exactamente con el lenguaje $\repeatlang$.
@@ -305,16 +305,16 @@ Por definición, el lenguaje asociado al no terminal $S$ es el lenguaje generado
 Por el lema \ref{lemma:la} se tiene que el lenguaje asociado al no terminal $A$ es el de las tuplas de la forma $(wd, \eword)$ con $w \in \binalph^*$, con este resultado y aplicando el lema \ref{lem:lc} se tiene que el lenguaje asociado al no terminal $C$ es el de las tuplas de la forma $(wd, (wd)^n)$ $w \in \binalph^*$ y $n \geq 1$. Finalmente, aplicando el lema \ref{lem:ls} se tiene que el lenguaje generado por $G_{0, 1, d}$ es el de las cadenas de la forma $(wd)^n$ con $w \in \binalph^*$ y $n \geq 1$, es decir, exactamente el lenguaje $\repeatlang$. Por lo tanto, $L(G_{0, 1, d}) = \repeatlang$. \qed
 
 
-Esto demuestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. Además se tiene que se puede decidir si una pMCFG es vacía en tiempo polinomial mediante el algoritmo expuesto en el capítulo \ref{ch:pmcfg}. En la siguiente sección se muestra que estas propiedades implican que no existe un algoritmo polinomial para determinar una pMCFG que represente la intersección de una pMCFG con un lenguaje regular a menos que P=NP.
+Esto demuestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. Además se tiene que se puede decidir si una pMCFG es vacía en tiempo polinomial mediante el algoritmo expuesto en el capítulo \ref{ch:pmcfg}. En la siguiente sección se muestra que estas propiedades implican que no existe un algoritmo polinomial para determinar una pMCFG que represente la intersección de una pMCFG con un lenguaje regular a menos que \pnp.
 
 \section{Resultados sobre la intersección entre pMCFG y lenguajes regulares}
 \label{sec:wplus-results}
 
-El teorema \ref{thm:repeatlang-pmcfg} muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. Además en el capítulo \ref{ch:pmcfg} se demuestra que determinar si el lenguaje generado por una pMCFG es vacío, es decidible en tiempo polinomial. Aunque en la literatura consultada no se ha encontrado ningún algoritmo correcto para obtener una pMCFG que represente la intersección entre una pMCFG y un lenguaje regular, el teorema siguiente muestra que no existe algoritmo polinomial para ello a menos que P=NP.
+El teorema \ref{thm:repeatlang-pmcfg} muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. Además en el capítulo \ref{ch:pmcfg} se demuestra que determinar si el lenguaje generado por una pMCFG es vacío, es decidible en tiempo polinomial. Aunque en la literatura consultada no se ha encontrado ningún algoritmo correcto para obtener una pMCFG que represente la intersección entre una pMCFG y un lenguaje regular, el teorema siguiente muestra que no existe algoritmo polinomial para ello a menos que \pnp.
 
 \begin{theorem}
     \label{thm:pmcfg-int-reg}
-    No existe un algoritmo polinomial para construir dado una pMCFG $G$ y un DFA $\aut{}$, una pMCFG $G'$ tal que $L(G')=L(G) \cap L(\aut{})$, a menos que P=NP.
+    No existe un algoritmo polinomial para construir dado una pMCFG $G$ y un DFA $\aut{}$, una pMCFG $G'$ tal que $L(G')=L(G) \cap L(\aut{})$, a menos que \pnp.
 \end{theorem}
 
 \paragraph{Demostración}
@@ -324,10 +324,10 @@ Por el teorema \ref{thm:empty-pmcfg}, existe un algoritmo polinomial para determ
 
 Sin embargo, por el teorema \ref{thm:el-teorema}, no pueden existir simultáneamente un algoritmo polinomial que construya la intersección de una pMCFG con un lenguaje regular (produciendo otra pMCFG) y un algoritmo polinomial que decida el vacío de una pMCFG, a menos que P = NP.
 
-Por lo tanto, no puede existir un algoritmo polinomial que, dada una pMCFG $G$ y un DFA $\aut{}$, construya una pMCFG $G'$ con $L(G') = L(G) \cap L(\aut{})$, a menos que P=NP. \qed
+Por lo tanto, no puede existir un algoritmo polinomial que, dada una pMCFG $G$ y un DFA $\aut{}$, construya una pMCFG $G'$ con $L(G') = L(G) \cap L(\aut{})$, a menos que \pnp. \qed
 
 El teorema anterior describe una consecuencia de la construcción presentada en esta sección, la cual muestra que el lenguaje $\repeatlang$ se puede describir con una pMCFG. En la literatura consultada solo se encontró el algoritmo propuesto en \cite{Seki1991OnMC} para intersectar una MCFG con un lenguaje regular, el cual también se propone para las pMCFG. Sin embargo este algoritmo no es aplicable para las pMCFG, como se demuestra en el capítulo \ref{ch:pmcfg}.
 
-El teorema anterior demuestra que dicho algoritmo no puede ser polinomial a menos que P=NP, lo que podría explicar la ausencia de dicho algoritmo en la literatura. Sin embargo, el teorema \ref{thm:pmcfg-int-reg} no descarta la existencia de un algoritmo no polinomial para determinar una representación de la intersección entre una pMCFG y un lenguaje regular, lo cual se propone como sugerencia para futuras investigaciones.
+El teorema anterior demuestra que dicho algoritmo no puede ser polinomial a menos que \pnp, lo que podría explicar la ausencia de dicho algoritmo en la literatura. Sin embargo, el teorema \ref{thm:pmcfg-int-reg} no descarta la existencia de un algoritmo no polinomial para determinar una representación de la intersección entre una pMCFG y un lenguaje regular, lo cual se propone como sugerencia para futuras investigaciones.
 
 En el siguiente capítulo se presentan las conclusiones y recomendaciones del trabajo.

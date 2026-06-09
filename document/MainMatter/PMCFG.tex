@@ -1,7 +1,7 @@
 \chapter{Gramáticas libres de contexto múltiple paralelas}
 \label{ch:pmcfg}
 
-La gramáticas libres de contexto múltiple paralelas (pMCFG) \cite{Seki1991OnMC} fueron introducidas en 1991 por Seki et al. como una generalización de las gramáticas libres de contexto (CFG). Estas fueron desarrolladas con el objetivo de proporcionar un formalismo gramatical capaz de generar lenguajes que no pueden ser generados por CFG, pero que aún mantienen ciertas de sus propiedades, como la decidibilidad del problema del vacío.
+Las gramáticas libres de contexto múltiple paralelas (pMCFG) \cite{Seki1991OnMC} fueron introducidas en 1991 por Seki et al. como una generalización de las gramáticas libres de contexto (CFG). Estas fueron desarrolladas con el objetivo de proporcionar un formalismo gramatical capaz de generar lenguajes que no pueden ser generados por CFG, pero que aún mantienen ciertas de sus propiedades, como la decidibilidad del problema del vacío.
 
 Las gramáticas libres de contexto múltiple paralelas se utilizan en el capítulo \ref{ch:w-plus} para construir una gramática que genere el lenguaje de las interpretaciones de fórmulas booleanas.
 
@@ -180,14 +180,14 @@ La pMCFG $G_1$ del ejemplo \ref{fig:pmcfg-example} de la página \pageref{fig:pm
     \label{fig:pmcfg-example}
 \end{figure}
 
-En \cite{Seki1991OnMC} se definen las gramáticas libres de contexto múltiple (MCFG) las cuales son un caso particular de las pMCFG, en las que se restringe el tipo de funciones de reordenamiento permitidas a funciones lineales. Este formalismo es de interés para este trabajo, pues en \cite{Seki1991OnMC} se presenta un método para intersectar una MCFG con un lenguaje regular el cual se propone también para pMCFG. Este método se expone en la sección \ref{sec:pmcfg-intersection} y se demuestra que no es aplicable para las pMCFG.
+En \cite{Seki1991OnMC} se definen las gramáticas libres de contexto múltiple (MCFG) las cuales son un caso particular de las pMCFG, en las que se restringe el tipo de funciones de reordenamiento permitidas a funciones lineales. Este formalismo es de interés para este trabajo, pues en \cite{Seki1991OnMC} se presenta un método para intersectar una MCFG con un lenguaje regular, el cual se propone también para pMCFG. Este método se expone en la sección \ref{sec:pmcfg-intersection} y se demuestra que no es aplicable para las pMCFG.
 
 A continuación se definen formalmente las gramáticas libres de contexto múltiple.
 
 \begin{definition}
     Una gramática libre de contexto múltiple (MCFG) es una tupla $G = (N, T, F, P, S)$ donde:
     \begin{itemize}
-        \item $N$ es un conjunto finito de símbolos llamados símbolos no terminales, cada $A \in N$ tiene una dimensión asociada $dim(A) \geq 1$. Esta dimension se representa mediante $dim(A)$.
+        \item $N$ es un conjunto finito de símbolos llamados símbolos no terminales, cada $A \in N$ tiene una dimensión asociada $dim(A) \geq 1$. Esta dimensión se representa mediante $dim(A)$.
         \item $T$ es un conjunto finito de símbolos llamados terminales. Se cumple que
               $$
                   N \cap T = \emptyset.
@@ -239,7 +239,7 @@ En la figura \ref{fig:pmcfg-example-2} se muestra la pMCFG $G_2$ que genera el l
     \label{fig:pmcfg-example-2}
 \end{figure}
 
-En siguientes secciones se estudia cómo resolver el problema del vacío de las pMCFG y la intersección de estas con lenguajes regulares.
+En las siguientes secciones se estudia cómo resolver el problema del vacío de las pMCFG y la intersección de estas con lenguajes regulares.
 
 \section{Problema del vacío para pMCFG y MCFG}
 \label{sec:emptiness}
@@ -445,7 +445,7 @@ Sea la pMCFG $G_{aa} = (N, T, F, P, S)$ con
 \begin{itemize}
     \item $N = \{S, A\}$
     \item $T = \{a\}$
-    \item $F = \{f, g\}$ donde $f(x) = xx$ y $g() = a$.
+    \item $F = \{f, g\}$ donde $f(x) = xx$ y $g() = (a)$.
     \item $P$ contiene las reglas de producción $S \to f(A)$ y $A \to g()$.
 \end{itemize}
 
@@ -508,7 +508,7 @@ $$
     S[(p, q)] \to f(A[(r, s)]).
 $$
 
-La única componente de $f$ es $xx$, la cual es, una concatenación de la forma
+La única componente de $f$ es $xx$, la cual es una concatenación de la forma
 $\alpha_0 z_1 \alpha_1 z_2 \alpha_2$ con
 $$
     \alpha_0 = \alpha_1 = \alpha_2 = \eword \quad \text{ y } \quad z_1 = z_2 = x.

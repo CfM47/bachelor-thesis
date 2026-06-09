@@ -6,7 +6,7 @@ En este capítulo se presentan las definiciones que se utilizan en el resto del 
 \section{Teoría de lenguajes}
 \label{sec:languages}
 
-En esta sección se definen conceptos fundamentales de teoría de lenguajes y formalismos para describir y reconocer lenguajes que servirán de base para el contenido de los capítulos y secciones posteriores.
+En esta sección se definen conceptos fundamentales de teoría de lenguajes y formalismos para describirlos y reconocerlos que servirán de base para el contenido de los capítulos y secciones posteriores.
 
 \subsection{Conceptos, operaciones y problemas relacionados con lenguajes}
 
@@ -54,7 +54,7 @@ Si se aplica la concatenación de manera repetida sobre una misma cadena, se obt
 	\textbf{Paso inductivo:} $w^n = w w^{\,n-1}$, $n > 0$.
 \end{definition}
 
-Por ejemplo, sea el alfabeto $\alphabet = \{0, 1\}$. Algunas cadenas sobre este alfabeto son $0$, $1$, $10$, $1101$ y $\eword$. El conjunto de todas las cadenas que terminan en $0$ es un lenguaje sobre $\alphabet$, al que pertenecen las cadenas $0$, $10$, $1100$, $1010$ y no pertenecen las cadenas $1$, $1101$ y $\eword$.
+Por ejemplo, sea el alfabeto $\alphabet = \{0, 1\}$. Algunas cadenas sobre este alfabeto son $0$, $1$, $10$, $1101$ y $\eword$. El conjunto de todas las cadenas que terminan en $0$ es un lenguaje sobre $\alphabet$, al que pertenecen las cadenas $0$, $10$, $1100$, $1010$ y al que no pertenecen las cadenas $1$, $1101$ y $\eword$.
 
 Al ser los lenguajes conjuntos de cadenas, es posible definir sobre ellos operaciones de conjuntos como unión, intersección y complemento \cite{automataTheory}.
 
@@ -63,7 +63,7 @@ Para este trabajo, es de particular interés el \lquoti problema del vacío\rquo
 	El problema del vacío consiste en determinar, para un lenguaje dado $L$, si $L = \emptyset$.
 \end{definition}
 
-En el capítulo \ref{ch:el-teorema} se reduce el problema de la satisfacibilidad booleana a determinar si el lenguaje de las interpretaciones que satisfacen una fórmula codificadas como cadenas es vacío o no. El problema de la satisfacibilidad booleana se define en la sección \ref{sec:sat}.
+En el capítulo \ref{ch:el-teorema} se reduce el problema de la satisfacibilidad booleana a determinar si el lenguaje de las interpretaciones codificadas como cadenas que satisfacen una fórmula es vacío. El problema de la satisfacibilidad booleana se define en la sección \ref{sec:sat}.
 
 En la siguiente sección se introducen las gramáticas y la jerarquía de Chomsky, que las clasifica en diferentes tipos. Estas servirán de base para definir en el capítulo \ref{ch:pmcfg} las gramáticas libres de contexto múltiple paralelas, las cuales se utilizarán en el capítulo \ref{ch:w-plus} para generar el lenguaje de las interpretaciones de fórmulas booleanas.
 
@@ -253,7 +253,7 @@ La definición anterior garantiza que el lenguaje resultante pertenezca a la fam
 En el contexto de la teoría de lenguajes formales, resulta necesario analizar el costo computacional de las operaciones y problemas asociados a lenguajes. Para medir este costo se utiliza la teoría de la complejidad computacional. A continuación se introducen nociones básicas de complejidad computacional que serán útiles para dicho análisis.
 
 \section{Complejidad computacional}
-La teoría de la complejidad computacional clasifica problemas en función de los recursos necesarios para resolverlos. A continuación se introducen algunos conceptos de esta teoría, como la notación asintótica y las clases de problemas.
+La teoría de la complejidad computacional clasifica problemas en función de los recursos necesarios para resolverlos. A continuación se introducen algunos conceptos de esta teoría, tales como la notación asintótica y las clases de problemas.
 
 \subsection{Notación asintótica}
 
@@ -272,8 +272,8 @@ Esta notación se utiliza para describir el límite superior del crecimiento de 
 Algunos casos especiales utilizados son:
 \begin{itemize}
 	\item Cuando $f(n) = O(1)$, se dice que $f(n)$ es constante.
-	\item Cuando $f(n) = O(n^k)$, para alguna constante $k \geq 0$ se dice que $f(n)$ es polinomial.
-	\item Cuando $f(n) = O(c^n)$, para alguna constante $c > 1$ se dice que $f(n)$ es exponencial.
+	\item Cuando $f(n) = O(n^k)$, para alguna constante $k \geq 0$, se dice que $f(n)$ es polinomial.
+	\item Cuando $f(n) = O(c^n)$, para alguna constante $c > 1$, se dice que $f(n)$ es exponencial.
 \end{itemize}
 
 Estas categorías de funciones se utilizan para delimitar los algoritmos eficientes (polinomiales) de los ineficientes (exponenciales) y para clasificar problemas según la dificultad de resolverlos. En la siguiente sección se introducen los conceptos de problema y reducción polinomial, este último como una manera de comparar problemas según su dificultad.
@@ -298,7 +298,7 @@ Para clasificar los algoritmos según su eficiencia es necesario medir el númer
 
 En la definición anterior, el tamaño $n$ de una instancia se refiere a una medida natural de la cantidad de información que la describe, especificada al introducir el tipo de objeto correspondiente. Cuando una instancia esté formada por varios objetos, su tamaño es la suma de los tamaños de sus componentes. En general, se denota por $|i|$ el tamaño de la instancia $i$.
 
-En varios puntos de este trabajo se analizará la complejidad respecto a una parte específica de la entrada, manteniendo otra fija.
+En varios puntos de este trabajo se analizará la complejidad respecto a una parte específica de la entrada, manteniendo fija otra parte.
 
 % aquí quiero ejemplos de esto que no sean de gramáticas, una funcion con dos variables y sea polinomial respecto a una de ellas y exponencial respecto a la otra.
 
@@ -321,7 +321,7 @@ Las funciones computables en tiempo polinomial servirán para formalizar la idea
 Para comparar la dificultad de resolver diferentes problemas, se introduce el concepto de reducción polinomial, que formaliza la idea de que un problema es al menos tan difícil como otro.
 
 \begin{definition}
-	Sean $\problem_1$ y $\problem_2$ dos problemas de decisión sobre conjuntos de instancias $I_1$ e $I_2$ respectivamente. Una reducción polinomial de $\problem_1$ a $\problem_2$ es una función $f: I_1 \to I_2$  computable en tiempo polinomial tal que
+	Sean $\problem_1$ y $\problem_2$ dos problemas de decisión sobre conjuntos de instancias $I_1$ e $I_2$ respectivamente. Una reducción polinomial de $\problem_1$ a $\problem_2$ es una función $f: I_1 \to I_2$ computable en tiempo polinomial tal que
 	$$
 		(i, 1) \in \problem_1 \text{ si y solo si } (f(i), 1) \in \problem_2.
 	$$
@@ -352,7 +352,7 @@ Los problemas de decisión se agrupan en diferentes clases según los recursos c
 \end{definition}
 
 
-Determinar si P es igual a NP es uno de los problemas abiertos más famosos en la ciencia de la computación. P es un subconjunto de NP, pero hasta la fecha no se sabe si esta inclusión es estricta o si ambos conjuntos son iguales \cite{automataTheory}.
+Determinar si P es igual a NP es uno de los problemas abiertos más famosos en la ciencia de la computación. P es un subconjunto de NP, pero hasta la fecha no se sabe si dicha inclusión es estricta o si ambos conjuntos son iguales \cite{automataTheory}.
 
 El conjunto de los problemas NP-completos tiene la propiedad de que si se encuentra un algoritmo de tiempo polinomial para resolver cualquier problema NP-completo, entonces se demostraría que P es igual a NP. Por otro lado, si se demuestra que no existe tal algoritmo, entonces se confirmaría que P es diferente de NP \cite{automataTheory}.
 
@@ -423,8 +423,8 @@ En estos trabajos se toman dos enfoques principales utilizando el problema del v
 
 En \cite{aCFSAT} primero se asume que todas las variables de la fórmula son distintas y se construye el lenguaje de las interpretaciones verdaderas de la fórmula bajo esa asunción. Se demuestra que dicho lenguaje es regular mediante la construcción de un autómata finito, el cual se denominó autómata booleano, que representa las reglas de la lógica proposicional en sus transiciones y sus estados representan un valor de verdad para la fórmula que se tiene hasta el momento. Por último se intersecta dicho autómata con un lenguaje libre del contexto que garantice que todas las instancias de la misma variable tengan el mismo valor de verdad, y se determina si el lenguaje resultante es vacío o no.
 
-En \cite{aSRCSAT} y \cite{MSAT} se generaliza la idea anterior. En ambos trabajos se exploran otros formalismos generadores de lenguajes y se analizan soluciones dadas de intersectar el autómata booleano con estos. En \cite{MSAT} además se introduce la idea de utilizar una variante del lenguaje \textit{Copy} para garantizar que todas las instancias de la misma variable tengan el mismo valor de verdad.
+En \cite{aSRCSAT} y \cite{MSAT} se generaliza la idea anterior. En ambos trabajos se exploran otros formalismos generadores de lenguajes y se analizan soluciones dadas de intersectar el autómata booleano con estos. En \cite{MSAT}, además, se introduce la idea de utilizar una variante del lenguaje \textit{Copy} para garantizar que todas las instancias de la misma variable tengan el mismo valor de verdad.
 
-En \cite{RCGSAT} se resuelve SAT mediante el enfoque del problema de la palabra. Se construye el lenguaje de las fórmulas satisfacibles mediante una transducción de una variante del lenguaje \textit{Copy}, y además se propone una formalismo que reconoce este lenguaje. Como resultado se demuestra que el problema de la palabra para todos los formalismos que generen la variante del lenguaje \textit{Copy} y sean cerrados bajo transducción finita es NP-duro.
+En \cite{RCGSAT} se resuelve SAT mediante el enfoque del problema de la palabra. Se construye el lenguaje de las fórmulas satisfacibles mediante una transducción de una variante del lenguaje \textit{Copy}, y además se propone un formalismo que reconoce este lenguaje. Como resultado se demuestra que el problema de la palabra para todos los formalismos que generen la variante del lenguaje \textit{Copy} y sean cerrados bajo transducción finita es NP-duro.
 
-En el siguiente capítulo se propone un método para resolver SAT mediante el enfoque del problema del vacío, el cual no depende del orden de las variables de la fórmula. Este se basa en la construcción del lenguaje de interpretaciones que satisfacen una fórmula y determinar si este es vacío o no.
+En el siguiente capítulo se propone un método para resolver SAT mediante el enfoque del problema del vacío, el cual no depende del orden de las variables de la fórmula. Este se basa en la construcción del lenguaje de interpretaciones que satisfacen una fórmula y en determinar si este es vacío o no.
