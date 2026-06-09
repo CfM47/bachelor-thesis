@@ -155,7 +155,7 @@ Las transiciones solo existen entre estados de la forma $(q_f, i)$ o $(q_t, i)$ 
 
 % ---------------------------------------------------
 
-En la figura \ref{fig:clause_automaton} se muestra el autómata cláusula asociado a la cláusula $C = x_1 \lor \neg x_2$ de una fórmula con variables $X = \{x_1, x_2, x_3\}$.
+En la figura \ref{fig:clause_automaton} se muestra el autómata cláusula asociado a la cláusula $C = x_1 \lor \neg x_3$ de una fórmula con variables $X = \{x_1, x_2, x_3\}$.
 
 A continuación se define formalmente el autómata cláusula.
 
@@ -394,7 +394,7 @@ A continuación se define formalmente el autómata cláusula con separador asoci
     $$
 \end{definition}
 
-El autómata $\daut{Ci}$ reconoce el lenguaje de las cadenas que representan a las interpretaciones que satisfacen a la cláusula $C_i$ con el símbolo separador $d$ al final. En la figura \ref{fig:clause_automaton_d} de la página \pageref{fig:clause_automaton_d} se muestra el autómata cláusula con separador asociado a la cláusula $C = x_1 \lor \neg x_2$ de una fórmula con variables $X = \{x_1, x_2, x_3\}$.
+El autómata $\daut{Ci}$ reconoce el lenguaje de las cadenas que representan a las interpretaciones que satisfacen a la cláusula $C_i$ con el símbolo separador $d$ al final. En la figura \ref{fig:clause_automaton_d} de la página \pageref{fig:clause_automaton_d} se muestra el autómata cláusula con separador asociado a la cláusula $C = x_1 \lor \neg x_3$ de una fórmula con variables $X = \{x_1, x_2, x_3\}$.
 
 Los autómatas $\daut{Ci}$ para cada cláusula $C_i$ reconocen el lenguaje de las cadenas que representan a las interpretaciones que satisfacen a la cláusula $C_i$ con el símbolo separador $d$ al final. Formalmente se tiene el siguiente teorema.
 
@@ -434,7 +434,7 @@ A continuación se define formalmente el autómata fórmula asociado a una fórm
     $$ donde:
     \begin{itemize}
         \item $Q = \bigcup_{i=1}^{m} Q_i$
-        \item La función de transición $\delta$ es la unión de las funciones de transición $\delta_i$ y las transiciones $\delta((q_{di}, n), \eword) = (q_{f(i+1)}, 0)$ para cada $i < m$.
+        \item La función de transición $\delta$ es la unión de las funciones de transición $\delta_i$ y las transiciones $\delta(q_{di}, \eword) = (q_{f(i+1)}, 0)$ para cada $i < m$.
     \end{itemize}
 \end{definition}
 

@@ -16,7 +16,7 @@ Las gramáticas libres de contexto múltiple (MCFG) y libres de contexto múltip
 
 En este trabajo se estudia el uso de MCFG y pMCFG para describir el lenguaje de las interpretaciones que satisfacen una fórmula booleana dada mediante la intersección con un lenguaje regular, así como la complejidad de decidir si dicho lenguaje es vacío.
 
-Dado que las MCFG y pMCFG son cerradas bajo intersección con lenguajes regulares y se puede determinar si son vacías en tiempo polinomial \cite{Seki1991OnMC}, surge la siguiente pregunta científica: ¿Es posible describir el lenguaje de las interpretaciones verdaderas de una fórmula booleana con MCFG o pMCFG y decidir si este es vacío en tiempo polinomial?
+Dado que en la literatura aparece que las MCFG y pMCFG son cerradas bajo intersección con lenguajes regulares y se puede determinar si son vacías en tiempo polinomial \cite{Seki1991OnMC}, surge la siguiente pregunta científica: ¿Es posible describir el lenguaje de las interpretaciones verdaderas de una fórmula booleana con MCFG o pMCFG y decidir si este es vacío en tiempo polinomial?
 
 En este contexto, el objeto de estudio de este trabajo es la caracterización formal de los lenguajes asociados a interpretaciones de fórmulas booleanas que las satisfacen y el análisis de su descripción mediante distintos formalismos de la teoría de lenguajes. En particular, se analiza cómo estos lenguajes pueden ser representados mediante MCFG o pMCFG, así como las condiciones bajo las cuales su problema del vacío puede ser decidido en tiempo polinomial.
 
@@ -41,7 +41,7 @@ En el capítulo \ref{ch:el-teorema} se muestra cómo codificar el lenguaje de la
 
 En el capítulo \ref{ch:pmcfg} se introducen las gramáticas libres de contexto múltiple (MCFG) y libres de contexto múltiple paralelas (pMCFG), se describen los algoritmos para decidir si el lenguaje generado por una MCFG o pMCFG es vacío y para construir una representación de la intersección de una MCFG o pMCFG con un lenguaje regular. Se demuestra que el algoritmo propuesto para obtener la representación de la intersección de una MCFG con un lenguaje regular no es generalizable a las pMCFG y se discute la dureza de este problema.
 
-En el capítulo \ref{ch:w-plus} se muestra cómo construir el lenguaje $\repeatlang$ utilizando pMCFG y se analiza la complejidad computacional de esta construcción. Se demuestra que si para toda fórmula booleana, existe una pMCFG que describe el lenguaje de sus interpretaciones verdaderas entonces no existe un algoritmo polinomial para decidir si esta es vacía a menos que P=NP.
+En el capítulo \ref{ch:w-plus} se muestra cómo construir el lenguaje $\repeatlang$ utilizando pMCFG. Se demuestra que no existe un algoritmo para obtener una pMCFG que represente la intersección de una instancia de este formalismo con un lenguaje regular a menos que P=NP.
 
 Finalmente se presentan las conclusiones, recomendaciones y las referencias bibliográficas del trabajo.
 
